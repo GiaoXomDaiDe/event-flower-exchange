@@ -1,0 +1,246 @@
+
+CREATE TABLE EventCate (
+  ECateID VARCHAR(255) NOT NULL,
+  EName NVARCHAR(255) NOT NULL,
+  EDesc NVARCHAR(255) NOT NULL,
+  Status INT NOT NULL,
+  PRIMARY KEY (ECateID)
+);
+
+CREATE TABLE CardProviders (
+  CardProviderName VARCHAR(255) NOT NULL,
+  CPFullName NVARCHAR(255) NOT NULL,
+  PRIMARY KEY (CardProviderName)
+);
+
+CREATE TABLE Wishlist (
+  WishlistID VARCHAR(255) NOT NULL,
+  AddBy VARCHAR(255) NOT NULL,
+  FlowerID VARCHAR(255) NOT NULL,
+  PRIMARY KEY (WishlistID)
+);
+
+CREATE TABLE Users (
+  UserID VARCHAR(255) NOT NULL,
+  AccountID VARCHAR(255) NOT NULL,
+  IsSeller INT NOT NULL,
+  CardName VARCHAR(255),
+  CardNumber NVARCHAR(255),
+  CardProviderName VARCHAR(255),
+  TaxNumber VARCHAR(255),
+  SellerAvatar VARCHAR(255),
+  SellerAddress VARCHAR(255),
+  PRIMARY KEY (UserID)
+);
+
+CREATE TABLE Feedback (
+  FeedbackID VARCHAR(255) NOT NULL,
+  Detail NVARCHAR(255) NOT NULL,
+  Rating FLOAT(53) NOT NULL DEFAULT 0,
+  Attachment NVARCHAR(255),
+  FlowerID VARCHAR(255) NOT NULL,
+  AccountID VARCHAR(255) NOT NULL,
+  CreateDate DATE NOT NULL,
+  IsGoodReview BIT NOT NULL,
+  PRIMARY KEY (FeedbackID)
+);
+
+CREATE TABLE OrderDetails (
+  OrderDetailID VARCHAR(255) NOT NULL,
+  OrderID VARCHAR(255) NOT NULL,
+  FlowerID VARCHAR(255) NOT NULL,
+  Quantity FLOAT(53) NOT NULL,
+  PaidPrice FLOAT(53) NOT NULL,
+  OrderNumber VARCHAR(255) NOT NULL,
+  AdminID VARCHAR(255) NOT NULL,
+  PRIMARY KEY (OrderDetailID)
+);
+
+CREATE TABLE Account (
+  AccountID VARCHAR(255) NOT NULL,
+  Username VARCHAR(255) NOT NULL,
+  Password VARCHAR(255) NOT NULL,
+  FullName NVARCHAR(255) NOT NULL,
+  Email VARCHAR(255) NOT NULL,
+  Address NVARCHAR(255) NOT NULL,
+  PhoneNumber Varchar(50) NOT NULL,
+  Birthday DATE NOT NULL,
+  Gender INT NOT NULL,
+  Role INT NOT NULL,
+  Status INT NOT NULL,
+  IsEmailConfirm INT NOT NULL,
+  PRIMARY KEY (AccountID)
+);
+
+CREATE TABLE FlowerCate (
+  FCateID VARCHAR(255) NOT NULL,
+  FCateName NVARCHAR(255) NOT NULL,
+  FCateDesc NVARCHAR(255) NOT NULL,
+  FParentCateID VARCHAR(255),
+  Status INT NOT NULL,
+  IsDeleted INT NOT NULL,
+  PRIMARY KEY (FCateID)
+);
+
+CREATE TABLE Transactions (
+  TransactionID VARCHAR(255) NOT NULL,
+  Detail VARCHAR(255) NOT NULL,
+  Date DATE NOT NULL,
+  Status INT NOT NULL,
+  AccountID VARCHAR(255) NOT NULL,
+  PRIMARY KEY (TransactionID)
+);
+
+CREATE TABLE SellerPost (
+  PostID VARCHAR(255) NOT NULL,
+  AccountID VARCHAR(255) NOT NULL,
+  PDetailID VARCHAR(255) NOT NULL,
+  Title NVARCHAR(255) NOT NULL,
+  Content NVARCHAR(255) NOT NULL,
+  Attachment VARCHAR(255) NOT NULL,
+  CreateAt DATE NOT NULL,
+  hadEvent INT NOT NULL,
+  PRIMARY KEY (PostID)
+);
+
+CREATE TABLE PostDetail (
+  PDetailID VARCHAR(255) NOT NULL,
+  FlowerID VARCHAR(255) NOT NULL,
+  PRIMARY KEY (PDetailID)
+);
+
+CREATE TABLE Report (
+  ReportID VARCHAR(255) NOT NULL,
+  Issue NVARCHAR(255) NOT NULL,
+  Content NVARCHAR(255),
+  Attachment VARCHAR(255) NOT NULL,
+  CreateAt DATE NOT NULL,
+  CreateBy VARCHAR(255) NOT NULL,
+  FlowerID VARCHAR(255) NOT NULL,
+  PRIMARY KEY (ReportID)
+);
+
+CREATE TABLE Orders (
+  OrderID VARCHAR(255) NOT NULL,
+  Detail NVARCHAR(255) NOT NULL,
+  Date DATE NOT NULL,
+  AccountID VARCHAR(255) NOT NULL,
+  Status BIGINT NOT NULL,
+  TotalMoney FLOAT(53) NOT NULL,
+  PaymentStatus INT NOT NULL,
+  DeliveryUnit VARCHAR(255) NOT NULL,
+  PRIMARY KEY (OrderID)
+);
+
+CREATE TABLE Flowers (
+  FlowerID VARCHAR(255) NOT NULL,
+  FlowerName NVARCHAR(255) NOT NULL,
+  CateID VARCHAR(255) NOT NULL,
+  Description NVARCHAR(255) NOT NULL,
+  Size NVARCHAR(255) NOT NULL,
+  Condition NVARCHAR(255) NOT NULL,
+  Quantity FLOAT(53) NOT NULL,
+  Price FLOAT(53) NOT NULL,
+  OldPrice FLOAT(53) NOT NULL,
+  AccountID VARCHAR(255) NOT NULL,
+  CreatedAt DATE NOT NULL,
+  DateExpiration NVARCHAR(255) NOT NULL,
+  UpdateAt DATE NOT NULL,
+  UpdateBy VARCHAR(255) NOT NULL,
+  IsDeleted INT NOT NULL,
+  Status INT NOT NULL,
+  TagID VARCHAR(255) NOT NULL,
+  Attachment VARCHAR(MAX) NOT NULL,
+  PRIMARY KEY (FlowerID)
+);
+
+CREATE TABLE FlowerTag (
+  TagID VARCHAR(255) NOT NULL,
+  TagName NVARCHAR(255) NOT NULL,
+  PRIMARY KEY (TagID)
+);
+
+CREATE TABLE SellerWallet (
+  WalletID VARCHAR(255) NOT NULL,
+  AccountID VARCHAR(255) NOT NULL,
+  Balance BIGINT NOT NULL,
+  PRIMARY KEY (WalletID)
+);
+
+CREATE TABLE Event (
+  EventID VARCHAR(255) NOT NULL,
+  EventName VARCHAR(255) NOT NULL,
+  ECateID VARCHAR(255) NOT NULL,
+  EventDesc VARCHAR(255) NOT NULL,
+  StartTime DATETIME NOT NULL,
+  EndTime DATETIME NOT NULL,
+  Status INT NOT NULL,
+  CreateBy VARCHAR(255) NOT NULL,
+  CreateAt DATE NOT NULL,
+  UpdateAt DATE NOT NULL,
+  UpdateBy VARCHAR(255) NOT NULL,
+  PRIMARY KEY (EventID)
+);
+
+CREATE TABLE Notifications (
+  NotifyID VARCHAR(255) NOT NULL,
+  NotifyType NVARCHAR(255) NOT NULL,
+  NotiTitle NVARCHAR(255) NOT NULL,
+  NotiContent NVARCHAR(255) NOT NULL,
+  NotiBy VARCHAR(255) NOT NULL,
+  NotiAt DATE NOT NULL,
+  AccountID VARCHAR(255) NOT NULL,
+  NotiStatus BIT NOT NULL,
+  PRIMARY KEY (NotifyID)
+);
+
+CREATE TABLE NotificationType (
+  NotifyType NVARCHAR(255) NOT NULL,
+  NTypeDesc NVARCHAR(MAX) NOT NULL,
+  PRIMARY KEY (NotifyType)
+);
+
+CREATE TABLE PayoutHistory (
+  PayoutID VARCHAR(255) NOT NULL,
+  Amount FLOAT NOT NULL,
+  PayoutDate DATE NOT NULL,
+  Status INT NOT NULL,
+  UserID VARCHAR(255) NOT NULL,
+  PRIMARY KEY (PayoutID)
+);
+
+-- Create foreign key relationships
+
+ALTER TABLE SellerWallet ADD CONSTRAINT FK_SellerWallet_Account FOREIGN KEY (AccountID) REFERENCES Account(AccountID);
+
+ALTER TABLE Users ADD CONSTRAINT FK_Users_CardProviders FOREIGN KEY (CardProviderName) REFERENCES CardProviders(CardProviderName);
+
+ALTER TABLE Orders ADD CONSTRAINT FK_Orders_Account FOREIGN KEY (AccountID) REFERENCES Account(AccountID);
+
+ALTER TABLE OrderDetails ADD CONSTRAINT FK_OrderDetails_Order FOREIGN KEY (OrderID) REFERENCES Orders(OrderID);
+
+ALTER TABLE Feedback ADD CONSTRAINT FK_Feedback_Flower FOREIGN KEY (FlowerID) REFERENCES Flowers(FlowerID);
+
+ALTER TABLE Report ADD CONSTRAINT FK_Report_Flower FOREIGN KEY (FlowerID) REFERENCES Flowers(FlowerID);
+
+ALTER TABLE Users ADD CONSTRAINT FK_Users_Account FOREIGN KEY (AccountID) REFERENCES Account(AccountID);
+
+ALTER TABLE Wishlist ADD CONSTRAINT FK_Wishlist_Flower FOREIGN KEY (FlowerID) REFERENCES Flowers(FlowerID);
+
+ALTER TABLE Flowers ADD CONSTRAINT FK_Flowers_Account FOREIGN KEY (AccountID) REFERENCES Account(AccountID);
+
+ALTER TABLE Flowers ADD CONSTRAINT FK_Flowers_Cate FOREIGN KEY (CateID) REFERENCES FlowerCate(FCateID);
+
+ALTER TABLE Event ADD CONSTRAINT FK_Event_ECate FOREIGN KEY (ECateID) REFERENCES EventCate(ECateID);
+
+ALTER TABLE SellerPost ADD CONSTRAINT FK_SellerPost_PostDetail FOREIGN KEY (PDetailID) REFERENCES PostDetail(PDetailID);
+
+ALTER TABLE PostDetail ADD CONSTRAINT FK_PostDetail_Flower FOREIGN KEY (FlowerID) REFERENCES Flowers(FlowerID);
+
+ALTER TABLE Flowers ADD CONSTRAINT FK_Flowers_Tag FOREIGN KEY (TagID) REFERENCES FlowerTag(TagID);
+
+ALTER TABLE Notifications ADD CONSTRAINT FK_Notifications_Type FOREIGN KEY (NotifyType) REFERENCES NotificationType(NotifyType);
+
+ALTER TABLE Transactions ADD CONSTRAINT FK_Transaction_Account FOREIGN KEY (AccountID) REFERENCES Account(AccountID);
+
+ALTER TABLE PayoutHistory ADD CONSTRAINT FK_PayoutHistory_User FOREIGN KEY (UserID) REFERENCES Users(UserID);

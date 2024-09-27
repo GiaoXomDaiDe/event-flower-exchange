@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "O8wBku+sc0k=",
+  "dgSpecHash": "mmnIHfyhqek=",
   "success": true,
-  "projectFilePath": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj",
+  "projectFilePath": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\My Laptop\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\My Laptop\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",

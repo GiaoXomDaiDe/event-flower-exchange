@@ -1,0 +1,18 @@
+{
+  "web": {
+    "client_id": "997281371428-j0ilc7lhk0une5jlamqvjb504vopj62m.apps.googleusercontent.com",
+    "project_id": "espoirweb-fc6bb",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_secret": "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",
+    "redirect_uris": [
+      "https://espoirweb-fc6bb.firebaseapp.com/__/auth/handler"
+    ],
+    "javascript_origins": [
+      "http://localhost",
+      "http://localhost:5000",
+      "https://espoirweb-fc6bb.firebaseapp.com"
+    ]
+  }
+}

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("EventFlowerExchange_Espoir")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8e9d5f7f60b6bc3e81c551eea79bcfa91bd446e2")]
 [assembly: System.Reflection.AssemblyProductAttribute("EventFlowerExchange_Espoir")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EventFlowerExchange_Espoir")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -100,8 +100,16 @@
               "Name": "ST:0:0:{1c64b9c2-e352-428e-a56d-0ace190b99a6}"
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Program.cs",
+              "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Program.cs",
+              "ToolTip": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Program.cs",
+              "RelativeToolTip": "EventFlowerExchange_Espoir\\Program.cs",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAABQAAACSAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-10T07:20:24.455Z"
             },
             {
               "$type": "Document",
@@ -113,7 +121,8 @@
               "RelativeToolTip": "EventFlowerExchange_Espoir\\Repositories\\Impl\\AccountRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-27T00:53:17.692Z"
+              "WhenOpened": "2024-09-27T00:53:17.692Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -125,7 +134,8 @@
               "RelativeToolTip": "EventFlowerExchange_Espoir\\appsettings.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-09-10T07:20:09.431Z"
+              "WhenOpened": "2024-09-10T07:20:09.431Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -199,18 +209,6 @@
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-27T01:36:51.19Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "Program.cs",
-              "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Program.cs",
-              "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Program.cs",
-              "ToolTip": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Program.cs",
-              "RelativeToolTip": "EventFlowerExchange_Espoir\\Program.cs",
-              "ViewState": "AgIAAA8AAAAAAAAAAAAAABQAAACSAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-10T07:20:24.455Z"
             },
             {
               "$type": "Document",

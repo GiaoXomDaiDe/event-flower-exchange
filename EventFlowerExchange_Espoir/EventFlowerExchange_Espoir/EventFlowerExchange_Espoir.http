@@ -1,6 +1,0 @@
-@EventFlowerExchange_Espoir_HostAddress = http://localhost:5182
-
-GET {{EventFlowerExchange_Espoir_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

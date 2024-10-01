@@ -1,6 +1,6 @@
 ﻿namespace EventFlowerExchange_Espoir.Services.Impl
 {
-    public class OrderService
+    public class OrderService : IOrderService
     {
     }
 }

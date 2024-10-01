@@ -1,6 +1,6 @@
 ﻿namespace EventFlowerExchange_Espoir.Repositories.Impl
 {
-    public class FlowerCategoryRepository
+    public class FlowerCategoryRepository : IFlowerCategoryRepository
     {
     }
 }

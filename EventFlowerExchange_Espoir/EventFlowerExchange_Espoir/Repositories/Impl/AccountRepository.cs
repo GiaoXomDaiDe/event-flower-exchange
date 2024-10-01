@@ -1,6 +1,6 @@
 ﻿namespace EventFlowerExchange_Espoir.Repositories.Impl
 {
-    public class AccountRepository
+    public class AccountRepository : IAccountRepository
     {
     }
 }

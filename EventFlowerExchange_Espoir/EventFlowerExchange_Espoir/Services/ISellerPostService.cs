@@ -1,6 +1,6 @@
 ﻿namespace EventFlowerExchange_Espoir.Services
 {
-    public class ISellerPostService
+    public interface ISellerPostService
     {
     }
 }

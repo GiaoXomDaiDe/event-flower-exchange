@@ -47,7 +47,7 @@ builder.Services.AddAuthentication(options =>
 
 FirebaseApp.Create(new AppOptions
 {
-    Credential = GoogleCredential.FromFile(@".\firebase-auth.json")
+    Credential = GoogleCredential.FromFile(@"./firebase-setting.json")
 });
 
 // Add services for other dependencies

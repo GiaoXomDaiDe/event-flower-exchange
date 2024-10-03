@@ -1,11 +1,142 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using EventFlowerExchange_Espoir.Models;
+using EventFlowerExchange_Espoir.Models.DTO;
+using EventFlowerExchange_Espoir.Services;
+using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EventFlowerExchange_Espoir.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/account")]
     [ApiController]
+    [EnableCors("AllowAllOrigins")]
     public class AccountController : ControllerBase
     {
+        private readonly IAccountService _accountService;
+
+        public AccountController(IAccountService accountService)
+        {
+            _accountService = accountService;
+        }
+
+        [HttpPost("register")]
+        public async Task<IActionResult> RegisterStudentAsync([FromForm] AccountDTO accountDTO)
+        {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
+                return BadRequest(new { Errors = errors });
+            }
+            var existingPhone = await _accountService.GetAccountByPhoneAsync(accountDTO.Phone);
+            var existingEmail = await _accountService.GetAccountByEmailAsync(accountDTO.Email);
+            if (existingEmail != null)
+            {
+                if (existingPhone != null)
+                {
+                    return BadRequest(new { Errors = new List<string> { "Email and Phone is already in use." } });
+                }
+                else return BadRequest(new { Errors = new List<string> { "Email is already in use." } });
+            }
+            if (existingPhone != null)
+            {
+                return BadRequest(new { Errors = new List<string> { "Phone is already in use." } });
+            }
+            var result = await _accountService.RegisterAccountAsync(accountDTO);
+            if (result == 1)
+            {
+                return Ok("Registration successful");
+            }
+            return BadRequest(result);
+        }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromForm] LoginDTO loginDTO)
+        {
+            Account acc = await _accountService.CheckLogin(loginDTO.Email, loginDTO.Password);
+            if (acc == null)
+            {
+                return Ok(new { message = "Invalid email or password" });
+            }
+            if (acc.Status == 0)
+            {
+                if (acc.Role == 2 && acc.IsEmailConfirm == 0)
+                {
+                    return Ok(new { message = "Please confirm your email before login" });
+                }
+            }
+            else if (acc.Status == 1 || acc.Status == 2)
+            {
+                return Ok(new { message = "Your account has been previously banned or inactive. Please contact the administrator to resolve your issue." });
+            }
+            //else if (acc.IsDeleted == 1)
+            //{
+            //    return Ok(new { message = "Your account has been previously deleted. Please contact the administrator to resolve your issue." });
+            //}
+            var token = _accountService.GenerateJwtToken(loginDTO.Email, acc.Role, 60);
+            return Ok(new
+            {
+                //Token = token,
+                message = $"Login successfull!",
+                Token = token,
+            });
+        }
+
+        [HttpPost("signin-google")]
+        public async Task<IActionResult> LoginByGoogle([FromForm] LoginGoogleDTO loginGoogle)
+        {
+            try
+            {
+                var authResponse = await _accountService.GetFirebaseToken(loginGoogle.FirebaseToken);
+
+                if (authResponse.Token == null)
+                {
+                    // User needs to complete the sign-up process
+                    return BadRequest(new
+                    {
+                        message = "This account doesn't exist. Please register to gain access to our website"
+                    });
+                }
+                var token = authResponse.Token;
+                return Ok(new
+                {
+                    Token = token,
+                    message = "Login Successful"
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = ex.Message });
+            }
+            //return ve giong login 
+        }
+
+        [HttpPost("sign-up-google")]
+        public async Task<IActionResult> SignUpGoogleAsStudent([FromForm] RegisterByGoogleDTO request)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    var errors = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
+                    return BadRequest(new { Errors = errors });
+                }
+                var result = await _accountService.SignUpByGoogleAsync(request.FirebaseToken, request.Phone, request.Birthday, request.Address, request.Gender);
+                if (result != null && result is AuthResponseDTO)
+                {
+                    return Ok(new
+                    {
+                        Token = result.Token,
+                        message = "Registration successful"
+                    });
+                }
+                return BadRequest(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = ex.Message });
+            }
+
+        }
+
     }
 }

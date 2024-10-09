@@ -65,7 +65,10 @@ public partial class EspoirDbContext : DbContext
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer(GetConnectionString());
+    {
+        optionsBuilder.UseSqlServer(GetConnectionString());
+    }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -526,6 +529,7 @@ public partial class EspoirDbContext : DbContext
             entity.Property(e => e.SellerAvatar)
                 .HasMaxLength(255)
                 .IsUnicode(false);
+            entity.Property(e => e.ShopName).HasMaxLength(250);
             entity.Property(e => e.TaxNumber)
                 .HasMaxLength(255)
                 .IsUnicode(false);

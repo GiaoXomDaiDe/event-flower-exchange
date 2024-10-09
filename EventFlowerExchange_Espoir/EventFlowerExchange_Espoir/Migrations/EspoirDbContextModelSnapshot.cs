@@ -55,6 +55,9 @@ namespace EventFlowerExchange_Espoir.Migrations
                     b.Property<int>("IsEmailConfirm")
                         .HasColumnType("int");
 
+                    b.Property<int>("IsSeller")
+                        .HasColumnType("int");
+
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasMaxLength(255)
@@ -805,9 +808,6 @@ namespace EventFlowerExchange_Espoir.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(255)");
 
-                    b.Property<int>("IsSeller")
-                        .HasColumnType("int");
-
                     b.Property<string>("SellerAddress")
                         .HasMaxLength(255)
                         .IsUnicode(false)
@@ -817,6 +817,11 @@ namespace EventFlowerExchange_Espoir.Migrations
                         .HasMaxLength(255)
                         .IsUnicode(false)
                         .HasColumnType("varchar(255)");
+
+                    b.Property<string>("ShopName")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("TaxNumber")
                         .HasMaxLength(255)

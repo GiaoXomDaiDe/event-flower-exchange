@@ -71,6 +71,7 @@ builder.Services.AddScoped<IFeedbackRepository, FeedbackRepository>();
 builder.Services.AddScoped<IFlowerCategoryRepository, FlowerCategoryRepository>();
 builder.Services.AddScoped<ISellerPostRepository, SellerPostRepository>();
 builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
 builder.Services.AddHttpContextAccessor();
 
@@ -128,6 +129,13 @@ builder.Services.AddSwaggerGen(options =>
         },
         new string[] { }
     }});
+});
+
+// Authorize role
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
+    options.AddPolicy("UserOnly", policy => policy.RequireRole("User"));
 });
 
 builder.Services.AddEndpointsApiExplorer();

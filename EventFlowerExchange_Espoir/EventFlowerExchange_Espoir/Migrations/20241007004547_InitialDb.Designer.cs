@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EventFlowerExchange_Espoir.Migrations
 {
     [DbContext(typeof(EspoirDbContext))]
-    [Migration("20241001021523_InitialDB")]
-    partial class InitialDB
+    [Migration("20241007004547_InitialDb")]
+    partial class InitialDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -56,6 +56,9 @@ namespace EventFlowerExchange_Espoir.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("IsEmailConfirm")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IsSeller")
                         .HasColumnType("int");
 
                     b.Property<string>("Password")
@@ -808,9 +811,6 @@ namespace EventFlowerExchange_Espoir.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(255)");
 
-                    b.Property<int>("IsSeller")
-                        .HasColumnType("int");
-
                     b.Property<string>("SellerAddress")
                         .HasMaxLength(255)
                         .IsUnicode(false)
@@ -820,6 +820,11 @@ namespace EventFlowerExchange_Espoir.Migrations
                         .HasMaxLength(255)
                         .IsUnicode(false)
                         .HasColumnType("varchar(255)");
+
+                    b.Property<string>("ShopName")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("TaxNumber")
                         .HasMaxLength(255)

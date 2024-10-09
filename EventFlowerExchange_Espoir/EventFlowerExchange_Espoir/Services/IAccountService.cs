@@ -13,5 +13,8 @@ namespace EventFlowerExchange_Espoir.Services
         public Task<AuthResponseDTO> GetFirebaseToken(string firebaseToken);
         public string GenerateJwtToken(string email, int Role, double expirationMinutes);
         public Task<dynamic> SignUpByGoogleAsync(string firebaseToken, string phone, DateOnly birthday, string address, int gender);
+
+        public Task<Account> GetUserAccountAsync(string accessToken);
+        public Task<bool> UpdateAccountProfileByAdminAsync(string accessToken, UpdateAccountProfileDTO accountProfile);
     }
 }

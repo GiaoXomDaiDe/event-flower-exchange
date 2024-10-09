@@ -29,6 +29,8 @@ public partial class Account
 
     public int IsEmailConfirm { get; set; }
 
+    public int IsSeller { get; set; }
+
     public virtual ICollection<Flower> Flowers { get; set; } = new List<Flower>();
 
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();

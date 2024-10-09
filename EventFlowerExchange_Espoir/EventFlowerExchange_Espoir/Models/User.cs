@@ -9,8 +9,6 @@ public partial class User
 
     public string AccountId { get; set; } = null!;
 
-    public int IsSeller { get; set; }
-
     public string? CardName { get; set; }
 
     public string? CardNumber { get; set; }
@@ -22,6 +20,8 @@ public partial class User
     public string? SellerAvatar { get; set; }
 
     public string? SellerAddress { get; set; }
+
+    public string ShopName { get; set; } = null!;
 
     public virtual Account Account { get; set; } = null!;
 

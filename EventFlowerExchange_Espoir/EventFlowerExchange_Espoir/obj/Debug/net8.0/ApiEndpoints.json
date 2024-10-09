@@ -127,5 +127,164 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EventFlowerExchange_Espoir.Controllers.AccountController",
+    "Method": "UpdateProfileByUser",
+    "RelativePath": "api/account/update-profile",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "accessToken",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Email",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Fullname",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Username",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Phone",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Birthday",
+        "Type": "System.Nullable\u00601[[System.DateOnly, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "Address",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Gender",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EventFlowerExchange_Espoir.Controllers.AccountController",
+    "Method": "ViewProfileByUser",
+    "RelativePath": "api/account/view-profile",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "accessToken",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EventFlowerExchange_Espoir.Controllers.ProductController",
+    "Method": "CreateFlowerAsync",
+    "RelativePath": "api/flower/create-flower",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "accessToken",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "FlowerName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "CateId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Description",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Size",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Condition",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Quantity",
+        "Type": "System.Double",
+        "IsRequired": false
+      },
+      {
+        "Name": "Price",
+        "Type": "System.Double",
+        "IsRequired": false
+      },
+      {
+        "Name": "OldPrice",
+        "Type": "System.Double",
+        "IsRequired": false
+      },
+      {
+        "Name": "DateExpiration",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "TagId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EventFlowerExchange_Espoir.Controllers.ProductController",
+    "Method": "CreateCateAsync",
+    "RelativePath": "api/flower/create-flower-category",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "FcateName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "FcateDesc",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "FparentCateId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
   }
 ]

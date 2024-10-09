@@ -30,19 +30,19 @@ namespace EventFlowerExchange_Espoir.Services.Impl
         }
         public async Task<string> AutoGenerateAccountId()
         {
-            string newuserid = "";
-            string latestUserId = await _accountReposiotry.GetLatestAccountIdAsync();
-            if (string.IsNullOrEmpty(latestUserId))
+            string newAccountId = "";
+            string latestAccountId = await _accountReposiotry.GetLatestAccountIdAsync();
+            if (string.IsNullOrEmpty(latestAccountId))
             {
-                newuserid = "AC00000001";
+                newAccountId = "AC00000001";
             }
             else
             {
-                int numericpart = int.Parse(latestUserId.Substring(2)); 
+                int numericpart = int.Parse(latestAccountId.Substring(2));
                 int newnumericpart = numericpart + 1;
-                newuserid = $"AC{newnumericpart:d8}";
+                newAccountId = $"AC{newnumericpart:d8}";
             }
-            return newuserid;
+            return newAccountId;
         }
 
         // FOR REGISTER
@@ -63,9 +63,11 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                     Birthday = accountDTO.Birthday,
                     Address = accountDTO.Address,
                     Gender = accountDTO.Gender,
-                    Status = 0
+                    Status = 0,
+                    IsSeller = 0,
                     //Status = 0
                 };
+               
                 // Save the acc
                 int result = await _accountReposiotry.CreateAccountAsync(acc);
 
@@ -207,7 +209,7 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                 acc = new Account
                 {
                     AccountId = await AutoGenerateAccountId(),
-                    Email= email,
+                    Email = email,
                     Password = "GOOGLE_SIGNIN",
                     FullName = fullName,
                     Username = fullName,
@@ -217,6 +219,7 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                     Gender = gender,
                     Status = 0,
                     Role = 2,
+                    IsSeller = 0
                 };
 
                 await _accountReposiotry.CreateAccountAsync(acc);
@@ -245,6 +248,50 @@ namespace EventFlowerExchange_Espoir.Services.Impl
             }
         }
 
+        // Profile
+        public async Task<Account> GetUserAccountAsync (string accessToken)
+        {
+            string accountEmail = TokenDecoder.GetEmailFromToken(accessToken);
+            var account = await _accountReposiotry.GetAccountByEmailAsync(accountEmail);
+            return account;
+        }
 
+        public async Task<bool> UpdateAccountProfileByAdminAsync(string accessToken, UpdateAccountProfileDTO accountProfile)
+        {
+            var accountEmail = TokenDecoder.GetEmailFromToken(accessToken);
+            var acc = await _accountReposiotry.GetAccountByEmailAsync (accountEmail);
+            if (acc == null)
+            {
+                return false;
+            }
+
+            // if users do not enter any items, these items will keep the initial data in db
+            if (!string.IsNullOrEmpty(accountProfile.Fullname))
+            {
+                acc.FullName = accountProfile.Fullname;
+            }
+            if (!string.IsNullOrEmpty(accountProfile.Email))
+            {
+                acc.Email = accountProfile.Email;
+            }
+            if (!string.IsNullOrEmpty(accountProfile.Username))
+            {
+                acc.Username = accountProfile.Username;
+            }
+            if (!string.IsNullOrEmpty(accountProfile.Phone))
+            {
+                acc.PhoneNumber = accountProfile.Phone;
+            }
+            if (accountProfile.Gender == 0)
+            {
+                acc.Gender = accountProfile.Gender;
+            }
+            if (!string.IsNullOrEmpty(accountProfile.Address))
+            {
+                acc.Address = accountProfile.Address;
+            }
+
+            return await _accountReposiotry.UpdateAccount(acc);
+        }
     }
 }

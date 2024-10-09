@@ -1,6 +1,8 @@
 ﻿using EventFlowerExchange_Espoir.Models;
 using EventFlowerExchange_Espoir.Models.DTO;
 using EventFlowerExchange_Espoir.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -125,7 +127,7 @@ namespace EventFlowerExchange_Espoir.Controllers
                 {
                     return Ok(new
                     {
-                        Token = result.Token,
+                        AccessToken = result.Token,
                         message = "Registration successful"
                     });
                 }
@@ -138,5 +140,58 @@ namespace EventFlowerExchange_Espoir.Controllers
 
         }
 
+        // User Profile
+        [Authorize(Policy = "UserOnly")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpGet("view-profile")]
+        public async Task<IActionResult> ViewProfileByUser(string accessToken)
+        {
+            Account account = await _accountService.GetUserAccountAsync(accessToken);
+            if(accessToken == null)
+            {
+                return BadRequest("Cannot get access token");
+            }
+            if (account == null)
+            {
+                return BadRequest("Cannot find this account");
+            }
+            AccountProfileDTO accountProfile = new AccountProfileDTO
+            {
+                Email = account.Email,
+                Fullname = account.FullName,
+                Username = account.Username,
+                Phone = account.PhoneNumber,
+                Birthday = account.Birthday,
+                Address = account.Address,
+                Gender = account.Gender,
+            };
+            return Ok(new
+            {
+                message = "User Profile",
+                Profile = accountProfile
+            });
+        }
+
+        [Authorize(Policy = "UserOnly")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpPut("update-profile")]
+        public async Task<IActionResult> UpdateProfileByUser(string accessToken, [FromForm] UpdateAccountProfileDTO accountProfile)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await _accountService.UpdateAccountProfileByAdminAsync(accessToken, accountProfile);
+            if (!result)
+            {
+                return NotFound("Account not found or update failed");
+            }
+            return Ok(new
+            {
+                message = "Account details updated successfully.",
+                UserProfile = result
+            });
+        }
     }
 }

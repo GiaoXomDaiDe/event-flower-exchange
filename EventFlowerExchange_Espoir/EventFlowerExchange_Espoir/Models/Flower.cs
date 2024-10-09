@@ -29,7 +29,7 @@ public partial class Flower
 
     public string DateExpiration { get; set; } = null!;
 
-    public DateOnly UpdateAt { get; set; }
+    public DateOnly? UpdateAt { get; set; }
 
     public string UpdateBy { get; set; } = null!;
 

@@ -19,7 +19,10 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
             return await _context.Accounts.FirstOrDefaultAsync(a => a.Email == email);
         }
 
-
+        public async Task<Account> GetAccountById(string accountId)
+        {
+            return await _context.Accounts.FirstOrDefaultAsync(a => a.AccountId == accountId);  
+        }
         public async Task<Account> GetAccountByPhoneAsync(string phone)
         {
             return await _context.Accounts.FirstOrDefaultAsync(a => a.PhoneNumber == phone);
@@ -36,7 +39,7 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
 
                 // Process the data in memory to extract and order by the numeric part
                 var latestAccountId = accountIds
-                    .Select(id => new { AccountId = id, NumericPart = int.Parse(id.Substring(2)) }) 
+                    .Select(id => new { AccountId = id, NumericPart = int.Parse(id.Substring(2)) })
                     .OrderByDescending(u => u.NumericPart)
                     .ThenByDescending(u => u.AccountId)
                     .Select(u => u.AccountId)
@@ -49,6 +52,7 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
                 throw new Exception(e.Message, e);
             }
         }
+
 
         public async Task<dynamic> CreateAccountAsync(Account acc)
         {
@@ -64,6 +68,12 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
             {
                 throw new Exception(ex.Message, ex);
             }
+        }
+
+        public async Task<bool> UpdateAccount(Account acc)
+        {
+            _context.Accounts.Update(acc);
+            return await _context.SaveChangesAsync() > 0;
         }
     }
 }

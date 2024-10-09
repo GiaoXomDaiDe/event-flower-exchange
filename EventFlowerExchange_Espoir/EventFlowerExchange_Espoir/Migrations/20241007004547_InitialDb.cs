@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace EventFlowerExchange_Espoir.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialDB : Migration
+    public partial class InitialDb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -26,7 +26,8 @@ namespace EventFlowerExchange_Espoir.Migrations
                     Gender = table.Column<int>(type: "int", nullable: false),
                     Role = table.Column<int>(type: "int", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
-                    IsEmailConfirm = table.Column<int>(type: "int", nullable: false)
+                    IsEmailConfirm = table.Column<int>(type: "int", nullable: false),
+                    IsSeller = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -166,13 +167,13 @@ namespace EventFlowerExchange_Espoir.Migrations
                 {
                     UserID = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
                     AccountID = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
-                    IsSeller = table.Column<int>(type: "int", nullable: false),
                     CardName = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
                     CardNumber = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     CardProviderName = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
                     TaxNumber = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
                     SellerAvatar = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
-                    SellerAddress = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true)
+                    SellerAddress = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
+                    ShopName = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false)
                 },
                 constraints: table =>
                 {

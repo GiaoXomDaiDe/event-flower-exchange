@@ -21,11 +21,15 @@ public partial class Event
 
     public string CreateBy { get; set; } = null!;
 
-    public DateOnly CreateAt { get; set; }
+    public DateTime CreateAt { get; set; }
 
-    public DateOnly UpdateAt { get; set; }
+    public DateTime UpdateAt { get; set; }
 
     public string UpdateBy { get; set; } = null!;
 
     public virtual EventCate Ecate { get; set; } = null!;
+    public bool IsActive { get; internal set; }
+    public int SellerId { get; internal set; }
+
+   
 }

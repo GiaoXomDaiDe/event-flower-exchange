@@ -8,7 +8,7 @@ namespace EventFlowerExchange_Espoir.Models.DTO
         public string FirebaseToken { get; set; }
         [Required(ErrorMessage = "Phone is required")]
         [RegularExpression(@"^((\(84\)|84)?0?|0)?\d{9}$", ErrorMessage = "Invalid phone number format")]
-        public int Phone { get; set; }//sua lai
+        public string Phone { get; set; }//sua lai
 
         [Required(ErrorMessage = "Birthday is required")]
         [DataType(DataType.Date, ErrorMessage = "Invalid date format")]
@@ -25,5 +25,10 @@ namespace EventFlowerExchange_Espoir.Models.DTO
 
         [Required(ErrorMessage = "Address is required")]
         public string Address { get; set; }
+
+        [Required(ErrorMessage = "Gender is required")]
+        public int Gender { get; set; }
+
+
     }
 }

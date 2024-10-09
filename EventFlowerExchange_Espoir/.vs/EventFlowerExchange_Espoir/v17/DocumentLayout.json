@@ -3,6 +3,7 @@
   "WorkspaceRootPath": "D:\\SWP\\EventFlowerExchange_Espoir\\",
   "Documents": [
     {
+<<<<<<< HEAD
       "AbsoluteMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|d:\\swp\\eventflowerexchange_espoir\\eventflowerexchange_espoir\\models\\account.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|solutionrelative:eventflowerexchange_espoir\\models\\account.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -58,8 +59,38 @@
       "RelativeMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|solutionrelative:eventflowerexchange_espoir\\services\\common\\encryption.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+=======
+>>>>>>> develop/backend
       "AbsoluteMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|d:\\swp\\eventflowerexchange_espoir\\eventflowerexchange_espoir\\services\\common\\smtpsettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|solutionrelative:eventflowerexchange_espoir\\services\\common\\smtpsettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|d:\\swp\\eventflowerexchange_espoir\\eventflowerexchange_espoir\\services\\ieventservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|solutionrelative:eventflowerexchange_espoir\\services\\ieventservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|d:\\swp\\eventflowerexchange_espoir\\eventflowerexchange_espoir\\services\\common\\tokenhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|solutionrelative:eventflowerexchange_espoir\\services\\common\\tokenhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|d:\\swp\\eventflowerexchange_espoir\\eventflowerexchange_espoir\\services\\common\\tokendecoder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|solutionrelative:eventflowerexchange_espoir\\services\\common\\tokendecoder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|d:\\swp\\eventflowerexchange_espoir\\eventflowerexchange_espoir\\services\\impl\\eventservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|solutionrelative:eventflowerexchange_espoir\\services\\impl\\eventservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|d:\\swp\\eventflowerexchange_espoir\\eventflowerexchange_espoir\\repositories\\ieventcategoryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|solutionrelative:eventflowerexchange_espoir\\repositories\\ieventcategoryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|d:\\swp\\eventflowerexchange_espoir\\eventflowerexchange_espoir\\services\\impl\\eventcategoryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|solutionrelative:eventflowerexchange_espoir\\services\\impl\\eventcategoryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|d:\\swp\\eventflowerexchange_espoir\\eventflowerexchange_espoir\\repositories\\ieventrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|solutionrelative:eventflowerexchange_espoir\\repositories\\ieventrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -78,6 +109,7 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+<<<<<<< HEAD
               "Title": "Account.cs",
               "DocumentMoniker": "D:\\SWP\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Models\\Account.cs",
               "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Models\\Account.cs",
@@ -97,12 +129,21 @@
               "ToolTip": "D:\\SWP\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Program.cs",
               "RelativeToolTip": "EventFlowerExchange_Espoir\\Program.cs",
               "ViewState": "AgIAAIsAAAAAAAAAAADwv5YAAAAYAAAAAAAAAA==",
+=======
+              "Title": "SmtpSettings.cs",
+              "DocumentMoniker": "D:\\SWP\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Services\\Common\\SmtpSettings.cs",
+              "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Services\\Common\\SmtpSettings.cs",
+              "ToolTip": "D:\\SWP\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Services\\Common\\SmtpSettings.cs",
+              "RelativeToolTip": "EventFlowerExchange_Espoir\\Services\\Common\\SmtpSettings.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+>>>>>>> develop/backend
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-10T07:20:24.455Z",
+              "WhenOpened": "2024-10-09T12:47:26.295Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
+<<<<<<< HEAD
               "DocumentIndex": 3,
               "Title": "AccountController.cs",
               "DocumentMoniker": "D:\\SWP\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Controllers\\AccountController.cs",
@@ -112,10 +153,62 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-27T01:36:51.19Z"
+=======
+              "DocumentIndex": 2,
+              "Title": "TokenHelper.cs",
+              "DocumentMoniker": "D:\\SWP\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Services\\Common\\TokenHelper.cs",
+              "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Services\\Common\\TokenHelper.cs",
+              "ToolTip": "D:\\SWP\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Services\\Common\\TokenHelper.cs",
+              "RelativeToolTip": "EventFlowerExchange_Espoir\\Services\\Common\\TokenHelper.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAAwBIAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-09T12:35:56.296Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "TokenDecoder.cs",
+              "DocumentMoniker": "D:\\SWP\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Services\\Common\\TokenDecoder.cs",
+              "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Services\\Common\\TokenDecoder.cs",
+              "ToolTip": "D:\\SWP\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Services\\Common\\TokenDecoder.cs",
+              "RelativeToolTip": "EventFlowerExchange_Espoir\\Services\\Common\\TokenDecoder.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-09T12:35:53.947Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "IEventService.cs",
+              "DocumentMoniker": "D:\\SWP\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Services\\IEventService.cs",
+              "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Services\\IEventService.cs",
+              "ToolTip": "D:\\SWP\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Services\\IEventService.cs",
+              "RelativeToolTip": "EventFlowerExchange_Espoir\\Services\\IEventService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-09T12:34:21.31Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "IEventCategoryRepository.cs",
+              "DocumentMoniker": "D:\\SWP\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Repositories\\IEventCategoryRepository.cs",
+              "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Repositories\\IEventCategoryRepository.cs",
+              "ToolTip": "D:\\SWP\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Repositories\\IEventCategoryRepository.cs",
+              "RelativeToolTip": "EventFlowerExchange_Espoir\\Repositories\\IEventCategoryRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-09T12:27:28.904Z",
+              "EditorCaption": ""
+>>>>>>> develop/backend
             },
             {
               "$type": "Document",
               "DocumentIndex": 6,
+<<<<<<< HEAD
               "Title": "IAccountRepository.cs",
               "DocumentMoniker": "D:\\SWP\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Repositories\\IAccountRepository.cs",
               "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Repositories\\IAccountRepository.cs",
@@ -254,6 +347,47 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAtAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-10T07:36:29.538Z"
+=======
+              "Title": "EventCategoryService.cs",
+              "DocumentMoniker": "D:\\SWP\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Services\\Impl\\EventCategoryService.cs",
+              "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Services\\Impl\\EventCategoryService.cs",
+              "ToolTip": "D:\\SWP\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Services\\Impl\\EventCategoryService.cs",
+              "RelativeToolTip": "EventFlowerExchange_Espoir\\Services\\Impl\\EventCategoryService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEcAAAA+AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-09T11:55:18.801Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "EventService.cs",
+              "DocumentMoniker": "D:\\SWP\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Services\\Impl\\EventService.cs",
+              "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Services\\Impl\\EventService.cs",
+              "ToolTip": "D:\\SWP\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Services\\Impl\\EventService.cs",
+              "RelativeToolTip": "EventFlowerExchange_Espoir\\Services\\Impl\\EventService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFkAAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-09T12:00:53.418Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "IEventRepository.cs",
+              "DocumentMoniker": "D:\\SWP\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Repositories\\IEventRepository.cs",
+              "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Repositories\\IEventRepository.cs",
+              "ToolTip": "D:\\SWP\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Repositories\\IEventRepository.cs",
+              "RelativeToolTip": "EventFlowerExchange_Espoir\\Repositories\\IEventRepository.cs",
+              "ViewState": "AgIAAAEAAAAAAAAAAAAAwAoAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-09T12:25:51.479Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+>>>>>>> develop/backend
             }
           ]
         }

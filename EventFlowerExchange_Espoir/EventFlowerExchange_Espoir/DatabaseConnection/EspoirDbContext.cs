@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using EventFlowerExchange_Espoir.Models;
+using EventFlowerExchange_Espoir.Repositories.Configuration;
 using Microsoft.EntityFrameworkCore;
 
 namespace EventFlowerExchange_Espoir.DatabaseConnection;
@@ -72,6 +73,11 @@ public partial class EspoirDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.ApplyConfiguration(new AccountConfiguration());
+        modelBuilder.ApplyConfiguration(new CardProviderConfiguration());
+        modelBuilder.ApplyConfiguration(new FlowerConfiguration());
+        modelBuilder.ApplyConfiguration(new FlowerCategoriesConfiguration());
+        modelBuilder.ApplyConfiguration(new UsersConfiguration());
 
         modelBuilder.Entity<Account>(entity =>
         {

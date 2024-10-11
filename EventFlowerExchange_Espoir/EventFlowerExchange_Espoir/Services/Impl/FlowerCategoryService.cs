@@ -50,5 +50,56 @@ namespace EventFlowerExchange_Espoir.Services.Impl
             return result;
         }
 
+        public async Task<dynamic> UpdateExistFCateAsync(UpdateFCateDTO updateCate)
+        {
+            try
+            {
+                var cate = await _flowerCateRepository.GetFlowerCateByCateIdAsync(updateCate.FCateId);
+                if (cate == null)
+                {
+                    return "Cannot find this category";
+                }
+                if (!string.IsNullOrEmpty(updateCate.FcateName))
+                {
+                    updateCate.FcateName = cate.FcateName;
+                }
+                cate.FcateName = updateCate.FcateName;
+
+                if (!string.IsNullOrEmpty(updateCate.FcateDesc))
+                {
+                    updateCate.FcateDesc = cate.FcateDesc;
+                }
+
+                cate.FcateDesc = updateCate.FcateDesc;
+                cate.Status = 0; // 0. active 1. inactive
+                cate.IsDeleted = 0; // 0. false 1. true
+                cate.FparentCateId = "null";
+
+                var result = await _flowerCateRepository.UpdateFlowerCategoryAsync(cate);
+                return result;
+            } catch (Exception ex)
+            {
+                throw new Exception($"Error at UpdateExistFCateAsync() in service: {ex.Message}");
+            }
+        }
+
+        public async Task<dynamic> DeleteFCateAsync(string fCateId)
+        {
+            try
+            {
+                var cate = await _flowerCateRepository.GetFlowerCateByCateIdAsync(fCateId);
+                if (cate == null)
+                {
+                    return "Cannot find this category";
+                }
+                cate.IsDeleted = 1;
+                var result = await _flowerCateRepository.UpdateFlowerCategoryAsync(cate);
+                return result;
+            } catch (Exception ex)
+            {
+                throw new Exception ($"Error at DeleteFCateAsync() in service: {ex.Message}");
+            }
+
+        }
     }
 }

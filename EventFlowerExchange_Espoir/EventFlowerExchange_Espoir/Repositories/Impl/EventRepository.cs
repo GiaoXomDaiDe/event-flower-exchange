@@ -21,16 +21,17 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
                 .ToListAsync();
         }
 
-        public async Task<Event> GetByIdAsync(int id)
+        public async Task<Event> GetByIdAsync(string id)
         {
             return await _context.Events.FindAsync(id);
         }
 
-        public async Task<IEnumerable<Event>> GetBySellerAsync(int sellerId)
+        public async Task<IEnumerable<Event>> GetBySellerAsync(string sellerId)
         {
-            return await _context.Events
-                .Where(e => e.SellerId == sellerId && e.IsActive)
-                .ToListAsync();
+            //return await _context.Events
+            //    .Where(e => e.SellerId == sellerId && e.IsActive)
+            //    .ToListAsync();
+            return null;
         }
 
         public async Task<Event> AddAsync(Event eventItem)

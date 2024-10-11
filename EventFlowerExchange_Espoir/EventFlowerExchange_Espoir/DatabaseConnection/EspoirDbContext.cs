@@ -72,6 +72,7 @@ public partial class EspoirDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+
         modelBuilder.Entity<Account>(entity =>
         {
             entity.HasKey(e => e.AccountId).HasName("PK__Account__349DA586A4DAAC89");

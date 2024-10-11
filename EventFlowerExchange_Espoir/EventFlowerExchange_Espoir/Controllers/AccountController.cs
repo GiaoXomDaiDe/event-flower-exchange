@@ -57,18 +57,18 @@ namespace EventFlowerExchange_Espoir.Controllers
             Account acc = await _accountService.CheckLogin(loginDTO.Email, loginDTO.Password);
             if (acc == null)
             {
-                return Ok(new { message = "Invalid email or password" });
+                return BadRequest(new { message = "Invalid email or password" });
             }
             if (acc.Status == 0)
             {
                 if (acc.Role == 2 && acc.IsEmailConfirm == 0)
                 {
-                    return Ok(new { message = "Please confirm your email before login" });
+                    return BadRequest(new { message = "Please confirm your email before login" });
                 }
             }
             else if (acc.Status == 1 || acc.Status == 2)
             {
-                return Ok(new { message = "Your account has been previously banned or inactive. Please contact the administrator to resolve your issue." });
+                return BadRequest(new { message = "Your account has been previously banned or inactive. Please contact the administrator to resolve your issue." });
             }
             //else if (acc.IsDeleted == 1)
             //{
@@ -83,7 +83,7 @@ namespace EventFlowerExchange_Espoir.Controllers
             });
         }
 
-        [HttpPost("signin-google")]
+        [HttpPost("login-by-google")]
         public async Task<IActionResult> LoginByGoogle([FromForm] LoginGoogleDTO loginGoogle)
         {
             try
@@ -112,7 +112,7 @@ namespace EventFlowerExchange_Espoir.Controllers
             //return ve giong login 
         }
 
-        [HttpPost("sign-up-google")]
+        [HttpPost("register-by-google")]
         public async Task<IActionResult> SignUpGoogleAsStudent([FromForm] RegisterByGoogleDTO request)
         {
             try

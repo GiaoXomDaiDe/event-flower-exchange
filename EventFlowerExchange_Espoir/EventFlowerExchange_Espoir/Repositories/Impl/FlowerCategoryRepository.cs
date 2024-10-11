@@ -14,6 +14,11 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
             _context = context;
         }
 
+        public async Task<FlowerCate> GetFlowerCateByCateIdAsync(string cateId)
+        {
+            return await _context.FlowerCates.FirstOrDefaultAsync(fc => fc.FcateId == cateId);
+        }
+
         public async Task<string> GetLatestFlowerCateIdAsync()
         {
             try
@@ -53,7 +58,18 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
             {
                 throw new Exception($"Error at CreateFlowerCateAsync() - repository: + {ex.Message}");
             }
+        }
 
+        public async Task<dynamic> UpdateFlowerCategoryAsync(FlowerCate cate)
+        {
+            try
+            {
+                 _context.FlowerCates.Update(cate);
+                return await _context.SaveChangesAsync() > 0;
+            } catch (Exception ex)
+            {
+                throw new Exception($"Error at UpdateFlowerCategoryAsync: {ex.Message}");
+            }
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using EventFlowerExchange_Espoir.DatabaseConnection;
 using EventFlowerExchange_Espoir.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.Eventing.Reader;
+using System.Linq.Dynamic.Core;
 
 namespace EventFlowerExchange_Espoir.Repositories.Impl
 {
@@ -12,6 +14,15 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
         {
             _context = context;
         }
+
+        // Get Flower by attribute
+        public async Task<Flower> GetFlowerByFlowerIdAsync(string flowerId)
+        {
+            return await _context.Flowers.FirstOrDefaultAsync(f => f.FlowerId == flowerId);
+        }
+
+
+        // Get the latest flower id
         public async Task<string> GetLatestFlowerIdAsync()
         {
             try
@@ -37,7 +48,9 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
                 throw new Exception(e.Message, e);
             }
         }
-        public async Task<dynamic> CreateFlower(Flower newFlower)
+
+        // for crud flower
+        public async Task<dynamic> CreateFlowerAsync(Flower newFlower)
         {
             try
             {
@@ -49,8 +62,71 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
             }
             catch (Exception ex)
             {
-                throw new Exception($"Error at CreateFlower() of ProductRepository + {ex}");
+                throw new Exception($"Error at CreateFlowerAsync() of ProductRepository + {ex}");
             }
+        }
+
+        public async Task<dynamic> UpdateFlowerAsync(Flower flower)
+        {
+            try
+            {
+                _context.Flowers.Update(flower);
+                return await _context.SaveChangesAsync() > 0;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error at UpdateFlowerAsync() in Repository: {ex.Message}");
+            }
+        }
+
+        // For get list of product + search + sort + pagination
+        public async Task<(List<Flower> flowers, int totalCount)> GetListFlowerAsync(int pageIndex, int pageSize, string sortBy, bool sortDesc, string search)
+        {
+            var query = _context.Flowers.AsQueryable().Where(f => f.Status == 0 && f.IsDeleted == 0);
+
+            // search
+            if (!string.IsNullOrEmpty(search))
+            {
+                int.TryParse(search, out int searchId);
+                query = query.Where(i => i.FlowerName.Contains(search));
+            }
+
+            // sorting
+            if (!string.IsNullOrEmpty(sortBy))
+            {
+                var sortDirection = sortDesc ? "descending" : "ascending";
+                var sortExpression = $"{sortBy} {sortDirection}";
+                query = query.OrderBy(sortExpression);
+            }
+
+            // Total count before paging
+            var totalCount = await query.CountAsync();
+
+            // Paging
+            var flowers = await query.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
+            return (flowers, totalCount);
+        }
+
+        public async Task<(List<Flower> flowers, int totalCount)> GetListFlowerOfSellerAsync(int pageIndex, int pageSize, string accountId, string sortBy, bool sortDesc, string search)
+        {
+            var query = _context.Flowers.AsQueryable().Where(f => f.Account.AccountId == accountId && f.Status == 1 && f.IsDeleted == 0);
+            if (!string.IsNullOrEmpty(search))
+            {
+                int.TryParse(search, out int searchId);
+                query = query.Where(i => i.FlowerName.Contains(search));
+            }
+
+            if (!string.IsNullOrEmpty(sortBy))
+            {
+                var sortDirection = sortDesc ? "descending" : "ascending";
+                var sortExpression = $"{sortBy} {sortDirection}";
+                query = query.OrderBy(sortExpression);
+            }
+
+            var totalCount = await query.CountAsync();
+
+            var flowers = await query.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
+            return (flowers, totalCount);
         }
     }
 }

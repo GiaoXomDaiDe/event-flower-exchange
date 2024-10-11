@@ -1,0 +1,42 @@
+.product-card {
+  width: calc(100% /4 - 20px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+
+  img {
+    width: 100%;
+  }
+
+
+  button {
+    outline: none;
+    background-color: transparent;
+    border: none;
+    color: #0a5d5d;
+    position: relative;
+    cursor: pointer;
+
+    &::after {
+      content: "";
+      display: block;
+      height: 2px;
+      background: #0a5d5d;
+      position: absolute;
+      top: 120%;
+      right: 10px;
+      left: 10px;
+      transition: all 0.3s;
+    }
+
+    &:hover {
+      color: #446084;
+      &::after {
+        left: 0;
+        right: 0;
+        background-color: #446084;
+      }
+    }
+  }
+}

@@ -1,29 +1,16 @@
-// eslint.config.js
-import path from 'path'
-
-// Import các plugin
 import importPlugin from 'eslint-plugin-import'
 import jsxA11y from 'eslint-plugin-jsx-a11y'
-import { default as eslintPluginPrettier } from 'eslint-plugin-prettier'
+import eslintPluginPrettier from 'eslint-plugin-prettier'
 import react from 'eslint-plugin-react'
 import reactHooks from 'eslint-plugin-react-hooks'
+import globals from 'globals'
 
-// Cấu hình ESLint
 export default [
   {
     ignores: ['dist', 'vite.config.ts', 'node_modules', 'src/assets']
   },
   {
-    files: ['**/*.{js,jsx}'],
-    languageOptions: {
-      ecmaVersion: 'latest',
-      sourceType: 'module',
-      parserOptions: {
-        ecmaFeatures: {
-          jsx: true
-        }
-      }
-    },
+    files: ['**/*.{js,jsx,mjs,cjs,ts,tsx}'],
     plugins: {
       react,
       'react-hooks': reactHooks,
@@ -31,19 +18,25 @@ export default [
       'jsx-a11y': jsxA11y,
       prettier: eslintPluginPrettier
     },
+    languageOptions: {
+      parserOptions: {
+        ecmaVersion: 'latest',
+        sourceType: 'module',
+        ecmaFeatures: {
+          jsx: true
+        }
+      },
+      globals: {
+        ...globals.browser
+      }
+    },
     settings: {
       react: {
         version: 'detect'
-      },
-      'import/resolver': {
-        node: {
-          paths: [path.resolve()],
-          extensions: ['.js', '.jsx']
-        }
       }
     },
     rules: {
-      // Sử dụng các rules mặc định
+      // Sử dụng các rules mặc định của các plugin
       ...react.configs.recommended.rules,
       ...reactHooks.configs.recommended.rules,
       ...importPlugin.configs.recommended.rules,

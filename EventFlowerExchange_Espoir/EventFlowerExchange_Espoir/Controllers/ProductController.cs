@@ -174,7 +174,6 @@ namespace EventFlowerExchange_Espoir.Controllers
             });
         }
 
-
         // FOR VIEW LIST
         [HttpGet("list-flowers")]
         public async Task<IActionResult> GetListOfFlower([FromQuery] int pageIndex, [FromQuery] int pageSize, [FromQuery] string sortBy, [FromQuery] bool sortDesc, [FromQuery] string search)

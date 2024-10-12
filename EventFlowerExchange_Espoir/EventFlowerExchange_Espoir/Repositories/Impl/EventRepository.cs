@@ -21,30 +21,17 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
         }
 
         public async Task<Event> GetByIdAsync(string id)
-<<<<<<< HEAD
         {
             return await _context.Events.FindAsync(id);
         }
 
-        public async Task<IEnumerable<Event>> GetBySellerAsync(string sellerId)
-        {
-            //return await _context.Events
-            //    .Where(e => e.SellerId == sellerId && e.IsActive)
-            //    .ToListAsync();
-            return null;
-=======
-        {
-            return await _context.Events
-                .Where(e => e.EventId == id && e.Status == 1)  // Ensure event is active
-                .FirstOrDefaultAsync();
-        }
+
 
         public async Task<IEnumerable<Event>> GetBySellerAsync(string createBy)
         {
             return await _context.Events
                 .Where(e => e.CreateBy == createBy && e.Status == 1)  // Maps SellerId to CreateBy
                 .ToListAsync();
->>>>>>> dev-minh
         }
 
         public async Task CreateAsync(Event eventItem)
@@ -70,14 +57,5 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
             }
         }
 
-        public Task<IEnumerable<Event>> GetBySellerAsync(int sellerId)
-        {
-            throw new NotImplementedException();
-        }
-
-        Task<Event> IEventRepository.CreateAsync(Event eventItem)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

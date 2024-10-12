@@ -18,7 +18,6 @@ namespace EventFlowerExchange_Espoir.Controllers
             _eventRepository = eventRepository;
         }
 
-<<<<<<< HEAD
         //[HttpGet]
         //public async Task<ActionResult<IEnumerable<EventDto>>> GetAllEvents()
         //{
@@ -48,7 +47,6 @@ namespace EventFlowerExchange_Espoir.Controllers
         //    {
         //        return NotFound();
         //    }
-=======
         // GET: api/Event
         [HttpGet]
         public async Task<ActionResult<PaginatedList<EventDto>>> GetAllEvents([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10, [FromQuery] string sortField = "eventname", [FromQuery] string sortOrder = "asc", [FromQuery] string searchTerm = "")
@@ -110,43 +108,24 @@ namespace EventFlowerExchange_Espoir.Controllers
             {
                 return NotFound();
             }
->>>>>>> dev-minh
 
-        //    var eventDto = new EventDto
-        //    {
-        //        EventId = eventItem.EventId,
-        //        EventName = eventItem.EventName,
-        //        EventDesc = eventItem.EventDesc,
-        //        StartTime = eventItem.StartTime,
-        //        EndTime = eventItem.EndTime,
-        //        Status = eventItem.Status,
-        //        CreateBy = eventItem.CreateBy,
-        //        CreateAt = eventItem.CreateAt,
-        //        UpdateAt = eventItem.UpdateAt,
-        //        UpdateBy = eventItem.UpdateBy
-        //    };
+            var eventDto = new EventDto
+            {
+                EventId = eventItem.EventId,
+                EventName = eventItem.EventName,
+                EventDesc = eventItem.EventDesc,
+                StartTime = eventItem.StartTime,
+                EndTime = eventItem.EndTime,
+                Status = eventItem.Status,
+                CreateBy = eventItem.CreateBy,
+                CreateAt = eventItem.CreateAt,
+                UpdateAt = eventItem.UpdateAt,
+                UpdateBy = eventItem.UpdateBy
+            };
 
-        //    return Ok(eventDto);
-        //}
+            return Ok(eventDto);
+        }
 
-<<<<<<< HEAD
-        //[HttpPost]
-        //public async Task<ActionResult<EventDto>> CreateEvent(EventDto eventDto)
-        //{
-        //    var eventItem = new Event
-        //    {
-        //        EventId = eventDto.EventId,
-        //        EventName = eventDto.EventName,
-        //        EventDesc = eventDto.EventDesc,
-        //        StartTime = eventDto.StartTime,
-        //        EndTime = eventDto.EndTime,
-        //        Status = eventDto.Status,
-        //        CreateBy = eventDto.CreateBy,
-        //        CreateAt = DateTime.UtcNow,
-        //        UpdateAt = DateTime.UtcNow,
-        //        UpdateBy = eventDto.UpdateBy // Assume this is populated appropriately
-        //    };
-=======
         // POST: api/Event
         [HttpPost]
         public async Task<ActionResult<EventDto>> CreateEvent(EventDto eventDto)
@@ -164,22 +143,13 @@ namespace EventFlowerExchange_Espoir.Controllers
                 UpdateAt = DateTime.UtcNow,
                 UpdateBy = eventDto.UpdateBy // Assume this is populated appropriately
             };
->>>>>>> dev-minh
 
-        //    await _eventRepository.CreateAsync(eventItem);
-        //    return CreatedAtAction(nameof(GetEventById), new { id = eventItem.EventId }, eventDto);
-        //}
+            await _eventRepository.CreateAsync(eventItem);
+            return CreatedAtAction(nameof(GetEventById), new { id = eventItem.EventId }, eventDto);
+        }
 
-<<<<<<< HEAD
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> UpdateEvent(string id, EventDto eventDto)
-        //{
-        //    var eventItem = await _eventRepository.GetByIdAsync(id);
-        //    if (eventItem == null)
-        //    {
-        //        return NotFound();
-        //    }
-=======
+
+
         // PUT: api/Event/{id}
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateEvent(string id, EventDto eventDto)
@@ -189,29 +159,19 @@ namespace EventFlowerExchange_Espoir.Controllers
             {
                 return NotFound();
             }
->>>>>>> dev-minh
+        eventItem.EventName = eventDto.EventName;
+            eventItem.EventDesc = eventDto.EventDesc;
+            eventItem.StartTime = eventDto.StartTime;
+            eventItem.EndTime = eventDto.EndTime;
+            eventItem.Status = eventDto.Status;
+            eventItem.UpdateAt = DateTime.UtcNow;
+            eventItem.UpdateBy = eventDto.UpdateBy;
 
-        //    eventItem.EventName = eventDto.EventName;
-        //    eventItem.EventDesc = eventDto.EventDesc;
-        //    eventItem.StartTime = eventDto.StartTime;
-        //    eventItem.EndTime = eventDto.EndTime;
-        //    eventItem.Status = eventDto.Status;
-        //    eventItem.UpdateAt = DateTime.UtcNow;
-        //    eventItem.UpdateBy = eventDto.UpdateBy;
+            await _eventRepository.UpdateAsync(eventItem);
 
-        //    await _eventRepository.UpdateAsync(eventItem);
+            return NoContent();
+    }
 
-        //    return NoContent();
-        //}
-
-<<<<<<< HEAD
-        //[HttpDelete("{id}")]
-        //public async Task<IActionResult> DeleteEvent(string id)
-        //{
-        //    await _eventRepository.DeleteAsync(id);
-        //    return NoContent();
-        //}
-=======
         // DELETE: api/Event/{id}
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEvent(string id)
@@ -219,6 +179,5 @@ namespace EventFlowerExchange_Espoir.Controllers
             await _eventRepository.DeleteAsync(id);
             return NoContent();
         }
->>>>>>> dev-minh
-    }
+}
 }

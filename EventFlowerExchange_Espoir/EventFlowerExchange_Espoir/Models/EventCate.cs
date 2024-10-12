@@ -11,7 +11,7 @@ public partial class EventCate
 
     public string Edesc { get; set; } = null!;
 
-    public int Status { get; set; }
+    public string Status { get; set; }
 
     public virtual ICollection<Event> Events { get; set; } = new List<Event>();
 }

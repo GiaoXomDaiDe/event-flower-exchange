@@ -1,6 +1,5 @@
 ﻿using EventFlowerExchange_Espoir.DatabaseConnection;
 using EventFlowerExchange_Espoir.Models;
-using Google;
 using Microsoft.EntityFrameworkCore;
 
 namespace EventFlowerExchange_Espoir.Repositories.Impl
@@ -17,27 +16,28 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
         public async Task<IEnumerable<Event>> GetAllAsync()
         {
             return await _context.Events
-                .Where(e => e.IsActive)    // Filter only active events
+                .Where(e => e.Status == 1)  
                 .ToListAsync();
         }
 
-        public async Task<Event> GetByIdAsync(int id)
-        {
-            return await _context.Events.FindAsync(id);
-        }
-
-        public async Task<IEnumerable<Event>> GetBySellerAsync(int sellerId)
+        public async Task<Event> GetByIdAsync(string id)
         {
             return await _context.Events
-                .Where(e => e.SellerId == sellerId && e.IsActive)
+                .Where(e => e.EventId == id && e.Status == 1)  // Ensure event is active
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<IEnumerable<Event>> GetBySellerAsync(string createBy)
+        {
+            return await _context.Events
+                .Where(e => e.CreateBy == createBy && e.Status == 1)  // Maps SellerId to CreateBy
                 .ToListAsync();
         }
 
-        public async Task<Event> AddAsync(Event eventItem)
+        public async Task CreateAsync(Event eventItem)
         {
             _context.Events.Add(eventItem);
             await _context.SaveChangesAsync();
-            return eventItem;
         }
 
         public async Task UpdateAsync(Event eventItem)
@@ -46,43 +46,23 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(int id)
+        
+        public async Task DeleteAsync(string id)
         {
             var eventItem = await _context.Events.FindAsync(id);
             if (eventItem != null)
             {
-                // Soft delete by deactivating
-                eventItem.IsActive = false;
+                eventItem.Status = 0;  
                 await _context.SaveChangesAsync();
             }
         }
 
-        public Task<IEnumerable<Event>> GetAllEventsAsync()
+        public Task<IEnumerable<Event>> GetBySellerAsync(int sellerId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Event> GetEventByIdAsync(int eventId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<Event>> GetEventsBySellerIdAsync(int sellerId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Event> AddEventAsync(Event eventItem)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task UpdateEventAsync(Event eventItem)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task DeleteEventAsync(int eventId)
+        Task<Event> IEventRepository.CreateAsync(Event eventItem)
         {
             throw new NotImplementedException();
         }

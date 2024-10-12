@@ -6,7 +6,7 @@ namespace EventFlowerExchange_Espoir.Repositories
     {
         Task<IEnumerable<Event>> GetAllAsync(); // Retrieve all active events
         Task<Event> GetByIdAsync(String id);       // Get event by its ID
-        Task<IEnumerable<Event>> GetBySellerAsync(int sellerId); // Get events for a specific seller
+        Task<IEnumerable<Event>> GetBySellerAsync(string createBy); // Get events for a specific seller
         Task<Event> CreateAsync(Event eventItem); // Create new event
         Task UpdateAsync(Event eventItem);      // Update existing event
         Task DeleteAsync(String id);               // Soft-delete (deactivate) event

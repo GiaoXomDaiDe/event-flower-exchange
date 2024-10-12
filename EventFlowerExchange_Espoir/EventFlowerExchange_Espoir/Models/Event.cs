@@ -28,8 +28,7 @@ public partial class Event
     public string UpdateBy { get; set; } = null!;
 
     public virtual EventCate Ecate { get; set; } = null!;
-    public bool IsActive { get; internal set; }
-    public int SellerId { get; internal set; }
+ 
 
    
 }

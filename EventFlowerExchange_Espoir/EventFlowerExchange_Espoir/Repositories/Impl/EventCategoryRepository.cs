@@ -1,9 +1,12 @@
-﻿using EventFlowerExchange_Espoir.DatabaseConnection;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using EventFlowerExchange_Espoir.DatabaseConnection;
 using EventFlowerExchange_Espoir.Models;
 using Google;
 using Microsoft.EntityFrameworkCore;
 
-namespace EventFlowerExchange_Espoir.Repositories.Impl
+namespace EventFlowerExchange_Espoir.Repositories
 {
     public class EventCategoryRepository : IEventCategoryRepository
     {
@@ -16,63 +19,24 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
 
         public async Task<IEnumerable<EventCate>> GetAllAsync()
         {
-            return await _context.EventCates
-                .Where(c => c.IsActive)    // Fetch only active categories
-                .ToListAsync();
+            return await _context.EventCates.ToListAsync();
         }
 
-        public async Task<EventCate> GetByIdAsync(int id)
+        public async Task<EventCate> GetByIdAsync(string id)
         {
             return await _context.EventCates.FindAsync(id);
         }
 
-        public async Task<EventCate> CreateAsync(EventCate category)
+        public async Task CreateAsync(EventCate category)
         {
             _context.EventCates.Add(category);
             await _context.SaveChangesAsync();
-            return category;
         }
 
         public async Task UpdateAsync(EventCate category)
         {
             _context.Entry(category).State = EntityState.Modified;
             await _context.SaveChangesAsync();
-        }
-
-        public async Task DeleteAsync(int id)
-        {
-            var category = await _context.EventCates.FindAsync(id);
-            if (category != null)
-            {
-                // Soft delete by deactivating
-                category.IsActive = false;
-                await _context.SaveChangesAsync();
-            }
-        }
-
-        public Task<IEnumerable<EventCate>> GetAllCategoriesAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<EventCate> GetCategoryByIdAsync(int categoryId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<EventCate> AddCategoryAsync(EventCate category)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task UpdateCategoryAsync(EventCate category)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task DeleteCategoryAsync(int categoryId)
-        {
-            throw new NotImplementedException();
         }
     }
 }

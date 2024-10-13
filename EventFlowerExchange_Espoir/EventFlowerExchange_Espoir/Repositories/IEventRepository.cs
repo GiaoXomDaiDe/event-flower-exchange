@@ -1,16 +1,29 @@
 ﻿using EventFlowerExchange_Espoir.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace EventFlowerExchange_Espoir.Repositories
 {
     public interface IEventRepository
     {
-        public Task<IEnumerable<Event>> GetAllAsync(); // Retrieve all active events
-        public Task<Event> GetByIdAsync(string id);     // Get event by its ID
-        public Task<IEnumerable<Event>> GetBySellerAsync(string sellerId); // Get events for a specific seller
-        //public Task<Event> CreateAsync(Event eventItem); // Create new event
-        public Task UpdateAsync(Event eventItem);      // Update existing event
-        //public Task DeleteAsync(String id);               // Soft-delete (deactivate) event
-        Task CreateAsync(Event eventItem); // Create new event
-        Task DeleteAsync(String id);               // Soft-delete (deactivate) event
+        // Retrieve an event by its ID
+        Task<Event> GetEventByEventIdAsync(string eventId);
+
+        // Retrieve the latest event ID
+        Task<string> GetLatestEventIdAsync();
+
+        // Create a new event
+        Task<dynamic> CreateEventAsync(Event newEvent);
+
+        // Update an existing event
+        Task<dynamic> UpdateEventAsync(Event eventToUpdate);
+
+        // Get a list of events with pagination, sorting, and searching
+        Task<(List<Event> events, int totalCount)> GetListEventAsync(int pageIndex, int pageSize, string sortBy, bool sortDesc, string search);
+
+        // Soft delete an event by its ID
+        Task<bool> DeleteEventAsync(string eventId);
+        Task<(List<Event> events, int totalCount)> GetListEventsOfSellerAsync(int pageIndex, int pageSize, string sellerId, string sortBy, bool sortDesc, string search);
+
     }
 }

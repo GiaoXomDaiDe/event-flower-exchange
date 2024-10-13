@@ -21,9 +21,9 @@ public partial class Event
 
     public string CreateBy { get; set; } = null!;
 
-    public DateTime CreateAt { get; set; }
+    public DateOnly CreateAt { get; set; }
 
-    public DateTime UpdateAt { get; set; }
+    public DateOnly UpdateAt { get; set; }
 
     public string UpdateBy { get; set; } = null!;
 

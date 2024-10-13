@@ -1,10 +1,7 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using EventFlowerExchange_Espoir.Models;
+﻿using EventFlowerExchange_Espoir.Models;
 using EventFlowerExchange_Espoir.Models.DTO;
 using EventFlowerExchange_Espoir.Repositories;
-using EventFlowerExchange_Espoir.Helpers;
+using EventFlowerExchange_Espoir.Repositories.Impl;
 
 namespace EventFlowerExchange_Espoir.Services.Impl
 {
@@ -17,96 +14,91 @@ namespace EventFlowerExchange_Espoir.Services.Impl
             _eventCategoryRepository = eventCategoryRepository;
         }
 
-        public async Task<PaginatedList<EventCategoryDto>> GetAllCategoriesAsync(int pageNumber, int pageSize, string sortField, string sortOrder, string searchTerm)
+        public async Task<string> AutoGenerateEventCateId()
         {
-            var categories = await _eventCategoryRepository.GetAllAsync();
-            var query = categories.AsQueryable();
-
-            // Search functionality
-            if (!string.IsNullOrEmpty(searchTerm))
+            string newCateId = "";
+            string latestEventCateId = await _eventCategoryRepository.GetLatestEventCateIdAsync();
+            if (string.IsNullOrEmpty(latestEventCateId))
             {
-                query = query.Where(c => c.Ename.Contains(searchTerm) || c.Edesc.Contains(searchTerm));
+                newCateId = "EC00000001"; // Default value for the first category ID
             }
-
-            // Sorting functionality
-            switch (sortField?.ToLower())
+            else
             {
-                case "ename":
-                    query = sortOrder == "desc" ? query.OrderByDescending(c => c.Ename) : query.OrderBy(c => c.Ename);
-                    break;
-                case "edesc":
-                    query = sortOrder == "desc" ? query.OrderByDescending(c => c.Edesc) : query.OrderBy(c => c.Edesc);
-                    break;
-                default:
-                    query = query.OrderBy(c => c.Ename); // Default sorting by name
-                    break;
+                int numericPart = int.Parse(latestEventCateId.Substring(2));
+                int newNumericPart = numericPart + 1;
+                newCateId = $"EC{newNumericPart:d8}"; // Generate new category ID
             }
-
-            // Pagination
-            var totalItems = query.Count();
-            var pagedCategories = query.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
-
-            var categoryDtos = pagedCategories.Select(c => new EventCategoryDto
-            {
-                EcateId = c.EcateId,
-                Ename = c.Ename,
-                Edesc = c.Edesc,
-                Status = c.Status  // Maps to IsActive
-            }).ToList();
-
-            return new PaginatedList<EventCategoryDto>(categoryDtos, totalItems, pageNumber, pageSize);
+            return newCateId;
         }
 
-        public async Task<EventCategoryDto> GetCategoryByIdAsync(string id)
+        public async Task<dynamic> CreateNewEventCateAsync(NewEventCateDTO newCate)
         {
-            var category = await _eventCategoryRepository.GetByIdAsync(id);
-            if (category == null)
-                return null;
-
-            return new EventCategoryDto
+            var eventCate = new EventCate
             {
-                EcateId = category.EcateId,
-                Ename = category.Ename,
-                Edesc = category.Edesc,
-                Status = category.Status
-            };
-        }
-
-        public async Task<EventCategoryDto> CreateCategoryAsync(EventCategoryDto categoryDto)
-        {
-            var category = new EventCate
-            {
-                EcateId = categoryDto.EcateId,
-                Ename = categoryDto.Ename,
-                Edesc = categoryDto.Edesc,
-                Status = "active"
+                EcateId = await AutoGenerateEventCateId(),
+                Ename = newCate.Ename,
+                Edesc = newCate.Edesc,
+                Status = "active", // Default status for a new category
+                Events = new List<Event>() // Initialize the Events collection
             };
 
-            await _eventCategoryRepository.CreateAsync(category);
-            return categoryDto;
+            var result = await _eventCategoryRepository.CreateEventCateAsync(eventCate);
+            return result;
         }
 
-        public async Task UpdateCategoryAsync(string id, EventCategoryDto categoryDto)
+        public async Task<dynamic> UpdateExistEventCateAsync(UpdateEventCateDTO updateCate)
         {
-            var category = await _eventCategoryRepository.GetByIdAsync(id);
-            if (category == null)
-                throw new KeyNotFoundException("Category not found.");
-
-            category.Ename = categoryDto.Ename;
-            category.Edesc = categoryDto.Edesc;
-            category.Status = categoryDto.Status;
-
-            await _eventCategoryRepository.UpdateAsync(category);
-        }
-
-        public async Task DeleteCategoryAsync(string id)
-        {
-            var category = await _eventCategoryRepository.GetByIdAsync(id);
-            if (category != null)
+            try
             {
-                category.Status = "inactive";  // Deactivate the category
-                await _eventCategoryRepository.UpdateAsync(category);
+                var cate = await _eventCategoryRepository.GetEventCateByCateIdAsync(updateCate.EcateId);
+                if (cate == null)
+                {
+                    return "Cannot find this category";
+                }
+
+                // Update the properties of the EventCate
+                if (!string.IsNullOrEmpty(updateCate.Ename))
+                {
+                    cate.Ename = updateCate.Ename;
+                }
+
+                if (!string.IsNullOrEmpty(updateCate.Edesc))
+                {
+                    cate.Edesc = updateCate.Edesc;
+                }
+
+                cate.Status = updateCate.Status ?? cate.Status; // Update status if provided
+                cate.Events = cate.Events; // Retain current events; might implement logic if needed
+
+                var result = await _eventCategoryRepository.UpdateEventCategoryAsync(cate);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error at UpdateExistEventCateAsync() in service: {ex.Message}");
             }
         }
-    }
+
+        public async Task<dynamic> DeleteEventCateAsync(string eventCateId)
+        {
+            try
+            {
+                var cate = await _eventCategoryRepository.GetEventCateByCateIdAsync(eventCateId);
+                if (cate == null)
+                {
+                    return "Cannot find this category";
+                }
+
+                cate.Status = "inactive"; // Mark as inactive instead of deleting
+                cate.Events.Clear(); // Optionally clear associated events if required
+
+                var result = await _eventCategoryRepository.UpdateEventCategoryAsync(cate);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error at DeleteEventCateAsync() in service: {ex.Message}");
+            }
+        }
+    }   
 }

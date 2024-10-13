@@ -33,19 +33,35 @@ export default function useRouteElements() {
     },
     {
       path: '/seller/finance',
-      element: <Finance />
+      element: (
+        <SellerLayout>
+          <Finance />
+        </SellerLayout>
+      )
     },
     {
       path: '/seller/post-management',
-      element: <PostManagement />
+      element: (
+        <SellerLayout>
+          <PostManagement />
+        </SellerLayout>
+      )
     },
     {
       path: '/seller/order-management',
-      element: <OrderManagement />
+      element: (
+        <SellerLayout>
+          <OrderManagement />
+        </SellerLayout>
+      )
     },
     {
       path: '/seller/shop-management',
-      element: <ShopManagement />
+      element: (
+        <SellerLayout>
+          <ShopManagement />
+        </SellerLayout>
+      )
     },
     {}
   ])

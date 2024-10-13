@@ -1,6 +1,17 @@
-@tailwind base;
+@layer tailwind-base, antd;
+
+@layer tailwind-base {
+  @tailwind base;
+}
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: 'VNSeventies';
+  src: url('./assets/fonts/VN-Seventies-Regular.ttf') format('truetype');
+  font-weight: 400; /* Bạn có thể thay đổi font-weight nếu cần */
+  font-style: normal; /* Hoặc italic nếu cần */
+}
 
 html {
   height: 100%;
@@ -11,4 +22,15 @@ body {
   font-family: 'Beausite Classic', 'Beausite Classic Trial', 'Beausite Fit Trial', 'Beausite Grand Trial',
     'Beausite Slick Trial';
   font-weight: 100, 200, 300, 400, 500, 600, 700, 800, 900;
+}
+
+@layer base {
+  * {
+    @apply box-border;
+  }
+
+  *::before,
+  *::after {
+    @apply box-border;
+  }
 }

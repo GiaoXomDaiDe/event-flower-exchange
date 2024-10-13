@@ -1,5 +1,6 @@
 ﻿using EventFlowerExchange_Espoir.DatabaseConnection;
 using EventFlowerExchange_Espoir.Models;
+using EventFlowerExchange_Espoir.Models.DTO;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.Eventing.Reader;
 using System.Linq.Dynamic.Core;
@@ -80,23 +81,54 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
         }
 
         // For get list of product + search + sort + pagination
+            //var query = _context.Flowers.AsQueryable().Where(f => f.Status == 0 && f.IsDeleted == 0);
+
+            //// search
+            //if (!string.IsNullOrEmpty(search))
+            //{
+            //    int.TryParse(search, out int searchId);
+            //    query = query.Where(i => i.FlowerName.Contains(search));
+            //}
+
+            //// sorting
+            //if (!string.IsNullOrEmpty(sortBy))
+            //{
+            //    var sortDirection = sortDesc ? "descending" : "ascending";
+            //    var sortExpression = $"{sortBy} {sortDirection}";
+            //    query = query.OrderBy(sortExpression);
+            //}
+
+            //// Total count before paging
+            //var totalCount = await query.CountAsync();
+
+            //// Paging
+            //var flowers = await query.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
+            //return (flowers, totalCount);
         public async Task<(List<Flower> flowers, int totalCount)> GetListFlowerAsync(int pageIndex, int pageSize, string sortBy, bool sortDesc, string search)
         {
-            var query = _context.Flowers.AsQueryable().Where(f => f.Status == 0 && f.IsDeleted == 0);
-
-            // search
+            var query = _context.Flowers.Include(f => f.Cate)
+                        .Include(f => f.Tag)   
+                        .Where(f => f.Status == 0 && f.IsDeleted == 0).AsQueryable();
+            //Search
             if (!string.IsNullOrEmpty(search))
             {
                 int.TryParse(search, out int searchId);
                 query = query.Where(i => i.FlowerName.Contains(search));
             }
 
-            // sorting
             if (!string.IsNullOrEmpty(sortBy))
             {
                 var sortDirection = sortDesc ? "descending" : "ascending";
                 var sortExpression = $"{sortBy} {sortDirection}";
                 query = query.OrderBy(sortExpression);
+            }
+            if (!string.IsNullOrEmpty(sortBy))
+            {
+                query = sortBy.ToLower() switch
+                {
+                    "flowername" => sortDesc ? query.OrderByDescending(co => co.FlowerName) : query.OrderBy(co => co.FlowerName),
+                    _ => query
+                };
             }
 
             // Total count before paging
@@ -109,7 +141,7 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
 
         public async Task<(List<Flower> flowers, int totalCount)> GetListFlowerOfSellerAsync(int pageIndex, int pageSize, string accountId, string sortBy, bool sortDesc, string search)
         {
-            var query = _context.Flowers.AsQueryable().Where(f => f.Account.AccountId == accountId && f.Status == 1 && f.IsDeleted == 0);
+            var query = _context.Flowers.AsQueryable().Include(f => f.Cate).Where(f => f.Account.AccountId == accountId && f.Status == 1 && f.IsDeleted == 0);
             if (!string.IsNullOrEmpty(search))
             {
                 int.TryParse(search, out int searchId);

@@ -29,7 +29,7 @@ public partial class Flower
 
     public string DateExpiration { get; set; } = null!;
 
-    public DateOnly? UpdateAt { get; set; }
+    public DateTime? UpdateAt { get; set; }
 
     public string UpdateBy { get; set; } = null!;
 
@@ -54,4 +54,5 @@ public partial class Flower
     public virtual FlowerTag Tag { get; set; } = null!;
 
     public virtual ICollection<Wishlist> Wishlists { get; set; } = new List<Wishlist>();
+
 }

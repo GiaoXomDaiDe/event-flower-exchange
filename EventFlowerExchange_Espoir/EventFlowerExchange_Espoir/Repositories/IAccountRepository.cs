@@ -12,5 +12,11 @@ namespace EventFlowerExchange_Espoir.Repositories
 
         public Task<dynamic> CreateAccountAsync(Account acc);
         public Task<bool> UpdateAccount(Account acc);
+
+
+        // for seller
+        public Task<User> GetUserByAccountId(string accountId);
+        public Task<dynamic> CreateUserAsync(User user);
+        public Task<string> GetLatestUserIdAsync();
     }
 }

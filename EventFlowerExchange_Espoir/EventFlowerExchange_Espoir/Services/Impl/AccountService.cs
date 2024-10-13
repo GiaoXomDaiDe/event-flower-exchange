@@ -5,6 +5,8 @@ using EventFlowerExchange_Espoir.Services.Common;
 using FirebaseAdmin.Auth;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net;
+using System.Numerics;
 using System.Security.Claims;
 using System.Text;
 
@@ -44,6 +46,7 @@ namespace EventFlowerExchange_Espoir.Services.Impl
             }
             return newAccountId;
         }
+
 
         // FOR REGISTER
         public async Task<dynamic> RegisterAccountAsync(AccountDTO accountDTO)
@@ -290,8 +293,66 @@ namespace EventFlowerExchange_Espoir.Services.Impl
             {
                 acc.Address = accountProfile.Address;
             }
-
             return await _accountReposiotry.UpdateAccount(acc);
+        }
+
+
+        // for Seller
+        public async Task<string> AutoGenerateUserId()
+        {
+            string newUserId = "";
+            string latestUserId = await _accountReposiotry.GetLatestUserIdAsync();
+            if (string.IsNullOrEmpty(latestUserId))
+            {
+                newUserId = "US00000001";
+            }
+            else
+            {
+                int numericpart = int.Parse(latestUserId.Substring(2));
+                int newnumericpart = numericpart + 1;
+                newUserId = $"US{newnumericpart:d8}";
+            }
+            return newUserId;
+        }
+        public async Task<dynamic> RegisterToBeSellerAsync(SellerDTO newSeller)
+        {
+            string email = TokenDecoder.GetEmailFromToken(newSeller.AccessToken);
+            var acc = await _accountReposiotry.GetAccountByEmailAsync(email);
+            if (acc == null )
+            {
+                return "Account cannot be found. Please try again";
+            }
+
+            if(acc.IsSeller == 1)
+            {
+                return "This account is already a seller";
+            }
+
+            if (!string.IsNullOrEmpty(newSeller.SellerAvatar))
+            {
+                newSeller.SellerAvatar = "empty";
+            }
+            if (!string.IsNullOrEmpty(newSeller.SellerAddress))
+            {
+                newSeller.SellerAddress = acc.Address;
+            }
+            acc.IsSeller = 1;
+            await _accountReposiotry.UpdateAccount(acc);
+            var seller = new User
+            {
+                UserId = await AutoGenerateUserId(),
+                AccountId = acc.AccountId,
+                CardName = newSeller.CardName,
+                CardNumber = newSeller.CardNumber,
+                CardProviderName = newSeller.CardProviderName,
+                TaxNumber = newSeller.TaxNumber,
+                SellerAddress = newSeller.SellerAddress,
+                SellerAvatar = newSeller.SellerAvatar,
+                ShopName = newSeller.ShopName,
+            };
+
+            var result = await _accountReposiotry.CreateUserAsync(seller);
+            return result;
         }
     }
 }

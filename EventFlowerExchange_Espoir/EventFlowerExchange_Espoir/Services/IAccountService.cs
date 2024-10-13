@@ -16,5 +16,8 @@ namespace EventFlowerExchange_Espoir.Services
 
         public Task<Account> GetUserAccountAsync(string accessToken);
         public Task<bool> UpdateAccountProfileByAdminAsync(string accessToken, UpdateAccountProfileDTO accountProfile);
+
+        // for seller
+        public Task<dynamic> RegisterToBeSellerAsync(SellerDTO newSeller);
     }
 }

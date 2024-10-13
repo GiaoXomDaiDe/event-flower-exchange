@@ -46,7 +46,6 @@ namespace EventFlowerExchange_Espoir.Controllers
             return Ok(new
             {
                 message = "Create new Flower Successfully",
-                NewFlower = result.Flower
             });
         }
 
@@ -176,12 +175,19 @@ namespace EventFlowerExchange_Espoir.Controllers
 
         // FOR VIEW LIST
         [HttpGet("list-flowers")]
-        public async Task<IActionResult> GetListOfFlower([FromQuery] int pageIndex, [FromQuery] int pageSize, [FromQuery] string sortBy, [FromQuery] bool sortDesc, [FromQuery] string search)
+        public async Task<IActionResult> GetListOfFlower([FromQuery] int pageIndex, [FromQuery] int pageSize, [FromQuery] string sortBy, [FromQuery] bool sortDesc, [FromQuery] string search = null)
         {
             try
             {
                 var (flowers, totalCount) = await _productService.GetListFlowerAsync(pageIndex, pageSize, sortBy, sortDesc, search);
-                return Ok(new { flowers, totalCount });
+                var response = new
+                {
+                    TotalCount = totalCount,
+                    PageIndex = pageIndex,
+                    PageSize = pageSize,
+                    Data = flowers
+                };
+                return Ok(response);
             } catch (Exception ex)
             {
                 return StatusCode(500, $"An error occurred while processing your request: {ex.Message}");
@@ -189,12 +195,19 @@ namespace EventFlowerExchange_Espoir.Controllers
         }
 
         [HttpGet("list-flowers-of-seller")]
-        public async Task<IActionResult> GetListFlowersOfSeller([FromQuery] int pageIndex, [FromQuery] int pageSize, [FromQuery] string accountId, [FromQuery] string sortBy, [FromQuery] bool sortDesc, [FromQuery] string search)
+        public async Task<IActionResult> GetListFlowersOfSeller([FromQuery] int pageIndex, [FromQuery] int pageSize, [FromQuery] string accountId, [FromQuery] string sortBy, [FromQuery] bool sortDesc, [FromQuery] string search = null)
         {
             try
             {
                 var (flowers, totalCount) = await _productService.GetListFlowerOfSeller(pageIndex, pageSize, accountId, sortBy, sortDesc, search);
-                return Ok(new { flowers, totalCount });
+                var response = new
+                {
+                    TotalCount = totalCount,
+                    PageIndex = pageIndex,
+                    PageSize = pageSize,
+                    Data = flowers
+                };
+                return Ok(response);
             }
             catch (Exception ex)
             {

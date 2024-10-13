@@ -4,7 +4,6 @@ using EventFlowerExchange_Espoir.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EventFlowerExchange_Espoir.Controllers
@@ -22,7 +21,7 @@ namespace EventFlowerExchange_Espoir.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> RegisterStudentAsync([FromForm] AccountDTO accountDTO)
+        public async Task<IActionResult> RegisterAccountAsync([FromForm] AccountDTO accountDTO)
         {
             if (!ModelState.IsValid)
             {
@@ -147,7 +146,7 @@ namespace EventFlowerExchange_Espoir.Controllers
         public async Task<IActionResult> ViewProfileByUser(string accessToken)
         {
             Account account = await _accountService.GetUserAccountAsync(accessToken);
-            if(accessToken == null)
+            if (accessToken == null)
             {
                 return BadRequest("Cannot get access token");
             }
@@ -183,15 +182,36 @@ namespace EventFlowerExchange_Espoir.Controllers
             }
 
             var result = await _accountService.UpdateAccountProfileByAdminAsync(accessToken, accountProfile);
-            if (!result)
+            if (result)
             {
-                return NotFound("Account not found or update failed");
+                return Ok("Update Successful");
             }
-            return Ok(new
+            return NotFound("Account not found or update failed");
+        }
+
+
+        // for seller
+        [Authorize(Policy = "UserOnly")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpPost("register-to-seller")]
+        public async Task<IActionResult> RegisterToBeSeller([FromForm] SellerDTO sellerDTO)
+        {
+            if (!ModelState.IsValid)
             {
-                message = "Account details updated successfully.",
-                UserProfile = result
-            });
+                var errors = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
+                return BadRequest(new { Errors = errors });
+            }
+            if (sellerDTO == null)
+            {
+                return BadRequest("All fields are required");
+            }
+
+            var result = await _accountService.RegisterToBeSellerAsync(sellerDTO);
+            if (result == 1)
+            {
+                return Ok("Registration as Seller successful");
+            }
+            return BadRequest(result);
         }
     }
 }

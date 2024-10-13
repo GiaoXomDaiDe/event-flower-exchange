@@ -149,7 +149,6 @@ namespace EventFlowerExchange_Espoir.Controllers
         }
 
 
-
         // PUT: api/Event/{id}
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateEvent(string id, EventDto eventDto)

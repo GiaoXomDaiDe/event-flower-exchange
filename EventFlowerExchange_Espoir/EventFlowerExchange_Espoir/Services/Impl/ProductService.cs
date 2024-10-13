@@ -63,10 +63,10 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                     DateExpiration = newFlower.DateExpiration,
                     Status = 0,
                     TagId = newFlower.TagId,
-                    Attachment = "null",//thêm blob storage sau
+                    Attachment = "Empty",//thêm blob storage sau
                 };
 
-                int result = await _productRepository.CreateFlowerAsync(flower);
+                var result = await _productRepository.CreateFlowerAsync(flower);
 
                 return result;
             }
@@ -137,7 +137,7 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                     updateFlower.DateExpiration = flower.DateExpiration;
                 }
                 flower.UpdateBy = accOwner.AccountId;
-                flower.UpdateAt = DateOnly.FromDateTime(DateTime.Now);
+                flower.UpdateAt = DateTime.Now;
                 int result = await _productRepository.UpdateFlowerAsync(flower);
                 return result;
             }

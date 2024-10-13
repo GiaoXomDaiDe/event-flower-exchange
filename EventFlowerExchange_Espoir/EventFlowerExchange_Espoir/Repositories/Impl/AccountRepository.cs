@@ -75,5 +75,55 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
             _context.Accounts.Update(acc);
             return await _context.SaveChangesAsync() > 0;
         }
+
+
+        // FOR SELLER
+        public async Task<User> GetUserByAccountId(string accountId)
+        {
+            return await _context.Users.FirstOrDefaultAsync(u => u.AccountId == accountId);
+        }
+
+        public async Task<string> GetLatestUserIdAsync()
+        {
+            try
+            {
+                // Fetch the relevant data from the database
+                var userIds = await _context.Users
+                    .Select(u => u.UserId)
+                    .ToListAsync();
+
+                // Process the data in memory to extract and order by the numeric part
+                var latestUserId = userIds
+                    .Select(id => new { UserId = id, NumericPart = int.Parse(id.Substring(2)) })
+                    .OrderByDescending(u => u.NumericPart)
+                    .ThenByDescending(u => u.UserId)
+                    .Select(u => u.UserId)
+                    .FirstOrDefault();
+
+                return latestUserId;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message, e);
+            }
+        }
+
+        public async Task<dynamic> CreateUserAsync(User user)
+        {
+            try
+            {
+                using (var context = new EspoirDbContext())
+                {
+                    await context.Users.AddAsync(user);
+                    return await context.SaveChangesAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
+
+
     }
 }

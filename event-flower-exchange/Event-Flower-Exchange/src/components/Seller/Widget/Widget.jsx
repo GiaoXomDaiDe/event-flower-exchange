@@ -1,26 +1,42 @@
-import { SignalFilled } from '@ant-design/icons'
-import { Typography } from 'antd'
+import { CaretDownOutlined, CaretUpOutlined } from '@ant-design/icons'
+import { Col, Row, Typography } from 'antd'
 import PropTypes from 'prop-types'
 import React from 'react'
+import DBCard from '../DBCard/DBCard.jsx'
 
 const { Title, Text } = Typography
 
 export default function Widget({ icon, title, subtitle }) {
   return (
-    <div className='bg-gradient-to-r from-blue-500 to-indigo-500 rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-shadow duration-300 ease-in-out transform hover:scale-105'>
-      <div className='flex items-center w-auto h-[100px]'>
-        <div className='m-4 flex flex-row justify-center align-middle rounded-full bg-white w-12 h-12 shadow-lg'>
-          <SignalFilled className='text-blue-500 text-2xl' />
-        </div>
+    <DBCard>
+      <Row gutter={[16, 16]} align='middle'>
+        <Col span={6}>
+          <div
+            className='w-16 h-16 flex justify-center items-center rounded-full bg-primary-50 border-sky-950'
+            style={{
+              boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)'
+            }}
+          >
+            {icon}
+          </div>
+        </Col>
 
-        <div className='ml-4'>
-          <Text className='text-white text-lg font-medium'>{title}</Text>
-          <Title level={3} style={{ margin: 0 }} className='text-white text-3xl font-extrabold leading-tight'>
+        <Col span={12}>
+          <Text style={{ font: 'beausite', color: '#4B5563', fontSize: '16px', fontWeight: '300' }}>{title}</Text>
+          <Title level={2} style={{ font: 'beausite', margin: 0, color: '#4B5563', fontWeight: 'bold' }}>
             {subtitle}
           </Title>
-        </div>
-      </div>
-    </div>
+        </Col>
+
+        <Col span={6} className='text-center'>
+          {true ? (
+            <CaretUpOutlined style={{ fontWeight: 'bolder', fontSize: '30px', color: '#74a892' }} />
+          ) : (
+            <CaretDownOutlined style={{ fontWeight: 'bolder', fontSize: '30px', color: '#d74a49' }} />
+          )}
+        </Col>
+      </Row>
+    </DBCard>
   )
 }
 

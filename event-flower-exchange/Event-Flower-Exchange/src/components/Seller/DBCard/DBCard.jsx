@@ -9,7 +9,7 @@ export default function DBCard({ children }) {
       style={{
         boxShadow: '0 4px 15px rgba(0, 0, 0, 0.2)',
         borderRadius: '16px',
-        padding: '24px'
+        marginBottom: '16px'
       }}
     >
       {children}

@@ -17,8 +17,8 @@ const { Content } = Layout
 export default function DashBoard() {
   return (
     <Content>
-      <Row gutter={[20, 20]} style={{ marginBottom: '20px' }}>
-        <Col span={6}>
+      <Row gutter={[20, 20]}>
+        <Col xs={12} sm={12} md={12} lg={6} xl={6} xxl={6}>
           <Widget
             icon={<SignalFilled className='text-primary-500 text-2xl' />}
             title={'Earnings'}

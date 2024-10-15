@@ -1,9 +1,9 @@
-import OrderDetail, { sampleOrder } from '../../components/Seller/OrderDetail/OrderDetail.jsx'
+import OrderTable from './OrderTable.jsx'
 
 export default function OrderManagement() {
   return (
     <div className='p-10'>
-      <OrderDetail order={sampleOrder} />
+      <OrderTable />
     </div>
   )
 }

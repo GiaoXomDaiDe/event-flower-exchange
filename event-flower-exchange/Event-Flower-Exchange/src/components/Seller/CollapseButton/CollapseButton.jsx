@@ -16,7 +16,7 @@ export default function CollapseButton() {
           fontSize: '18px',
           width: collapsed ? '48px' : '100%',
           height: '48px',
-          backgroundColor: '#f06595',
+          backgroundColor: '#ff6d7e',
           color: '#fff',
           borderRadius: collapsed ? '50%' : '8px',
           boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)',

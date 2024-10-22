@@ -1,3 +1,3 @@
-export default function Finance() {
-  return <div>Finance</div>
+export default function ProductManagement() {
+  return <div>ProductManagement</div>
 }

@@ -28,6 +28,7 @@ import {
 import { cloneDeep, countBy } from 'lodash'
 import moment from 'moment'
 import { useEffect, useMemo, useState } from 'react'
+import CountUp from 'react-countup'
 import * as XLSX from 'xlsx'
 import { orderData, statusColors, statusOptions } from '../../mock/orderData'
 
@@ -324,43 +325,54 @@ export default function OrderManagement() {
       </Col>
       <Col span={6}>
         <div className='flex flex-col gap-4'>
-          <Card className='shadow-md' style={{ borderRadius: '10px' }} bodyStyle={{ padding: '20px' }}>
+          <Card className='shadow-md' style={{ borderRadius: '10px' }}>
             <div className='flex items-center'>
               <ClockCircleOutlined style={{ fontSize: '32px', color: '#1890ff' }} />
               <div className='ml-4'>
-                <Statistic title={<span className='font-beausite'>Pending Orders</span>} value={orderCounts.Pending} />
+                <Statistic
+                  title={<span className='font-beausite'>Pending Orders</span>}
+                  value={orderCounts.Pending}
+                  valueStyle={{ fontWeight: 'bold', fontSize: '24px' }}
+                  formatter={(value) => <CountUp end={value} duration={1.5} />}
+                />
               </div>
             </div>
           </Card>
-          <Card className='shadow-md' style={{ borderRadius: '10px' }} bodyStyle={{ padding: '20px' }}>
+          <Card className='shadow-md' style={{ borderRadius: '10px' }}>
             <div className='flex items-center'>
               <SyncOutlined style={{ fontSize: '32px', color: '#faad14' }} />
               <div className='ml-4'>
                 <Statistic
                   title={<span className='font-beausite'>Confirmed Orders</span>}
                   value={orderCounts.Confirmed}
+                  valueStyle={{ fontWeight: 'bold', fontSize: '24px' }}
+                  formatter={(value) => <CountUp end={value} duration={1.5} />}
                 />
               </div>
             </div>
           </Card>
-          <Card className='shadow-md' style={{ borderRadius: '10px' }} bodyStyle={{ padding: '20px' }}>
+          <Card className='shadow-md' style={{ borderRadius: '10px' }}>
             <div className='flex items-center'>
               <CheckCircleOutlined style={{ fontSize: '32px', color: '#52c41a' }} />
               <div className='ml-4'>
                 <Statistic
                   title={<span className='font-beausite'>Completed Orders</span>}
                   value={orderCounts.Completed}
+                  valueStyle={{ fontWeight: 'bold', fontSize: '24px' }}
+                  formatter={(value) => <CountUp end={value} duration={1.5} />}
                 />
               </div>
             </div>
           </Card>
-          <Card className='shadow-md' style={{ borderRadius: '10px' }} bodyStyle={{ padding: '20px' }}>
+          <Card className='shadow-md' style={{ borderRadius: '10px' }}>
             <div className='flex items-center'>
               <CloseCircleOutlined style={{ fontSize: '32px', color: '#ff4d4f' }} />
               <div className='ml-4'>
                 <Statistic
                   title={<span className='font-beausite'>Cancelled Orders</span>}
                   value={orderCounts.Cancelled}
+                  valueStyle={{ fontWeight: 'bold', fontSize: '24px' }}
+                  formatter={(value) => <CountUp end={value} duration={1.5} />}
                 />
               </div>
             </div>

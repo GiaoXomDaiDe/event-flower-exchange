@@ -1,6 +1,20 @@
 import { BarChartOutlined, HeartFilled, ShoppingCartOutlined, UploadOutlined } from '@ant-design/icons'
 import { useQuery } from '@tanstack/react-query'
-import { Button, Card, Carousel, Checkbox, Col, Image, Input, Row, Table, Tabs, Typography, Upload } from 'antd'
+import {
+  Button,
+  Card,
+  Carousel,
+  Checkbox,
+  Col,
+  Image,
+  Input,
+  Row,
+  Table,
+  Tabs,
+  Tooltip,
+  Typography,
+  Upload
+} from 'antd'
 import { useState } from 'react'
 import SungJinWoo from '../../assets/images/profile_image.jpg'
 import { eventData } from '../../mock/eventData.js'
@@ -137,18 +151,7 @@ export default function ShopManagement() {
               return false
             }}
           >
-            <img
-              src={tempInfo.logo}
-              alt='Shop Logo'
-              style={{
-                width: '100px',
-                height: '100px',
-                objectFit: 'cover',
-                borderRadius: '50%',
-                marginBottom: '8px'
-              }}
-            />
-            <Button icon={<UploadOutlined />} type='dashed' style={{ width: '100%' }}>
+            <Button icon={<UploadOutlined className='text-sm' />} type='dashed' style={{ width: '80%' }}>
               Change Logo
             </Button>
           </Upload>
@@ -249,7 +252,7 @@ export default function ShopManagement() {
       <Col span={16}>
         <Row gutter={24}>
           <Col span={12}>
-            <Card className='bg-white rounded-lg shadow-md h-full flex flex-col justify-between'>
+            <Card className='bg-white rounded-lg shadow-md h-full flex flex-col justify-center'>
               <div>
                 <Row justify={'center'}>
                   <Image
@@ -260,8 +263,8 @@ export default function ShopManagement() {
                     className='rounded-full aspect-square shadow-sm border border-gray-200'
                   />
                 </Row>
-                <Row justify={'center'} className='mt-4'>
-                  <Col span={16} className='text-center'>
+                <Row gutter={24} justify={'center'} className='mt-4'>
+                  <Col span={8} className='text-left'>
                     <div className='text-base font-semibold text-gray-800 font-beausite leading-tight'>Frank Ocean</div>
                     <div className='text-xs text-gray-500 font-beausite leading-none'>Shopname</div>
                   </Col>
@@ -345,7 +348,7 @@ export default function ShopManagement() {
           <Row gutter={8}>
             {activeProductList && activeProductList.length > 0 ? (
               activeProductList.map((product) => (
-                <Col span={16} key={product.CateId}>
+                <Col span={8} key={product.CateId}>
                   <div className='bg-white rounded-xl shadow-lg p-4 font-beausite mt-4'>
                     <div className='p-4'>
                       <div className='relative'>
@@ -362,7 +365,7 @@ export default function ShopManagement() {
                         </div>
                         <div className=''>
                           <img
-                            className='absolute  border-8 border-gray-400 -bottom-6 right-6 rounded-full object-cover w-14 aspect-square'
+                            className='absolute border-8 border-gray-400 -bottom-6 right-6 rounded-full object-cover w-14 aspect-square'
                             src={SungJinWoo}
                             alt=''
                           />
@@ -379,7 +382,17 @@ export default function ShopManagement() {
                         <div className='py-1 text-sm px-6 text-white bg-primary-800 rounded-2xl'>FRESH</div>
                         <div className='ml-2 text-sm py-1 px-6 text-white bg-primary-500 rounded-2xl'>WEDDING</div>
                       </div>
-                      <div className='mt-4 text-2xl font-extrabold'>Your lie in April</div>
+                      <div className='mt-4 text-2xl font-extrabold line-clamp-1'>
+                        <Tooltip
+                          title={'Ant Design, a design language for background applications, is refined by Ant UED Team.'.repeat(
+                            5
+                          )}
+                        >
+                          {'Ant Design, a design language for background applications, is refined by Ant UED Team.'.repeat(
+                            5
+                          )}
+                        </Tooltip>
+                      </div>
                       <div className='flex space-x-2'>
                         <div>5 star</div>
                         <div>(100)</div>

@@ -86,264 +86,6 @@ namespace EventFlowerExchange_Espoir.Migrations
                         .HasName("PK__Account__349DA586A4DAAC89");
 
                     b.ToTable("Account", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            AccountId = "AC00000001",
-                            Address = "HCM",
-                            Birthday = new DateOnly(1999, 10, 10),
-                            Email = "nghalam1210@gmail.com",
-                            FullName = "Admin Văn 1",
-                            Gender = 3,
-                            IsEmailConfirm = 1,
-                            IsSeller = 0,
-                            Password = "u93zTwjKn5EGES4DRXBqHNgggYmp7amf/9rUl9lZnNM=",
-                            PhoneNumber = "0123456789",
-                            Role = 1,
-                            Status = 1,
-                            Username = "user@1"
-                        },
-                        new
-                        {
-                            AccountId = "AC00000002",
-                            Address = "HN",
-                            Birthday = new DateOnly(1998, 11, 11),
-                            Email = "duchao696@gmail.com",
-                            FullName = "Admin Văn 2",
-                            Gender = 3,
-                            IsEmailConfirm = 1,
-                            IsSeller = 0,
-                            Password = "u93zTwjKn5EGES4DRXBqHNgggYmp7amf/9rUl9lZnNM=",
-                            PhoneNumber = "0123456788",
-                            Role = 1,
-                            Status = 1,
-                            Username = "user@2"
-                        },
-                        new
-                        {
-                            AccountId = "AC00000003",
-                            Address = "HN",
-                            Birthday = new DateOnly(1989, 11, 20),
-                            Email = "nhattulam12102003@gmail.com",
-                            FullName = "Nguyen Minh Phuong",
-                            Gender = 3,
-                            IsEmailConfirm = 1,
-                            IsSeller = 1,
-                            Password = "u93zTwjKn5EGES4DRXBqHNgggYmp7amf/9rUl9lZnNM=",
-                            PhoneNumber = "0987654322",
-                            Role = 2,
-                            Status = 1,
-                            Username = "user@3"
-                        },
-                        new
-                        {
-                            AccountId = "AC00000004",
-                            Address = "ND",
-                            Birthday = new DateOnly(1983, 2, 14),
-                            Email = "customer2@gmail.com",
-                            FullName = "Dang Phuong Thao",
-                            Gender = 3,
-                            IsEmailConfirm = 1,
-                            IsSeller = 0,
-                            Password = "u93zTwjKn5EGES4DRXBqHNgggYmp7amf/9rUl9lZnNM=",
-                            PhoneNumber = "0987654333",
-                            Role = 2,
-                            Status = 1,
-                            Username = "user@4"
-                        },
-                        new
-                        {
-                            AccountId = "AC00000005",
-                            Address = "BD",
-                            Birthday = new DateOnly(1990, 1, 2),
-                            Email = "customer3@gmail.com",
-                            FullName = "Tran Hoang Phu",
-                            Gender = 3,
-                            IsEmailConfirm = 1,
-                            IsSeller = 0,
-                            Password = "u93zTwjKn5EGES4DRXBqHNgggYmp7amf/9rUl9lZnNM=",
-                            PhoneNumber = "0987654444",
-                            Role = 2,
-                            Status = 1,
-                            Username = "user@5"
-                        },
-                        new
-                        {
-                            AccountId = "AC00000006",
-                            Address = "HCM",
-                            Birthday = new DateOnly(1979, 7, 28),
-                            Email = "customer4@gmail.com",
-                            FullName = "Tran Quoc Tuan",
-                            Gender = 3,
-                            IsEmailConfirm = 1,
-                            IsSeller = 0,
-                            Password = "u93zTwjKn5EGES4DRXBqHNgggYmp7amf/9rUl9lZnNM=",
-                            PhoneNumber = "0987655555",
-                            Role = 2,
-                            Status = 1,
-                            Username = "user@6"
-                        },
-                        new
-                        {
-                            AccountId = "AC00000007",
-                            Address = "PY",
-                            Birthday = new DateOnly(2003, 5, 20),
-                            Email = "anhnnqe170248@fpt.edu.vn",
-                            FullName = "Truong Yen Nhi",
-                            Gender = 3,
-                            IsEmailConfirm = 1,
-                            IsSeller = 0,
-                            Password = "u93zTwjKn5EGES4DRXBqHNgggYmp7amf/9rUl9lZnNM=",
-                            PhoneNumber = "0987666666",
-                            Role = 2,
-                            Status = 1,
-                            Username = "user@7"
-                        },
-                        new
-                        {
-                            AccountId = "AC00000011",
-                            Address = "PT",
-                            Birthday = new DateOnly(2001, 12, 20),
-                            Email = "customer11@gmail.com",
-                            FullName = "Tran Quoc",
-                            Gender = 3,
-                            IsEmailConfirm = 1,
-                            IsSeller = 0,
-                            Password = "u93zTwjKn5EGES4DRXBqHNgggYmp7amf/9rUl9lZnNM=",
-                            PhoneNumber = "0987666666",
-                            Role = 2,
-                            Status = 1,
-                            Username = "user@8"
-                        },
-                        new
-                        {
-                            AccountId = "AC00000012",
-                            Address = "NH",
-                            Birthday = new DateOnly(2002, 8, 20),
-                            Email = "customer12@gmail.com",
-                            FullName = "Quoc Tuan",
-                            Gender = 3,
-                            IsEmailConfirm = 1,
-                            IsSeller = 0,
-                            Password = "u93zTwjKn5EGES4DRXBqHNgggYmp7amf/9rUl9lZnNM=",
-                            PhoneNumber = "0987666666",
-                            Role = 2,
-                            Status = 1,
-                            Username = "user@9"
-                        },
-                        new
-                        {
-                            AccountId = "AC00000013",
-                            Address = "TPHCM",
-                            Birthday = new DateOnly(2002, 8, 20),
-                            Email = "vietnam@gmail.com",
-                            FullName = "Trương Tấn Sang",
-                            Gender = 3,
-                            IsEmailConfirm = 1,
-                            IsSeller = 0,
-                            Password = "u93zTwjKn5EGES4DRXBqHNgggYmp7amf/9rUl9lZnNM=",
-                            PhoneNumber = "0987666666",
-                            Role = 2,
-                            Status = 1,
-                            Username = "user@10"
-                        },
-                        new
-                        {
-                            AccountId = "AC00000020",
-                            Address = "Q9",
-                            Birthday = new DateOnly(2002, 1, 20),
-                            Email = "thanhdanhnguyenvinh@gmail.com",
-                            FullName = "Nyn Anh",
-                            Gender = 3,
-                            IsEmailConfirm = 1,
-                            IsSeller = 0,
-                            Password = "u93zTwjKn5EGES4DRXBqHNgggYmp7amf/9rUl9lZnNM=",
-                            PhoneNumber = "0987668876",
-                            Role = 2,
-                            Status = 1,
-                            Username = "user@11"
-                        },
-                        new
-                        {
-                            AccountId = "AC00000021",
-                            Address = "Q9",
-                            Birthday = new DateOnly(2002, 1, 20),
-                            Email = "customer21@gmail.com",
-                            FullName = "Tran Bao",
-                            Gender = 3,
-                            IsEmailConfirm = 1,
-                            IsSeller = 0,
-                            Password = "u93zTwjKn5EGES4DRXBqHNgggYmp7amf/9rUl9lZnNM=",
-                            PhoneNumber = "0987662566",
-                            Role = 2,
-                            Status = 1,
-                            Username = "user@12"
-                        },
-                        new
-                        {
-                            AccountId = "AC00000022",
-                            Address = "Q9",
-                            Birthday = new DateOnly(2002, 1, 20),
-                            Email = "student2@gmail.com",
-                            FullName = "Quoc Toan",
-                            Gender = 3,
-                            IsEmailConfirm = 1,
-                            IsSeller = 0,
-                            Password = "u93zTwjKn5EGES4DRXBqHNgggYmp7amf/9rUl9lZnNM=",
-                            PhoneNumber = "0987123666",
-                            Role = 2,
-                            Status = 1,
-                            Username = "user@13"
-                        },
-                        new
-                        {
-                            AccountId = "AC00000023",
-                            Address = "Q9",
-                            Birthday = new DateOnly(2002, 1, 20),
-                            Email = "student3@gmail.com",
-                            FullName = "Van Anh",
-                            Gender = 3,
-                            IsEmailConfirm = 1,
-                            IsSeller = 0,
-                            Password = "u93zTwjKn5EGES4DRXBqHNgggYmp7amf/9rUl9lZnNM=",
-                            PhoneNumber = "0987346666",
-                            Role = 2,
-                            Status = 1,
-                            Username = "user@14"
-                        },
-                        new
-                        {
-                            AccountId = "AC00000024",
-                            Address = "Q9",
-                            Birthday = new DateOnly(1999, 1, 20),
-                            Email = "student4@gmail.com",
-                            FullName = "Yn Anh",
-                            Gender = 3,
-                            IsEmailConfirm = 1,
-                            IsSeller = 0,
-                            Password = "u93zTwjKn5EGES4DRXBqHNgggYmp7amf/9rUl9lZnNM=",
-                            PhoneNumber = "0987666456",
-                            Role = 2,
-                            Status = 1,
-                            Username = "user@15"
-                        },
-                        new
-                        {
-                            AccountId = "AC00000025",
-                            Address = "HN",
-                            Birthday = new DateOnly(1989, 11, 20),
-                            Email = "vuhuyhoangdeptrai@gmail.com",
-                            FullName = "Ly Thien Huong",
-                            Gender = 3,
-                            IsEmailConfirm = 1,
-                            IsSeller = 0,
-                            Password = "u93zTwjKn5EGES4DRXBqHNgggYmp7amf/9rUl9lZnNM=",
-                            PhoneNumber = "0987666400",
-                            Role = 2,
-                            Status = 1,
-                            Username = "user@16"
-                        });
                 });
 
             modelBuilder.Entity("EventFlowerExchange_Espoir.Models.CardProvider", b =>
@@ -363,318 +105,6 @@ namespace EventFlowerExchange_Espoir.Migrations
                         .HasName("PK__CardProv__3B8DEBCC39ECA32E");
 
                     b.ToTable("CardProviders");
-
-                    b.HasData(
-                        new
-                        {
-                            CardProviderName = "VietinBank",
-                            CpfullName = "Ngân hàng TMCP Công thương Việt Nam"
-                        },
-                        new
-                        {
-                            CardProviderName = "Vietcombank",
-                            CpfullName = "Ngân hàng TMCP Ngoại Thương Việt Nam"
-                        },
-                        new
-                        {
-                            CardProviderName = "BIDV",
-                            CpfullName = "Ngân hàng TMCP Đầu tư và Phát triển Việt Nam"
-                        },
-                        new
-                        {
-                            CardProviderName = "Agribank",
-                            CpfullName = "Ngân hàng Nông nghiệp và Phát triển Nông thôn Việt Nam"
-                        },
-                        new
-                        {
-                            CardProviderName = "OCB",
-                            CpfullName = "Ngân hàng TMCP Phương Đông"
-                        },
-                        new
-                        {
-                            CardProviderName = "MBBank",
-                            CpfullName = "Ngân hàng TMCP Quân đội"
-                        },
-                        new
-                        {
-                            CardProviderName = "Techcombank",
-                            CpfullName = "Ngân hàng TMCP Kỹ thương Việt Nam"
-                        },
-                        new
-                        {
-                            CardProviderName = "ACB",
-                            CpfullName = "Ngân hàng TMCP Á Châu"
-                        },
-                        new
-                        {
-                            CardProviderName = "VPBank",
-                            CpfullName = "Ngân hàng TMCP Việt Nam Thịnh Vượng"
-                        },
-                        new
-                        {
-                            CardProviderName = "TPBank",
-                            CpfullName = "Ngân hàng TMCP Tiên Phong"
-                        },
-                        new
-                        {
-                            CardProviderName = "Sacombank",
-                            CpfullName = "Ngân hàng TMCP Sài Gòn Thương Tín"
-                        },
-                        new
-                        {
-                            CardProviderName = "HDBank",
-                            CpfullName = "Ngân hàng TMCP Phát triển Thành phố Hồ Chí Minh"
-                        },
-                        new
-                        {
-                            CardProviderName = "VietCapitalBank",
-                            CpfullName = "Ngân hàng TMCP Bản Việt"
-                        },
-                        new
-                        {
-                            CardProviderName = "SCB",
-                            CpfullName = "Ngân hàng TMCP Sài Gòn"
-                        },
-                        new
-                        {
-                            CardProviderName = "VIB",
-                            CpfullName = "Ngân hàng TMCP Quốc tế Việt Nam"
-                        },
-                        new
-                        {
-                            CardProviderName = "SHB",
-                            CpfullName = "Ngân hàng TMCP Sài Gòn - Hà Nội"
-                        },
-                        new
-                        {
-                            CardProviderName = "Eximbank",
-                            CpfullName = "Ngân hàng TMCP Xuất Nhập khẩu Việt Nam"
-                        },
-                        new
-                        {
-                            CardProviderName = "MSB",
-                            CpfullName = "Ngân hàng TMCP Hàng Hải"
-                        },
-                        new
-                        {
-                            CardProviderName = "CAKE",
-                            CpfullName = "TMCP Việt Nam Thịnh Vượng - Ngân hàng số CAKE by VPBank"
-                        },
-                        new
-                        {
-                            CardProviderName = "Ubank",
-                            CpfullName = "NgânTMCP Việt Nam Thịnh Vượng - Ngân hàng số Ubank by VPBank"
-                        },
-                        new
-                        {
-                            CardProviderName = "Timo",
-                            CpfullName = "Ngân hàng số Timo by Ban Viet Bank (Timo by Ban Viet Bank)"
-                        },
-                        new
-                        {
-                            CardProviderName = "ViettelMoney",
-                            CpfullName = "Tổng Công ty Dịch vụ số Viettel - Chi nhánh tập đoàn công nghiệp viễn thông Quân Đội"
-                        },
-                        new
-                        {
-                            CardProviderName = "VNPTMoney",
-                            CpfullName = "VNPT Money"
-                        },
-                        new
-                        {
-                            CardProviderName = "SaigonBank",
-                            CpfullName = "NgânNgân hàng TMCP Sài Gòn Công Thương"
-                        },
-                        new
-                        {
-                            CardProviderName = "BacABank",
-                            CpfullName = "Ngân hàng TMCP Bắc Á"
-                        },
-                        new
-                        {
-                            CardProviderName = "PVcomBank",
-                            CpfullName = "Ngân hàng TMCP Đại Chúng Việt Nam"
-                        },
-                        new
-                        {
-                            CardProviderName = "Oceanbank",
-                            CpfullName = "Ngân hàng Thương mại TNHH MTV Đại Dương"
-                        },
-                        new
-                        {
-                            CardProviderName = "NCB",
-                            CpfullName = "Ngân hàng TMCP Quốc Dân"
-                        },
-                        new
-                        {
-                            CardProviderName = "ShinhanBank",
-                            CpfullName = "Ngân hàng TNHH MTV Shinhan Việt Nam"
-                        },
-                        new
-                        {
-                            CardProviderName = "ABBANK",
-                            CpfullName = "Ngân hàng TMCP An Bình"
-                        },
-                        new
-                        {
-                            CardProviderName = "VietABank",
-                            CpfullName = "Ngân hàng TMCP Việt Á"
-                        },
-                        new
-                        {
-                            CardProviderName = "NamABank",
-                            CpfullName = "Ngân hàng TMCP Nam Á"
-                        },
-                        new
-                        {
-                            CardProviderName = "PGBank",
-                            CpfullName = "Ngân hàng TMCP Xăng dầu Petrolimex"
-                        },
-                        new
-                        {
-                            CardProviderName = "VietBank",
-                            CpfullName = "Ngân hàng TMCP Việt Nam Thương Tín"
-                        },
-                        new
-                        {
-                            CardProviderName = "BaoVietBank",
-                            CpfullName = "Ngân hàng TMCP Bảo Việt"
-                        },
-                        new
-                        {
-                            CardProviderName = "SeABank",
-                            CpfullName = "Ngân hàng TMCP Đông Nam Á"
-                        },
-                        new
-                        {
-                            CardProviderName = "COOPBANK",
-                            CpfullName = "Ngân hàng Hợp tác xã Việt Nam"
-                        },
-                        new
-                        {
-                            CardProviderName = "LienVietPostBank",
-                            CpfullName = "Ngân hàng TMCP Bưu Điện Liên Việt"
-                        },
-                        new
-                        {
-                            CardProviderName = "KienLongBank",
-                            CpfullName = "Ngân hàng TMCP Kiên Long"
-                        },
-                        new
-                        {
-                            CardProviderName = "KBank",
-                            CpfullName = "Ngân hàng Đại chúng TNHH Kasikornbank"
-                        },
-                        new
-                        {
-                            CardProviderName = "KookminHN",
-                            CpfullName = "Ngân hàng Kookmin - Chi nhánh Hà Nội"
-                        },
-                        new
-                        {
-                            CardProviderName = "KEBHanaHCM",
-                            CpfullName = "Ngân hàng KEB Hana – Chi nhánh Thành phố Hồ Chí Minh"
-                        },
-                        new
-                        {
-                            CardProviderName = "KEBHANAHN",
-                            CpfullName = "Công ty Tài chính TNHH MTV Mirae Asset (Việt Nam)"
-                        },
-                        new
-                        {
-                            CardProviderName = "Citibank",
-                            CpfullName = "Ngân hàng Citibank, N.A. - Chi nhánh Hà Nội"
-                        },
-                        new
-                        {
-                            CardProviderName = "KookminHCM",
-                            CpfullName = "Ngân hàng Kookmin - Chi nhánh Thành phố Hồ Chí Minh"
-                        },
-                        new
-                        {
-                            CardProviderName = "VBSP",
-                            CpfullName = "Ngân hàng Chính sách Xã hội"
-                        },
-                        new
-                        {
-                            CardProviderName = "Woori",
-                            CpfullName = "Ngân hàng TNHH MTV Woori Việt Nam"
-                        },
-                        new
-                        {
-                            CardProviderName = "VRB",
-                            CpfullName = "Ngân hàng Liên doanh Việt - Nga"
-                        },
-                        new
-                        {
-                            CardProviderName = "UnitedOverseas",
-                            CpfullName = "Ngân hàng United Overseas - Chi nhánh TP. Hồ Chí Minh"
-                        },
-                        new
-                        {
-                            CardProviderName = "StandardChartered",
-                            CpfullName = "Ngân hàng TNHH MTV Standard Chartered Bank Việt Nam"
-                        },
-                        new
-                        {
-                            CardProviderName = "PublicBank",
-                            CpfullName = "Ngân hàng TNHH MTV Public Việt Nam"
-                        },
-                        new
-                        {
-                            CardProviderName = "Nonghyup",
-                            CpfullName = "Ngân hàng Nonghyup - Chi nhánh Hà Nội"
-                        },
-                        new
-                        {
-                            CardProviderName = "IndovinaBank",
-                            CpfullName = "Ngân hàng TNHH Indovina"
-                        },
-                        new
-                        {
-                            CardProviderName = "IBKHCM",
-                            CpfullName = "Ngân hàng Công nghiệp Hàn Quốc - Chi nhánh TP. Hồ Chí Minh"
-                        },
-                        new
-                        {
-                            CardProviderName = "IBKHN",
-                            CpfullName = "Ngân hàng Công nghiệp Hàn Quốc - Chi nhánh Hà Nội"
-                        },
-                        new
-                        {
-                            CardProviderName = "HSBC",
-                            CpfullName = "Ngân hàng TNHH MTV HSBC (Việt Nam)"
-                        },
-                        new
-                        {
-                            CardProviderName = "HongLeong",
-                            CpfullName = "Ngân hàng TNHH MTV Hong Leong Việt Nam"
-                        },
-                        new
-                        {
-                            CardProviderName = "GPBank",
-                            CpfullName = "Ngân hàng Thương mại TNHH MTV Dầu Khí Toàn Cầu"
-                        },
-                        new
-                        {
-                            CardProviderName = "DongABank",
-                            CpfullName = "Ngân hàng TMCP Đông Á"
-                        },
-                        new
-                        {
-                            CardProviderName = "DBSBank",
-                            CpfullName = "DBS Bank Ltd - Chi nhánh Thành phố Hồ Chí Minh"
-                        },
-                        new
-                        {
-                            CardProviderName = "CIMB",
-                            CpfullName = "Ngân hàng TNHH MTV CIMB Việt Nam"
-                        },
-                        new
-                        {
-                            CardProviderName = "CBBank",
-                            CpfullName = "Ngân hàng Thương mại TNHH MTV Xây dựng Việt Nam"
-                        });
                 });
 
             modelBuilder.Entity("EventFlowerExchange_Espoir.Models.Event", b =>
@@ -685,8 +115,8 @@ namespace EventFlowerExchange_Espoir.Migrations
                         .HasColumnType("varchar(255)")
                         .HasColumnName("EventID");
 
-                    b.Property<DateTime>("CreateAt")
-                        .HasColumnType("datetime2");
+                    b.Property<DateOnly>("CreateAt")
+                        .HasColumnType("date");
 
                     b.Property<string>("CreateBy")
                         .IsRequired()
@@ -716,20 +146,14 @@ namespace EventFlowerExchange_Espoir.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(255)");
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("SellerId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("UpdateAt")
-                        .HasColumnType("datetime2");
+                    b.Property<DateOnly>("UpdateAt")
+                        .HasColumnType("date");
 
                     b.Property<string>("UpdateBy")
                         .IsRequired()
@@ -764,9 +188,6 @@ namespace EventFlowerExchange_Espoir.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)")
                         .HasColumnName("EName");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
 
                     b.Property<string>("Status")
                         .IsRequired()
@@ -876,6 +297,9 @@ namespace EventFlowerExchange_Espoir.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
+                    b.Property<string>("FlowerTagTagId")
+                        .HasColumnType("varchar(255)");
+
                     b.Property<int>("IsDeleted")
                         .HasColumnType("int");
 
@@ -896,18 +320,16 @@ namespace EventFlowerExchange_Espoir.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<string>("TagId")
-                        .IsRequired()
-                        .HasMaxLength(255)
+                    b.Property<string>("TagIds")
+                        .HasMaxLength(500)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(255)")
-                        .HasColumnName("TagID");
+                        .HasColumnType("varchar(500)")
+                        .HasColumnName("TagIds");
 
-                    b.Property<DateOnly?>("UpdateAt")
-                        .HasColumnType("date");
+                    b.Property<DateTime?>("UpdateAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("UpdateBy")
-                        .IsRequired()
                         .HasMaxLength(255)
                         .IsUnicode(false)
                         .HasColumnType("varchar(255)");
@@ -919,31 +341,9 @@ namespace EventFlowerExchange_Espoir.Migrations
 
                     b.HasIndex("CateId");
 
-                    b.HasIndex("TagId");
+                    b.HasIndex("FlowerTagTagId");
 
                     b.ToTable("Flowers");
-
-                    b.HasData(
-                        new
-                        {
-                            FlowerId = "F000000001",
-                            AccountId = "AC00000003",
-                            Attachment = "null",
-                            CateId = "FC00000001",
-                            Condition = "New",
-                            CreatedAt = new DateOnly(2024, 2, 14),
-                            DateExpiration = "1 month",
-                            Description = "Mini Sunflowers are a good option if you are looking for a different focal. They are ideal for bright floral arrangements.Mini Sunflowers are a good option if you are looking for a different focal. They are ideal for bright floral arrangements.",
-                            FlowerName = "Mini Sun Flower",
-                            IsDeleted = 0,
-                            OldPrice = 10.0,
-                            Price = 10.0,
-                            Quantity = 100.0,
-                            Size = "Bouquet",
-                            Status = 1,
-                            TagId = "empty",
-                            UpdateBy = "null"
-                        });
                 });
 
             modelBuilder.Entity("EventFlowerExchange_Espoir.Models.FlowerCate", b =>
@@ -982,107 +382,6 @@ namespace EventFlowerExchange_Espoir.Migrations
                         .HasName("PK__FlowerCa__9CB52A23207E59B9");
 
                     b.ToTable("FlowerCate", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            FcateId = "FC00000001",
-                            FcateDesc = "Not only do sunflowers resemble miniature suns, their blooms also follow the sun across the sky. They have their own biological clocks which help them to follow the sun as it moves from east to west during the day, and then move back to their original position at night.",
-                            FcateName = "Sun Flower",
-                            FparentCateId = "NULL",
-                            IsDeleted = 0,
-                            Status = 1
-                        },
-                        new
-                        {
-                            FcateId = "FC00000002",
-                            FcateDesc = "A symbol of love and beauty, roses have enchanted civilizations throughout history with their stunning blossoms and enchanting fragrance.",
-                            FcateName = "Rose",
-                            FparentCateId = "NULL",
-                            IsDeleted = 0,
-                            Status = 1
-                        },
-                        new
-                        {
-                            FcateId = "FC00000003",
-                            FcateDesc = "Known for their vibrant colors and elegant cup-shaped blooms, tulips symbolize perfect love and have a rich history in Europe, especially in the Netherlands.",
-                            FcateName = "Tulip",
-                            FparentCateId = "NULL",
-                            IsDeleted = 0,
-                            Status = 1
-                        },
-                        new
-                        {
-                            FcateId = "FC00000004",
-                            FcateDesc = "Lilies are associated with purity and refined beauty. They often grace weddings and special events with their delicate petals and strong fragrance.",
-                            FcateName = "Lily",
-                            FparentCateId = "NULL",
-                            IsDeleted = 0,
-                            Status = 1
-                        },
-                        new
-                        {
-                            FcateId = "FC00000005",
-                            FcateDesc = "Daisies symbolize innocence and purity. With their simple yet charming appearance, they are a favorite choice for gardens and bouquets.",
-                            FcateName = "Daisy",
-                            FparentCateId = "NULL",
-                            IsDeleted = 0,
-                            Status = 1
-                        },
-                        new
-                        {
-                            FcateId = "FC00000006",
-                            FcateDesc = "Orchids are exotic flowers that symbolize luxury, strength, and beauty. Their intricate blooms are admired worldwide for their stunning variety of shapes and colors.",
-                            FcateName = "Orchid",
-                            FparentCateId = "NULL",
-                            IsDeleted = 0,
-                            Status = 1
-                        },
-                        new
-                        {
-                            FcateId = "FC00000007",
-                            FcateDesc = "Chrysanthemums, known for their full, rich blooms, are symbols of happiness and long life. They are often used in celebrations in many cultures.",
-                            FcateName = "Chrysanthemum",
-                            FparentCateId = "NULL",
-                            IsDeleted = 0,
-                            Status = 1
-                        },
-                        new
-                        {
-                            FcateId = "FC00000008",
-                            FcateDesc = "A cheerful spring flower, daffodils symbolize renewal and hope. Their bright yellow petals bring joy after the long winter months.",
-                            FcateName = "Daffodil",
-                            FparentCateId = "NULL",
-                            IsDeleted = 0,
-                            Status = 1
-                        },
-                        new
-                        {
-                            FcateId = "FC00000009",
-                            FcateDesc = "Peonies are revered for their lush, full blooms and delicate scent. They are often associated with prosperity and romance.",
-                            FcateName = "Peony",
-                            FparentCateId = "NULL",
-                            IsDeleted = 0,
-                            Status = 1
-                        },
-                        new
-                        {
-                            FcateId = "FC00000010",
-                            FcateDesc = "Lavender is a beloved herb and flower known for its calming fragrance. It is often used in aromatherapy and symbolizes tranquility and serenity.",
-                            FcateName = "Lavender",
-                            FparentCateId = "NULL",
-                            IsDeleted = 0,
-                            Status = 1
-                        },
-                        new
-                        {
-                            FcateId = "FC00000011",
-                            FcateDesc = "Jasmine flowers are renowned for their sweet fragrance, often associated with love, beauty, and sensuality.",
-                            FcateName = "Jasmine",
-                            FparentCateId = "NULL",
-                            IsDeleted = 0,
-                            Status = 1
-                        });
                 });
 
             modelBuilder.Entity("EventFlowerExchange_Espoir.Models.FlowerTag", b =>
@@ -1539,20 +838,6 @@ namespace EventFlowerExchange_Espoir.Migrations
                     b.HasIndex("CardProviderName");
 
                     b.ToTable("Users");
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = "US00000001",
-                            AccountId = "AC00000003",
-                            CardName = "NGUYEN MINH PHUONG",
-                            CardNumber = "90273928384471924",
-                            CardProviderName = "ACB",
-                            SellerAddress = "HCM",
-                            SellerAvatar = "null",
-                            ShopName = "Meraki",
-                            TaxNumber = "7286378282"
-                        });
                 });
 
             modelBuilder.Entity("EventFlowerExchange_Espoir.Models.Wishlist", b =>
@@ -1620,17 +905,13 @@ namespace EventFlowerExchange_Espoir.Migrations
                         .IsRequired()
                         .HasConstraintName("FK_Flowers_Cate");
 
-                    b.HasOne("EventFlowerExchange_Espoir.Models.FlowerTag", "Tag")
+                    b.HasOne("EventFlowerExchange_Espoir.Models.FlowerTag", null)
                         .WithMany("Flowers")
-                        .HasForeignKey("TagId")
-                        .IsRequired()
-                        .HasConstraintName("FK_Flowers_Tag");
+                        .HasForeignKey("FlowerTagTagId");
 
                     b.Navigation("Account");
 
                     b.Navigation("Cate");
-
-                    b.Navigation("Tag");
                 });
 
             modelBuilder.Entity("EventFlowerExchange_Espoir.Models.Notification", b =>

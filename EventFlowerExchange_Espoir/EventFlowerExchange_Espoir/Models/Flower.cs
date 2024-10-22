@@ -31,13 +31,11 @@ public partial class Flower
 
     public DateTime? UpdateAt { get; set; }
 
-    public string UpdateBy { get; set; } = null!;
+    public string? UpdateBy { get; set; }
 
     public int IsDeleted { get; set; }
 
     public int Status { get; set; }
-
-    public string TagId { get; set; } = null!;
 
     public string Attachment { get; set; } = null!;
 
@@ -51,7 +49,8 @@ public partial class Flower
 
     public virtual ICollection<Report> Reports { get; set; } = new List<Report>();
 
-    public virtual FlowerTag Tag { get; set; } = null!;
+    public string? TagIds { get; set; } = string.Empty; // Concatenated TagIds as a string
+
 
     public virtual ICollection<Wishlist> Wishlists { get; set; } = new List<Wishlist>();
 

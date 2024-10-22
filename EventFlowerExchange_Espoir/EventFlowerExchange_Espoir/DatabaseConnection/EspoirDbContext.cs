@@ -213,10 +213,7 @@ public partial class EspoirDbContext : DbContext
             entity.Property(e => e.Description).HasMaxLength(255);
             entity.Property(e => e.FlowerName).HasMaxLength(255);
             entity.Property(e => e.Size).HasMaxLength(255);
-            entity.Property(e => e.TagId)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("TagID");
+
             entity.Property(e => e.UpdateBy)
                 .HasMaxLength(255)
                 .IsUnicode(false);
@@ -231,10 +228,12 @@ public partial class EspoirDbContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Flowers_Cate");
 
-            entity.HasOne(d => d.Tag).WithMany(p => p.Flowers)
-                .HasForeignKey(d => d.TagId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Flowers_Tag");
+
+            entity.Property(e => e.TagIds)
+    .HasMaxLength(500)
+    .IsUnicode(false)
+    .HasColumnName("TagIds");
+
         });
 
         modelBuilder.Entity<FlowerCate>(entity =>
@@ -270,6 +269,8 @@ public partial class EspoirDbContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("TagID");
             entity.Property(e => e.TagName).HasMaxLength(255);
+
+
         });
 
         modelBuilder.Entity<Notification>(entity =>

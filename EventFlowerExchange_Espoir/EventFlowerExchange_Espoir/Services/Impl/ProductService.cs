@@ -62,7 +62,7 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                     CreatedAt = DateOnly.FromDateTime(DateTime.Now),
                     DateExpiration = newFlower.DateExpiration,
                     Status = 0,
-                    TagId = newFlower.TagId,
+                    TagIds = newFlower.TagIds,
                     Attachment = "Empty",//thêm blob storage sau
                 };
 
@@ -80,57 +80,75 @@ namespace EventFlowerExchange_Espoir.Services.Impl
         {
             try
             {
+                // Determine the seller
                 string ownerEmail = TokenDecoder.GetEmailFromToken(accessToken);
                 var accOwner = await _accountRepository.GetAccountByEmailAsync(ownerEmail);
-                var flower = await _productRepository.GetFlowerByFlowerIdAsync(updateFlower.FlowerId);
                 if (accOwner == null)
                 {
                     return "Account is not found or invalid token";
                 }
+                // Check the exist of flower
+                var flower = await _productRepository.GetFlowerByFlowerIdAsync(updateFlower.FlowerId);
                 if (flower == null)
                 {
                     return "Flower is not found";
                 }
+                // Determine the seller's ownership of flowers
                 if (accOwner.AccountId != flower.AccountId)
                 {
                     return "You have no permission to update this flower";
                 }
+
+                // Validation all field of update flower and update flower
                 if (!string.IsNullOrEmpty(updateFlower.FlowerName))
                 {
                     updateFlower.FlowerName = flower.FlowerName;
                 }
                 flower.FlowerName = updateFlower.FlowerName;
+
                 if (!string.IsNullOrEmpty(updateFlower.CateId))
                 {
                     updateFlower.CateId = flower.CateId;
                 }
                 flower.CateId = updateFlower.CateId;
-                flower.Description = updateFlower.Description;
+
                 if (!string.IsNullOrEmpty(updateFlower.Description))
                 {
                     updateFlower.Description = flower.Description;
                 }
+                flower.Description = updateFlower.Description;
+
                 if (!string.IsNullOrEmpty(updateFlower.Size))
                 {
                     updateFlower.Size = flower.Size;
                 }
                 flower.Size = updateFlower.Size;
+
                 if (!string.IsNullOrEmpty(updateFlower.Condition))
                 {
                     updateFlower.Condition = flower.Condition;
                 }
                 flower.Condition = updateFlower.Condition;
+
                 if (updateFlower.Quantity == 0)
                 {
                     updateFlower.Quantity = flower.Quantity;
                 }
                 flower.Quantity = updateFlower.Quantity;
-                if (updateFlower.Price == 0)
+
+                if (updateFlower.OldPrice == 0)
                 {
-                    updateFlower.Price = flower.Price;
+                    updateFlower.OldPrice = flower.OldPrice;
                 }
-                flower.OldPrice = flower.Price;
-                flower.Price = updateFlower.Price;
+                if (updateFlower.Discount == 0)
+                {
+                    updateFlower.OldPrice = flower.OldPrice;
+                }
+                flower.Price = updateFlower.OldPrice * (1 -  updateFlower.Discount/100);
+                if (string.IsNullOrEmpty(updateFlower.DateExpiration))
+                {
+                    updateFlower.DateExpiration = flower.DateExpiration;
+                }
                 flower.DateExpiration = updateFlower.DateExpiration;
                 if (!string.IsNullOrEmpty(updateFlower.DateExpiration))
                 {
@@ -168,14 +186,14 @@ namespace EventFlowerExchange_Espoir.Services.Impl
 
 
         // FOR VIEW PRODUCT
-        public async Task<(List<Flower> flowers, int totalCount)> GetListFlowerAsync(int pageIndex, int pageSize, string sortBy, bool sortDesc, string search)
+        public async Task<(List<FlowerListDTO> flowers, int totalCount, int totalPages)> GetListFlowerAsync(int pageIndex, int pageSize, string sortBy, bool sortDesc, string search)
         {
             return await _productRepository.GetListFlowerAsync(pageIndex, pageSize, sortBy, sortDesc, search);
         }
 
-        public async Task<(List<Flower> flowers, int totalCount)> GetListFlowerOfSeller(int pageIndex, int pageSize, string accountId, string sortBy, bool sortDesc, string search)
+        public async Task<(List<FlowerListDTO> flowers, int totalCount, int totalPages)> GetListFlowerOfSellerAsync(int pageIndex, int pageSize, string sortBy, bool sortDesc, string search)
         {
-            return await _productRepository.GetListFlowerOfSellerAsync(pageIndex, pageSize, accountId, sortBy, sortDesc, search);
+            return await _productRepository.GetListFlowerOfSellerAsync(pageIndex, pageSize, sortBy, sortDesc, search);
         }
     }
 }

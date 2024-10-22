@@ -309,7 +309,7 @@ export default function ShopManagement() {
               <Carousel
                 arrows
                 autoplay
-                autoplaySpeed={3000}
+                autoplaySpeed={2000}
                 adaptiveHeight
                 draggable
                 fade
@@ -317,7 +317,6 @@ export default function ShopManagement() {
                 dots
                 easing
                 effect='fade'
-                speed={2000}
               >
                 {products &&
                   products.map((product) => (
@@ -422,7 +421,7 @@ export default function ShopManagement() {
         <Card className=' bg-white rounded-lg shadow-md mt-6'>
           {activeEventList && activeEventList.length > 0 ? (
             activeEventList.map((event) => (
-              <Col span={16} key={event.eventID}>
+              <Col span={12} key={event.eventID}>
                 <div className='bg-white rounded-xl shadow-md mt-6 p-6 font-beausite'>
                   <div className='relative'>
                     <div>

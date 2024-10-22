@@ -1,5 +1,13 @@
-import { DeleteOutlined, EditOutlined, ExportOutlined, EyeOutlined, PlusOutlined } from '@ant-design/icons'
-import { Button, Image, Input, Space, Switch, Table, Tooltip, Typography } from 'antd'
+import {
+  AppstoreOutlined,
+  DeleteOutlined,
+  EditOutlined,
+  ExportOutlined,
+  EyeOutlined,
+  PlusOutlined,
+  TableOutlined
+} from '@ant-design/icons'
+import { Button, Card, Col, Image, Input, Row, Segmented, Space, Switch, Table, Tooltip, Typography } from 'antd'
 import React, { useState } from 'react'
 import * as XLSX from 'xlsx'
 import { productData } from '../../mock/productData'
@@ -10,6 +18,7 @@ const ProductManagement = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
   const [searchText, setSearchText] = useState('')
   const [expanded, setExpanded] = useState(false)
+  const [viewMode, setViewMode] = useState('table')
 
   const handleSearch = (e) => {
     setSearchText(e.target.value)
@@ -109,13 +118,13 @@ const ProductManagement = () => {
       render: () => (
         <Space size='middle'>
           <Tooltip title='Live Preview' placement='bottom'>
-            <Button shape='circle' icon={<EyeOutlined />} size='large' />
+            <Button shape='circle' icon={<EyeOutlined />} size='large' variant='outlined' color='primary' />
           </Tooltip>
           <Tooltip title='Edit' placement='bottom'>
-            <Button shape='circle' icon={<EditOutlined />} size='large' />
+            <Button shape='circle' icon={<EditOutlined />} size='large' variant='solid' color='primary' />
           </Tooltip>
           <Tooltip title='Delete' placement='bottom'>
-            <Button shape='circle' icon={<DeleteOutlined />} size='large' danger />
+            <Button shape='circle' icon={<DeleteOutlined />} size='large' variant='solid' color='danger' />
           </Tooltip>
         </Space>
       )
@@ -133,14 +142,14 @@ const ProductManagement = () => {
 
   return (
     <div>
-      <div style={{ marginBottom: 16, display: 'flex', justifyContent: 'space-between' }}>
+      <div style={{ marginBottom: 16, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <Space>
           <Button type='primary' icon={<PlusOutlined />} size='middle'>
             Add Product
           </Button>
           {selectedRowKeys.length > 0 && (
             <>
-              <Button type='danger' icon={<DeleteOutlined />} size='middle' onClick={handleDelete}>
+              <Button icon={<DeleteOutlined />} size='middle' variant='solid' color='danger' onClick={handleDelete}>
                 Delete
               </Button>
               <Button type='default' icon={<ExportOutlined />} size='middle' onClick={handleExport}>
@@ -149,21 +158,75 @@ const ProductManagement = () => {
             </>
           )}
         </Space>
-        <Input.Search
-          placeholder='Search by product name'
-          onChange={handleSearch}
-          style={{ width: 300 }}
-          enterButton
-          allowClear
-        />
+        <Space>
+          <Segmented
+            options={[
+              { label: 'Table View', value: 'table', icon: <TableOutlined /> },
+              { label: 'Grid View', value: 'grid', icon: <AppstoreOutlined /> }
+            ]}
+            value={viewMode}
+            onChange={(value) => setViewMode(value)}
+          />
+          <Input.Search
+            placeholder='Search by product name'
+            onChange={handleSearch}
+            style={{ width: 300 }}
+            enterButton
+            allowClear
+          />
+        </Space>
       </div>
-      <Table
-        columns={columns}
-        dataSource={filteredData}
-        pagination={{ pageSize: 10 }}
-        rowKey='CateId'
-        rowSelection={rowSelection}
-      />
+      {viewMode === 'table' ? (
+        <Table
+          columns={columns}
+          dataSource={filteredData}
+          pagination={{ pageSize: 10 }}
+          rowKey='CateId'
+          rowSelection={rowSelection}
+        />
+      ) : (
+        <Row gutter={[16, 16]}>
+          {filteredData.map((item) => (
+            <Col key={item.CateId} xs={24} sm={12} md={8} lg={6}>
+              <Card
+                hoverable
+                cover={
+                  <Image alt={item.FlowerName} src={item.productUrl} style={{ height: 200, objectFit: 'cover' }} />
+                }
+                actions={[
+                  <Tooltip title='Live Preview' key='view'>
+                    <EyeOutlined />
+                  </Tooltip>,
+                  <Tooltip title='Edit' key='edit'>
+                    <EditOutlined />
+                  </Tooltip>,
+                  <Tooltip title='Delete' key='delete'>
+                    <DeleteOutlined />
+                  </Tooltip>
+                ]}
+              >
+                <Card.Meta
+                  title={
+                    <Paragraph ellipsis={{ rows: 2 }} style={{ marginBottom: 0 }}>
+                      {item.FlowerName}
+                    </Paragraph>
+                  }
+                  description={
+                    <div>
+                      <Text className='font-beausite font-bold text-base'>{item.Price}</Text>
+                      {item.OldPrice !== 0 && (
+                        <Text className='font-beausite italic line-through' type='secondary'>
+                          {item.OldPrice}
+                        </Text>
+                      )}
+                    </div>
+                  }
+                />
+              </Card>
+            </Col>
+          ))}
+        </Row>
+      )}
     </div>
   )
 }

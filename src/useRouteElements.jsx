@@ -48,7 +48,6 @@ export default function useRouteElements() {
     { path: 'login', element: <LoginPage /> },
     { path: 'register', element: <RegisterPage /> },
 
-    // Seller specific routes under SellerLayout
     {
       path: 'seller',
       element: <SellerLayout />,
@@ -60,22 +59,18 @@ export default function useRouteElements() {
         { path: 'shop-management', element: <ShopManagement /> }
       ]
     },
-
-    // Additional dashboard that was mentioned separately
     {
       path: 'dashboard',
       element: <Dashboard />,
       children: [
         { path: 'category', element: <Category /> },
-        { path: 'event', element: <Category /> }, // Assuming this might be a typo and should be 'event'
+        { path: 'event', element: <Category /> },
         { path: 'flower', element: <Flower /> }
       ]
     },
 
-    // Redirect root directly to '/home' (could adjust based on preference)
     { path: '/', element: <Navigate to='/home' replace /> },
 
-    // Catch all unmatched routes
     { path: '*', element: <NotFound /> }
   ])
   return routeElements

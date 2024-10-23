@@ -62,7 +62,7 @@ builder.Services.AddScoped<ISellerPostService, SellerPostService>();
 builder.Services.AddScoped<ISellerService, SellerService>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
 builder.Services.AddScoped<IFlowerTagService, FlowerTagService>();
-
+builder.Services.AddScoped<ICartService, CartService>();
 // repository // ko de sai nha may ba
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped<IEventCategoryRepository, EventCategoryRepository>();
@@ -74,7 +74,7 @@ builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IFlowerTagRepository, FlowerTagRepository>();
-
+builder.Services.AddScoped<ICartRepository, CartRepository>();
 builder.Services.AddHttpContextAccessor();
 
 // CORS configuration

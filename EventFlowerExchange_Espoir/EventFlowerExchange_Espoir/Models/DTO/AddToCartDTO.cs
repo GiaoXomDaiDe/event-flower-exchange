@@ -1,16 +1,15 @@
-﻿namespace EventFlowerExchange_Espoir.Models.DTO
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace EventFlowerExchange_Espoir.Models.DTO
 {
     public class AddToCartDTO
     {
-        public string? accessToken { get; set; } 
-        public string? Detail { get; set; }
+        [Required(ErrorMessage = "AccessToken is required")]
+        public string accessToken { get; set; }
+        [Required(ErrorMessage = "FlowerId is required")]
+        public string FlowerID { get; set; }
 
-        public DateOnly Date { get; set; }
-
-        public double TotalMoney { get; set; }
-
-        public int PaymentStatus { get; set; }
-
-        public string DeliveryUnit { get; set; }
+        [Required(ErrorMessage = "Quantity is required")]
+        public double Quantity { get; set; }
     }
 }

@@ -7,17 +7,16 @@ public partial class OrderDetail
 {
     public string OrderDetailId { get; set; } = null!;
 
-    public string OrderId { get; set; } = null!;
+    public string? OrderId { get; set; }
 
     public string FlowerId { get; set; } = null!;
-
     public double Quantity { get; set; }
 
     public double PaidPrice { get; set; }
 
-    public string OrderNumber { get; set; } = null!;
+    public string? OrderNumber { get; set; }
 
-    public string AdminId { get; set; } = null!;
+    public string AccountId { get; set; } = null!;
 
     public virtual Order Order { get; set; } = null!;
 }

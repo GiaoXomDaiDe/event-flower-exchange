@@ -17,7 +17,32 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
         {
             return await _context.Orders.FirstOrDefaultAsync(o => o.AccountId == accountId);
         }
+        // for order
+        public async Task<string> GetLatestOrderIdAsync()
+        {
+            try
+            {
 
+                // Fetch the relevant data from the database
+                var orderIds = await _context.Orders
+                    .Select(u => u.OrderId)
+                    .ToListAsync();
+
+                // Process the data in memory to extract and order by the numeric part
+                var latestOrderId = orderIds
+                    .Select(id => new { OrderId = id, NumericPart = int.Parse(id.Substring(1)) })
+                    .OrderByDescending(u => u.NumericPart)
+                    .ThenByDescending(u => u.OrderId)
+                    .Select(u => u.OrderId)
+                    .FirstOrDefault();
+
+                return latestOrderId;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message, e);
+            }
+        }
         public async Task<dynamic> CreateOrder(Order order)
         {
             try
@@ -47,5 +72,8 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
             _context.Orders.Remove(order);
             return await _context.SaveChangesAsync();
         }
+
+        // for cart
+
     }
 }

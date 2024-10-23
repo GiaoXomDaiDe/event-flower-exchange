@@ -43,9 +43,9 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                 {
                     newFlower.OldPrice = newFlower.OldPrice;
                 }
-                if (newFlower.TagId == null)
+                if (newFlower.TagIds == null)
                 {
-                    newFlower.TagId = "Empty";
+                    newFlower.TagIds = "Empty";
                 }
                 var flower = new Flower
                 {

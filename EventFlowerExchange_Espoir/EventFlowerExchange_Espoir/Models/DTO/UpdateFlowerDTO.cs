@@ -19,10 +19,10 @@ namespace EventFlowerExchange_Espoir.Models.DTO
         public double Quantity { get; set; } = 0;
 
         [Range(0.01, double.MaxValue, ErrorMessage = "Price must be greater than zero.")]
-        public double Price { get; set; } = 0;
+        public double OldPrice { get; set; } = 0;
 
         [Range(0, double.MaxValue, ErrorMessage = "OldPrice cannot be negative.")]
-        public double OldPrice { get; set; } = 0;
+        public double Discount { get; set; } = 0;
         public string? DateExpiration { get; set; }
 
     }

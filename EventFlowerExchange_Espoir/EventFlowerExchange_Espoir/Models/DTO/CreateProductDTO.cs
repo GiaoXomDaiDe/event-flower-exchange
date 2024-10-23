@@ -32,7 +32,7 @@ namespace EventFlowerExchange_Espoir.Models.DTO
         [Required(ErrorMessage = "Flower's Date Expiration is required")]
         public string DateExpiration { get; set; } 
 
-        public string? TagId { get; set; } 
+        public string? TagIds { get; set; } 
 
     }
 }

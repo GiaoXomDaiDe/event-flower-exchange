@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using EventFlowerExchange_Espoir.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -213,10 +214,7 @@ public partial class EspoirDbContext : DbContext
             entity.Property(e => e.Description).HasMaxLength(255);
             entity.Property(e => e.FlowerName).HasMaxLength(255);
             entity.Property(e => e.Size).HasMaxLength(255);
-            entity.Property(e => e.TagId)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("TagID");
+
             entity.Property(e => e.UpdateBy)
                 .HasMaxLength(255)
                 .IsUnicode(false);
@@ -231,10 +229,10 @@ public partial class EspoirDbContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Flowers_Cate");
 
-            entity.HasOne(d => d.Tag).WithMany(p => p.Flowers)
-                .HasForeignKey(d => d.TagId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Flowers_Tag");
+            entity.Property(e => e.TagIds)
+                .HasMaxLength(500)
+                .IsUnicode(false)
+                .HasColumnName("TagIds");
         });
 
         modelBuilder.Entity<FlowerCate>(entity =>
@@ -270,6 +268,8 @@ public partial class EspoirDbContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("TagID");
             entity.Property(e => e.TagName).HasMaxLength(255);
+
+
         });
 
         modelBuilder.Entity<Notification>(entity =>
@@ -319,6 +319,10 @@ public partial class EspoirDbContext : DbContext
                 .HasMaxLength(255)
                 .IsUnicode(false)
                 .HasColumnName("AccountID");
+            entity.Property(e => e.AdminID)
+    .HasMaxLength(255)
+    .IsUnicode(false)
+    .HasColumnName("AdminID");
             entity.Property(e => e.DeliveryUnit)
                 .HasMaxLength(255)
                 .IsUnicode(false);
@@ -338,21 +342,22 @@ public partial class EspoirDbContext : DbContext
                 .HasMaxLength(255)
                 .IsUnicode(false)
                 .HasColumnName("OrderDetailID");
-            entity.Property(e => e.AdminId)
+            entity.Property(e => e.AccountId)
                 .HasMaxLength(255)
                 .IsUnicode(false)
-                .HasColumnName("AdminID");
+                .HasColumnName("AccountId");
             entity.Property(e => e.FlowerId)
                 .HasMaxLength(255)
                 .IsUnicode(false)
-                .HasColumnName("FlowerID");
+                .HasColumnName("FlowerID").IsRequired(false);
             entity.Property(e => e.OrderId)
                 .HasMaxLength(255)
                 .IsUnicode(false)
-                .HasColumnName("OrderID");
+                .HasColumnName("OrderID").IsRequired(false);
             entity.Property(e => e.OrderNumber)
                 .HasMaxLength(255)
-                .IsUnicode(false);
+                .IsUnicode(false).IsRequired(false);
+
 
             entity.HasOne(d => d.Order).WithMany(p => p.OrderDetails)
                 .HasForeignKey(d => d.OrderId)

@@ -20,9 +20,9 @@ namespace EventFlowerExchange_Espoir.Models.DTO
 
         public double OldPrice { get; set; } = 0;
         public string DateExpiration { get; set; }
-
-        public string? TagName { get; set; }
-        public string ShopName { get; set; }
+        public string Attachment {  get; set; }
+        public string? TagNames { get; set; }
+        public object Shop { get; set; }
 
     }
 }

@@ -9,7 +9,7 @@ namespace EventFlowerExchange_Espoir.Services
         public Task<dynamic> UpdateAFlowerAsync(string accessToken, UpdateFlowerDTO updateFlower);
         public Task<dynamic> DeleteAFlowerAsync(string accessToken, string flowerId);
 
-        public Task<(List<Flower> flowers, int totalCount)> GetListFlowerAsync(int pageIndex, int pageSize, string sortBy, bool sortDesc, string search);
-        public Task<(List<Flower> flowers, int totalCount)> GetListFlowerOfSeller(int pageIndex, int pageSize, string accountId, string sortBy, bool sortDesc, string search);
+        public Task<(List<FlowerListDTO> flowers, int totalCount, int totalPages)> GetListFlowerAsync(int pageIndex, int pageSize, string sortBy, bool sortDesc, string search);
+        public Task<(List<FlowerListDTO> flowers, int totalCount, int totalPages)> GetListFlowerOfSellerAsync(int pageIndex, int pageSize, string sortBy, bool sortDesc, string search);
     }
 }

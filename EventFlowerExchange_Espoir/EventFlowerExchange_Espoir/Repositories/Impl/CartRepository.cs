@@ -1,6 +1,7 @@
 ﻿using EventFlowerExchange_Espoir.DatabaseConnection;
 using EventFlowerExchange_Espoir.Models;
 using EventFlowerExchange_Espoir.Models.DTO;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
 namespace EventFlowerExchange_Espoir.Repositories.Impl
@@ -90,16 +91,22 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
                 var cartItemIds = cartItemIdsString.Split(',')
                                                    .Select(id => id.Trim())
                                                    .ToList();
+                //var cartItems = await _context.OrderDetails
+                //                              .Where(od => cartItemIds.Contains(od.OrderDetailId.ToString())) 
+                //                              .ToListAsync();
+                // Convert the list into a format suitable for SQL IN clause
+                var formattedIds = string.Join("','", cartItemIds); // Format IDs for SQL IN clause
+                var query = $"SELECT * FROM OrderDetails WHERE OrderDetailId IN ('{formattedIds}')";
 
-                var cartItems =  await _context.OrderDetails
-                                     .Where(od => cartItemIds.Contains(od.OrderDetailId)) 
-                                     .ToListAsync();
+                // Execute the raw SQL query to fetch OrderDetails
+                var cartItems = await _context.OrderDetails.FromSqlRaw(query).ToListAsync();
                 return cartItems;
             }
-            catch (Exception ex)
+            catch (SqlException ex)
             {
                 throw new Exception($"Error in GetListCartItemByIdsString: {ex.Message}");
             }
+
         }
 
         public async Task<dynamic> UpdateOrderDetails(List<OrderDetail> orderDetails)

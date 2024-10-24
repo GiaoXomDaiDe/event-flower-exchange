@@ -38,10 +38,7 @@ namespace EventFlowerExchange_Espoir.Controllers
                 return BadRequest("All fields must be filled in");
             }
             var result = await _orderService.CreateAnOrderFromCartAsync(orderDTO);
-            if(!result)
-            {
-                return BadRequest(result);
-            }
+
             return Ok(result);
         }
     }

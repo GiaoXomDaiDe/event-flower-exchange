@@ -138,6 +138,18 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
             }
         }
 
+        public async Task<dynamic> DeleteUserAsync(User user)
+        {
+            try
+            {
+                _context.Users.Remove(user);
+                return await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
 
+        }
     }
 }

@@ -19,5 +19,6 @@ namespace EventFlowerExchange_Espoir.Services
 
         // for seller
         public Task<dynamic> RegisterToBeSellerAsync(SellerDTO newSeller);
+        public Task<dynamic> CancelRoleSellerAsync(string accessToken, string accountId);
     }
 }

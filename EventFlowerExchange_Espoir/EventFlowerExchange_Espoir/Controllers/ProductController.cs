@@ -115,7 +115,24 @@ namespace EventFlowerExchange_Espoir.Controllers
                 Message = "Delete this flower successful"
             });
         }
-
+        // FOR INACTIVE AND ACTIVE FLOWER
+        [Authorize(Policy = "UserOnly")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpPost("inactive-and-active-flower")]
+        public async Task<IActionResult> InactiveAndActiveFlowerBySellerAsync(string accessToken, string flowerId)
+        {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
+                return BadRequest(new { Errors = errors });
+            }
+            if (string.IsNullOrEmpty(accessToken) && string.IsNullOrEmpty(flowerId))
+            {
+                return BadRequest("All field must be required");
+            }
+            var result = await _productService.InactiveAndActiveFlowerBySeller(accessToken, flowerId);
+            return Ok(result);
+        }
 
         // for flower category
         [Authorize(Policy = "AdminOnly")]
@@ -199,7 +216,25 @@ namespace EventFlowerExchange_Espoir.Controllers
             });
         }
 
-        // FOR VIEW LIST
+
+        // FOR VIEW 
+
+        [HttpGet("flower-detail")]
+        public async Task<IActionResult> ViewFlowerDetailAsync(string flowerId)
+        {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
+                return BadRequest(new { Errors = errors });
+            }
+            if (string.IsNullOrEmpty(flowerId))
+            {
+                return BadRequest("Need flowerId for getting flower's detail");
+            }
+            var result = await _productService.ViewFlowerDetailAsync(flowerId);
+            return Ok(result);
+        }
+
         [HttpGet("list-flowers")]
         public async Task<IActionResult> GetListOfFlower([FromQuery] int pageIndex, [FromQuery] int pageSize, [FromQuery] string sortBy, [FromQuery] bool sortDesc, [FromQuery] string search = null)
         {
@@ -243,5 +278,13 @@ namespace EventFlowerExchange_Espoir.Controllers
                 return StatusCode(500, $"An error occurred while processing your request: {ex.Message}");
             }
         }
+
+        [HttpGet("list-flowers-categories")]
+        public async Task<IActionResult> GetListCategoryOfFlower()
+        {
+            var result = await _categoryService.GetListCategoryOfFlowerAsync();
+            return Ok(result);
+        }
+
     }
 }

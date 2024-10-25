@@ -16,10 +16,12 @@ namespace EventFlowerExchange_Espoir.Services.Impl
     {
         private readonly IAccountRepository _accountReposiotry;
         private readonly IConfiguration _configuration;
-        public AccountService(IAccountRepository accountReposiotry, IConfiguration configuration)
+        private readonly IProductRepository _productReposiotry;
+        public AccountService(IAccountRepository accountReposiotry, IConfiguration configuration, IProductRepository productRepository)
         {
             _accountReposiotry = accountReposiotry;
             _configuration = configuration;
+            _productReposiotry = productRepository;
         }
 
         public async Task<Account> GetAccountByEmailAsync(string email)
@@ -352,7 +354,41 @@ namespace EventFlowerExchange_Espoir.Services.Impl
             };
 
             var result = await _accountReposiotry.CreateUserAsync(seller);
-            return result;
+            if (result != 1)
+            {
+                return result;
+            }
+
+            return new
+            {
+                result,
+                Shop = seller,
+                Message = "Register to be seller successful"
+            };
+        }
+
+        public async Task<dynamic> CancelRoleSellerAsync(string accessToken, string accountId)
+        {
+            string email = TokenDecoder.GetEmailFromToken(accessToken);
+            var acc = await _accountReposiotry.GetAccountByEmailAsync(email);
+            if (acc == null)
+            {
+                return "Account cannot be found. Please try again";
+            }
+
+            if (acc.IsSeller == 0)
+            {
+                return "This account is not a seller";
+            }
+            acc.IsSeller = 0;
+            var flowers = await _productReposiotry.GetListFlowerByAccountId(accountId);
+            if (flowers != null)
+            {
+                await _productReposiotry.DeleteListOfFlowersAsEverAsync(flowers);
+            }
+            var shop = await _accountReposiotry.GetUserByAccountId(accountId);
+            await _accountReposiotry.UpdateAccount(acc);
+            return await _accountReposiotry.DeleteUserAsync(shop);
         }
     }
 }

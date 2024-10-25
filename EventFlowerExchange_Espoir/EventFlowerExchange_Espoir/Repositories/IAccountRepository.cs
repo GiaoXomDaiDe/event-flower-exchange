@@ -19,5 +19,6 @@ namespace EventFlowerExchange_Espoir.Repositories
         public Task<User> GetUserByAccountId(string accountId);
         public Task<dynamic> CreateUserAsync(User user);
         public Task<string> GetLatestUserIdAsync();
+        public Task<dynamic> DeleteUserAsync(User user);
     }
 }

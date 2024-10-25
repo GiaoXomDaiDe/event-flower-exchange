@@ -135,35 +135,3 @@ namespace EventFlowerExchange_Espoir.Services.Impl
 
     }
 }
-//var existOrder = await _orderRepository.GetOrderByAccountId(acc.AccountId);
-//if (existOrder == null)
-//{
-//    return "Cannot find any orders of your account";
-//}
-//var cartItems = await _cartRepository.GetCartItemsByOrderId(existOrder.OrderId);
-//if (cartItems == null)
-//{
-//    return "Your cart is empty";
-//}
-
-//existOrder.OrderId = existOrder.OrderId;
-//existOrder.AccountId = acc.AccountId;
-//existOrder.Date = DateOnly.FromDateTime(DateTime.Now);
-//existOrder.Status = 1;
-//existOrder.AdminID = "Empty";
-//// 1. Paying - 2. Queuing to Confirm - 3. Paid(confirmed) - 4. Delivering - 5. Shipped successfully
-
-//existOrder.TotalMoney = cartItems.Sum(ci => ci.PaidPrice * ci.Quantity); // calculate total pric;
-//existOrder.DeliveryUnit = orderDTO.DeliveryUnit;
-//existOrder.OrderDetails = cartItems.Select(ci => new OrderDetail
-//{
-//    OrderDetailId = ci.OrderDetailId,
-//    OrderId = ci.OrderId,
-//    FlowerId = ci.FlowerId,
-//    Quantity = ci.Quantity,
-//    PaidPrice = ci.PaidPrice,
-//    OrderNumber = Guid.NewGuid().ToString().Replace("-", "").Substring(0, 10).ToUpper(),
-//    AccountId = "Empty"
-//}).ToList();
-//var result = await _orderRepository.UpdateOrder(existOrder);
-//return result;

@@ -10,11 +10,12 @@ namespace EventFlowerExchange_Espoir.Services.Impl
     {
         private readonly IProductRepository _productRepository;
         private readonly IAccountRepository _accountRepository;
-
-        public ProductService(IProductRepository productRepository, IAccountRepository accountRepository)
+        private readonly IFlowerCategoryRepository _categoryRepository;
+        public ProductService(IProductRepository productRepository, IAccountRepository accountRepository, IFlowerCategoryRepository categoryRepository)
         {
             _productRepository = productRepository;
             _accountRepository = accountRepository;
+            _categoryRepository = categoryRepository;
         }
 
         public async Task<string> AutoGenerateFlowerId()
@@ -33,6 +34,8 @@ namespace EventFlowerExchange_Espoir.Services.Impl
             }
             return newFlowerId;
         }
+
+        // FOR CRUD FLOWER
         public async Task<dynamic> CreateNewFlowerAsync(string accessToken, CreateProductDTO newFlower)
         {
             try
@@ -144,7 +147,7 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                 {
                     updateFlower.OldPrice = flower.OldPrice;
                 }
-                flower.Price = updateFlower.OldPrice * (1 -  updateFlower.Discount/100);
+                flower.Price = updateFlower.OldPrice * (1 - updateFlower.Discount / 100);
                 if (string.IsNullOrEmpty(updateFlower.DateExpiration))
                 {
                     updateFlower.DateExpiration = flower.DateExpiration;
@@ -184,8 +187,92 @@ namespace EventFlowerExchange_Espoir.Services.Impl
             return result;
         }
 
+        // FOR INACTIVE/ACTIVE PRODUCT BY SELLER
+        public async Task<dynamic> InactiveAndActiveFlowerBySeller(string accessToken, string flowerId)
+        {
+            var accEmail = TokenDecoder.GetEmailFromToken(accessToken);
+            var acc = await _accountRepository.GetAccountByEmailAsync(accEmail);
+            if (acc == null)
+            {
+                return new
+                {
+                    Message = "Cannot find this account",
+                    Status = 404
+                };
+            }
+            if (acc.IsSeller == 0)
+            {
+                return new
+                {
+                    Message = "You don't have permission to inactive flower",
+                    StatusCode = 403,
+                };
+            }
+            var flower = await _productRepository.GetFlowerByFlowerIdAsync(flowerId);
+            if (flower == null)
+            {
+                return new
+                {
+                    Message = "Flower cannot be found",
+                    StatusCode = 404,
+                };
+            }
+            if (flower.Status == 0)
+            {
+                flower.Status = 1;
+                return new
+                {
+                    Message = "Inactive Successful",
+                    Product = flower,
+                };
+            }
+            else if (flower.Status == 1)
+            {
+                flower.Status = 0;
+                return new
+                {
+                    Message = "Active Successful",
+                    Product = flower,
+                };
+
+            }
+            return await _productRepository.UpdateFlowerAsync(flower);
+            
+        }
+
 
         // FOR VIEW PRODUCT
+        public async Task<dynamic> ViewFlowerDetailAsync(string flowerId)
+        {
+            var flower = await _productRepository.GetFlowerByFlowerIdAsync(flowerId);
+            if (flower == null)
+            {
+                return new
+                {
+                    Message = "Cannot find this flower",
+                    StatusCode = 404
+                };
+            }
+            var flowerCate = await _categoryRepository.GetFlowerCateByCateIdAsync(flower.CateId);
+            var shop = await _accountRepository.GetUserByAccountIdAsync(flower.AccountId);
+            var flowerInfo = new DetailFlowerDTO
+            {
+                FlowerId = flowerId,
+                FlowerName = flower.FlowerName,
+                CateName = flowerCate.FcateName,
+                Description = flower.Description,
+                Size = flower.Size,
+                Condition = flower.Condition,
+                Quantity = flower.Quantity,
+                OldPrice = flower.OldPrice,
+                Discount = $"{flower.Price / flower.OldPrice}%",
+                ShopName = shop.ShopName,
+                DateExpiration = flower.DateExpiration,
+                Attachment = flower.Attachment,
+            };
+            return flowerInfo;
+        }
+
         public async Task<(List<FlowerListDTO> flowers, int totalCount, int totalPages)> GetListFlowerAsync(int pageIndex, int pageSize, string sortBy, bool sortDesc, string search)
         {
             return await _productRepository.GetListFlowerAsync(pageIndex, pageSize, sortBy, sortDesc, search);
@@ -195,5 +282,6 @@ namespace EventFlowerExchange_Espoir.Services.Impl
         {
             return await _productRepository.GetListFlowerOfSellerAsync(pageIndex, pageSize, sortBy, sortDesc, search);
         }
+
     }
 }

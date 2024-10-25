@@ -101,5 +101,11 @@ namespace EventFlowerExchange_Espoir.Services.Impl
             }
 
         }
+
+        public async Task<List<FlowerCate>> GetListCategoryOfFlowerAsync()
+        {
+            var cateList = await _flowerCateRepository.GetFLowerCateListAsync();
+            return cateList;
+        }
     }
 }

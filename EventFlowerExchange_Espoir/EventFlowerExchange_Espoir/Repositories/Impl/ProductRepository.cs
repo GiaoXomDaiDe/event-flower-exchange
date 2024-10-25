@@ -25,6 +25,10 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
             return await _context.Flowers.FirstOrDefaultAsync(f => f.FlowerId == flowerId);
         }
 
+        public async Task<List<Flower>> GetListFlowerByAccountId(string accountId)
+        {
+            return await _context.Flowers.Where(f => f.AccountId == accountId).ToListAsync();
+        }
 
         // Get the latest flower id
         public async Task<string> GetLatestFlowerIdAsync()
@@ -81,6 +85,12 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
             {
                 throw new Exception($"Error at UpdateFlowerAsync() in Repository: {ex.Message}");
             }
+        }
+
+        public async Task<dynamic> DeleteListOfFlowersAsEverAsync(List<Flower> flowers)
+        {
+            _context.Flowers.RemoveRange(flowers);
+            return await _context.SaveChangesAsync() > 0;
         }
 
 
@@ -202,7 +212,6 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
         {
             query = sortBy.ToLower() switch
             {
-                "flowerid" => sortDesc ? query.OrderByDescending(f => f.FlowerId) : query.OrderBy(f => f.FlowerId),
                 "flowername" => sortDesc ? query.OrderByDescending(f => f.FlowerName) : query.OrderBy(f => f.FlowerName),
                 "flowercategory" => sortDesc ? query.OrderByDescending(f => f.Cate.FcateName) : query.OrderBy(f => f.Cate.FcateName),
                 _ => query // Default case if no valid sorting field is provided
@@ -210,5 +219,7 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
             return query;
 
         }
+
+
     }
 }

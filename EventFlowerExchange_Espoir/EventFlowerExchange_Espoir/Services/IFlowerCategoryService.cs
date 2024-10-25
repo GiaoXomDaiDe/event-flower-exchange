@@ -1,4 +1,5 @@
-﻿using EventFlowerExchange_Espoir.Models.DTO;
+﻿using EventFlowerExchange_Espoir.Models;
+using EventFlowerExchange_Espoir.Models.DTO;
 
 namespace EventFlowerExchange_Espoir.Services
 {
@@ -7,5 +8,6 @@ namespace EventFlowerExchange_Espoir.Services
         public Task<dynamic> CreateNewFCateAsync(NewFCateDTO newCate);
         public Task<dynamic> UpdateExistFCateAsync(UpdateFCateDTO updateCate);
         public Task<dynamic> DeleteFCateAsync(string fCateId);
+        public Task<List<FlowerCate>> GetListCategoryOfFlowerAsync();
     }
 }

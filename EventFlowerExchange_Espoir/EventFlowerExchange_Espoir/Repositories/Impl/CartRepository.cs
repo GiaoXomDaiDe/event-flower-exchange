@@ -73,7 +73,8 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
             return await _context.SaveChangesAsync() > 0;
         }
 
-        public async Task<dynamic> DeleteCartAsync(OrderDetail orderDetail)
+        public async Task<dynamic> 
+            CartAsync(OrderDetail orderDetail)
         {
             _context.OrderDetails.Remove(orderDetail);
             return await _context.SaveChangesAsync() > 0;
@@ -124,6 +125,13 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
                 throw new Exception($"Error at OrderRepository: {ex.Message}");
             }
         }
+        public async Task<dynamic> DeleteCartAsync(OrderDetail orderDetail)
+        {
+            _context.OrderDetails.Remove(orderDetail);
+            return await _context.SaveChangesAsync() > 0;
+        }
+
+
 
     }
 }

@@ -19,6 +19,11 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
             return await _context.FlowerCates.FirstOrDefaultAsync(fc => fc.FcateId == cateId);
         }
 
+        public async Task<List<FlowerCate>> GetFLowerCateListAsync()
+        {
+            return await _context.FlowerCates.Where(fc => fc.Status == 1 && fc.IsDeleted == 0).ToListAsync();
+            // status: 1. Active 2. Inactive
+        }
         public async Task<string> GetLatestFlowerCateIdAsync()
         {
             try

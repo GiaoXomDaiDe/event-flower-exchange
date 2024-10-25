@@ -11,10 +11,11 @@
 using System;
 using System.Reflection;
 
+[assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("833c82ae-b666-48e5-ba05-4ad9a806fae8")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("EventFlowerExchange_Espoir")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+dcfd2dbbdd803b330a78ed24138acd25d7b343b3")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5a219b7b40141954a4345419d7967dac474d07d9")]
 [assembly: System.Reflection.AssemblyProductAttribute("EventFlowerExchange_Espoir")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EventFlowerExchange_Espoir")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

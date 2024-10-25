@@ -1,4 +1,5 @@
-﻿using EventFlowerExchange_Espoir.Models.DTO;
+﻿using EventFlowerExchange_Espoir.Models;
+using EventFlowerExchange_Espoir.Models.DTO;
 using EventFlowerExchange_Espoir.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -43,6 +44,10 @@ namespace EventFlowerExchange_Espoir.Controllers
                 return BadRequest("All field must be filled.");
             }
             var result = await _productService.CreateNewFlowerAsync(accessToken, newProduct);
+            if (result == null)
+            {
+                return StatusCode(500, new { Message = "Failed to create the flower." });
+            }
             return Ok(new
             {
                 message = "Create new Flower Successfully",
@@ -58,7 +63,7 @@ namespace EventFlowerExchange_Espoir.Controllers
             if (!ModelState.IsValid)
             {
                 var errors = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
-                return BadRequest(new {Errors = errors});
+                return BadRequest(new { Errors = errors });
             }
 
             if (!string.IsNullOrEmpty(accessToken))
@@ -70,6 +75,10 @@ namespace EventFlowerExchange_Espoir.Controllers
                 return BadRequest("Please fill all fields to update flower");
             }
             var result = await _productService.UpdateAFlowerAsync(accessToken, updateFlower);
+            if (result == null)
+            {
+                return StatusCode(500, new { Message = "Failed to edit the flower." });
+            }
             return Ok(new
             {
                 Message = "Update Flower Successful",
@@ -97,12 +106,33 @@ namespace EventFlowerExchange_Espoir.Controllers
             }
 
             var result = await _productService.DeleteAFlowerAsync(accessToken, flowerId);
+            if (result == null)
+            {
+                return StatusCode(500, new { Message = "Failed to delete the flower." });
+            }
             return Ok(new
             {
                 Message = "Delete this flower successful"
             });
         }
-
+        // FOR INACTIVE AND ACTIVE FLOWER
+        [Authorize(Policy = "UserOnly")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpPost("inactive-and-active-flower")]
+        public async Task<IActionResult> InactiveAndActiveFlowerBySellerAsync(string accessToken, string flowerId)
+        {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
+                return BadRequest(new { Errors = errors });
+            }
+            if (string.IsNullOrEmpty(accessToken) && string.IsNullOrEmpty(flowerId))
+            {
+                return BadRequest("All field must be required");
+            }
+            var result = await _productService.InactiveAndActiveFlowerBySeller(accessToken, flowerId);
+            return Ok(result);
+        }
 
         // for flower category
         [Authorize(Policy = "AdminOnly")]
@@ -121,7 +151,11 @@ namespace EventFlowerExchange_Espoir.Controllers
                 return BadRequest("All Fields must not be empty");
             }
             var result = await _categoryService.CreateNewFCateAsync(newCate);
-            return Ok(new
+            if (result == null)
+            {
+                return StatusCode(500, new { Message = "Failed to create the flower category." });
+            }
+            return Created(" ", new
             {
                 message = "Create Flower Category Successfully",
                 NewFCate = result.FCate
@@ -131,7 +165,7 @@ namespace EventFlowerExchange_Espoir.Controllers
         [Authorize(Policy = "AdminOnly")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPost("update-flower-category")]
-        public async Task<IActionResult> UpdateFCateAsync([FromForm]  UpdateFCateDTO updateFCate)
+        public async Task<IActionResult> UpdateFCateAsync([FromForm] UpdateFCateDTO updateFCate)
         {
             if (!ModelState.IsValid)
             {
@@ -144,11 +178,20 @@ namespace EventFlowerExchange_Espoir.Controllers
                 return BadRequest("All field must be required");
             }
             var result = await _categoryService.UpdateExistFCateAsync(updateFCate);
-            return Ok(new
+            if (result is string errorMessage) // Check if the result is an error message
             {
-                Message = "Update Flower Category Successful",
-                UpdateFCate = result.FCate
-            });
+                return BadRequest(new { Message = errorMessage });
+            }
+
+            if (result is int successResult && successResult > 0) // Check if the update was successful
+            {
+                return Ok(new
+                {
+                    Message = "Flower updated successfully.",
+                    UpdateFCate = result.FCate
+                });
+            }
+            return StatusCode(500, new { Message = "Failed to update the flower." }); // Handle unexpected cases
         }
 
         [Authorize(Policy = "AdminOnly")]
@@ -173,38 +216,37 @@ namespace EventFlowerExchange_Espoir.Controllers
             });
         }
 
-        // FOR VIEW LIST
+
+        // FOR VIEW 
+
+        [HttpGet("flower-detail")]
+        public async Task<IActionResult> ViewFlowerDetailAsync(string flowerId)
+        {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
+                return BadRequest(new { Errors = errors });
+            }
+            if (string.IsNullOrEmpty(flowerId))
+            {
+                return BadRequest("Need flowerId for getting flower's detail");
+            }
+            var result = await _productService.ViewFlowerDetailAsync(flowerId);
+            return Ok(result);
+        }
+
         [HttpGet("list-flowers")]
         public async Task<IActionResult> GetListOfFlower([FromQuery] int pageIndex, [FromQuery] int pageSize, [FromQuery] string sortBy, [FromQuery] bool sortDesc, [FromQuery] string search = null)
         {
             try
             {
-                var (flowers, totalCount) = await _productService.GetListFlowerAsync(pageIndex, pageSize, sortBy, sortDesc, search);
+                var (flowers, totalCount, totalPages) = await _productService.GetListFlowerAsync(pageIndex, pageSize, sortBy, sortDesc, search);
                 var response = new
                 {
                     TotalCount = totalCount,
                     PageIndex = pageIndex,
                     PageSize = pageSize,
-                    Data = flowers
-                };
-                return Ok(response);
-            } catch (Exception ex)
-            {
-                return StatusCode(500, $"An error occurred while processing your request: {ex.Message}");
-            }
-        }
-
-        [HttpGet("list-flowers-of-seller")]
-        public async Task<IActionResult> GetListFlowersOfSeller([FromQuery] int pageIndex, [FromQuery] int pageSize, [FromQuery] string accountId, [FromQuery] string sortBy, [FromQuery] bool sortDesc, [FromQuery] string search = null)
-        {
-            try
-            {
-                var (flowers, totalCount) = await _productService.GetListFlowerOfSeller(pageIndex, pageSize, accountId, sortBy, sortDesc, search);
-                var response = new
-                {
-                    TotalCount = totalCount,
-                    PageIndex = pageIndex,
-                    PageSize = pageSize,
+                    TotalPages = totalPages,
                     Data = flowers
                 };
                 return Ok(response);
@@ -214,5 +256,35 @@ namespace EventFlowerExchange_Espoir.Controllers
                 return StatusCode(500, $"An error occurred while processing your request: {ex.Message}");
             }
         }
+
+        [HttpGet("list-flowers-of-seller")]
+        public async Task<IActionResult> GetListFlowersOfSeller([FromQuery] int pageIndex, [FromQuery] int pageSize, [FromQuery] string sortBy, [FromQuery] bool sortDesc, [FromQuery] string search = null)
+        {
+            try
+            {
+                var (flowers, totalCount, totalPages) = await _productService.GetListFlowerOfSellerAsync(pageIndex, pageSize, sortBy, sortDesc, search);
+                var response = new
+                {
+                    TotalCount = totalCount,
+                    PageIndex = pageIndex,
+                    PageSize = pageSize,
+                    TotalPages = totalPages,
+                    Data = flowers
+                };
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred while processing your request: {ex.Message}");
+            }
+        }
+
+        [HttpGet("list-flowers-categories")]
+        public async Task<IActionResult> GetListCategoryOfFlower()
+        {
+            var result = await _categoryService.GetListCategoryOfFlowerAsync();
+            return Ok(result);
+        }
+
     }
 }

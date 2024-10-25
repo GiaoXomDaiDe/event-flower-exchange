@@ -21,11 +21,25 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
 
         public async Task<Account> GetAccountById(string accountId)
         {
-            return await _context.Accounts.FirstOrDefaultAsync(a => a.AccountId == accountId);  
+            return await _context.Accounts.FirstOrDefaultAsync(a => a.AccountId == accountId);
         }
         public async Task<Account> GetAccountByPhoneAsync(string phone)
         {
             return await _context.Accounts.FirstOrDefaultAsync(a => a.PhoneNumber == phone);
+        }
+
+        public async Task<string> GetAccountIdByShopName(string shopName)
+        {
+            return await _context.Users.Where(u => u.ShopName == shopName).Select(u => u.AccountId).FirstOrDefaultAsync();
+        }
+        public async Task<User> GetUserByAccountIdAsync(string accountId)
+        {
+            return await _context.Users.Where(u => u.AccountId == accountId)
+                                  .Select(u => new User
+                                  {
+                                      ShopName = u.ShopName,
+                                      SellerAvatar = u.SellerAvatar
+                                  }).FirstOrDefaultAsync();
         }
         public async Task<string> GetLatestAccountIdAsync()
         {
@@ -124,6 +138,18 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
             }
         }
 
+        public async Task<dynamic> DeleteUserAsync(User user)
+        {
+            try
+            {
+                _context.Users.Remove(user);
+                return await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
 
+        }
     }
 }

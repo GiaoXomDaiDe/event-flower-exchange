@@ -207,11 +207,33 @@ namespace EventFlowerExchange_Espoir.Controllers
             }
 
             var result = await _accountService.RegisterToBeSellerAsync(sellerDTO);
-            if (result == 1)
+            return Ok(result);
+        }
+        [Authorize(Policy = "UserOnly")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpPost("cancel-to-seller")]
+        public async Task<IActionResult> CancelSellerRoleAsync(string accessToken, string accountId)
+        {
+            if (!ModelState.IsValid)
             {
-                return Ok("Registration as Seller successful");
+                var errors = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
+                return BadRequest(new { Errors = errors });
             }
-            return BadRequest(result);
+            if (string.IsNullOrEmpty(accessToken) && string.IsNullOrEmpty(accountId))
+            {
+                return BadRequest("All fields are required");
+            }
+
+            var result = await _accountService.CancelRoleSellerAsync(accessToken, accountId);
+            if (result != 1)
+            {
+                return BadRequest(result);
+            }
+            return Ok(new
+            {
+                Message = "Cancel Successful"
+            });
         }
     }
+
 }

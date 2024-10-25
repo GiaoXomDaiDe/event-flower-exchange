@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace EventFlowerExchange_Espoir.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialDb : Migration
+    public partial class InitialNewDBSetUp : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -53,7 +53,7 @@ namespace EventFlowerExchange_Espoir.Migrations
                     ECateID = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
                     EName = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     EDesc = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    Status = table.Column<int>(type: "int", nullable: false)
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -108,6 +108,7 @@ namespace EventFlowerExchange_Espoir.Migrations
                     Detail = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     Date = table.Column<DateOnly>(type: "date", nullable: false),
                     AccountID = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
+                    AdminID = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
                     Status = table.Column<long>(type: "bigint", nullable: false),
                     TotalMoney = table.Column<double>(type: "float", nullable: false),
                     PaymentStatus = table.Column<int>(type: "int", nullable: false),
@@ -232,12 +233,12 @@ namespace EventFlowerExchange_Espoir.Migrations
                     AccountID = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
                     CreatedAt = table.Column<DateOnly>(type: "date", nullable: false),
                     DateExpiration = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    UpdateAt = table.Column<DateOnly>(type: "date", nullable: false),
-                    UpdateBy = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
+                    UpdateAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdateBy = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
                     IsDeleted = table.Column<int>(type: "int", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
-                    TagID = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
-                    Attachment = table.Column<string>(type: "varchar(max)", unicode: false, nullable: false)
+                    Attachment = table.Column<string>(type: "varchar(max)", unicode: false, nullable: false),
+                    TagIds = table.Column<string>(type: "varchar(500)", unicode: false, maxLength: 500, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -252,11 +253,6 @@ namespace EventFlowerExchange_Espoir.Migrations
                         column: x => x.CateID,
                         principalTable: "FlowerCate",
                         principalColumn: "FCateID");
-                    table.ForeignKey(
-                        name: "FK_Flowers_Tag",
-                        column: x => x.TagID,
-                        principalTable: "FlowerTag",
-                        principalColumn: "TagID");
                 });
 
             migrationBuilder.CreateTable(
@@ -287,12 +283,12 @@ namespace EventFlowerExchange_Espoir.Migrations
                 columns: table => new
                 {
                     OrderDetailID = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
-                    OrderID = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
-                    FlowerID = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
+                    OrderID = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
+                    FlowerID = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
                     Quantity = table.Column<double>(type: "float", nullable: false),
                     PaidPrice = table.Column<double>(type: "float", nullable: false),
-                    OrderNumber = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
-                    AdminID = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false)
+                    OrderNumber = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
+                    AccountId = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -448,11 +444,6 @@ namespace EventFlowerExchange_Espoir.Migrations
                 column: "CateID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Flowers_TagID",
-                table: "Flowers",
-                column: "TagID");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Notifications_NotifyType",
                 table: "Notifications",
                 column: "NotifyType");
@@ -523,6 +514,9 @@ namespace EventFlowerExchange_Espoir.Migrations
                 name: "Feedback");
 
             migrationBuilder.DropTable(
+                name: "FlowerTag");
+
+            migrationBuilder.DropTable(
                 name: "Notifications");
 
             migrationBuilder.DropTable(
@@ -572,9 +566,6 @@ namespace EventFlowerExchange_Espoir.Migrations
 
             migrationBuilder.DropTable(
                 name: "FlowerCate");
-
-            migrationBuilder.DropTable(
-                name: "FlowerTag");
         }
     }
 }

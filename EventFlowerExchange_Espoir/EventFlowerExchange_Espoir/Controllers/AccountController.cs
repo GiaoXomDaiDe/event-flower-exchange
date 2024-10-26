@@ -207,7 +207,7 @@ namespace EventFlowerExchange_Espoir.Controllers
             }
 
             var result = await _accountService.RegisterToBeSellerAsync(sellerDTO);
-            return Ok(result);
+            return StatusCode(204, new { message = "Seller registration successful" }); ;
         }
         [Authorize(Policy = "UserOnly")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]

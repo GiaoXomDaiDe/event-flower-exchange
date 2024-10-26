@@ -1,7 +1,5 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Layout from "./component/layout";
-import Home from "./page/home";
 import Dashboard from "./component/dashboard";
 import Category from "./page/category";
 import LoginPage from "./page/login";
@@ -11,67 +9,74 @@ import Cart from "./page/cart";
 import CheckOut from "./page/checkout";
 import RegisterPage from "./page/register/index1";
 import Flower from "./page/product";
-
+import ProfilePage from "./page/user-profile";
+import Layout from "./component/layout";
+import Home from './page/home'
 function App() {
   const router = createBrowserRouter([
     {
-      path: "",
+      path: '',
       element: <Layout />,
       children: [
         {
-          path: "",
-          element: <Home />,
+          path: '',
+          element: <Home />
         },
 
         {
-          path: "search",
-          element: <SearchPage />,
+          path: 'search',
+          element: <SearchPage />
         },
 
         {
-          path: "cart",
-          element: <Cart />,
+          path: 'profile',
+          element: <ProfilePage />
         },
 
         {
-          path: "checkout",
-          element: <CheckOut />,
+          path: 'cart',
+          element: <Cart />
         },
-      ],
+
+        {
+          path: 'checkout',
+          element: <CheckOut />
+        }
+      ]
     },
 
     {
-      path: "login",
-      element: <LoginPage />,
+      path: 'login',
+      element: <LoginPage />
     },
     {
-      path: "register",
-      element: <RegisterPage />,
+      path: 'register',
+      element: <RegisterPage />
     },
 
     {
-      path: "dashboard",
+      path: 'dashboard',
       element: <Dashboard />,
       children: [
         {
-          path: "category",
-          element: <Category />,
+          path: 'category',
+          element: <Category />
         },
         {
-          path: "even",
-          element: <Category />,
+          path: 'even',
+          element: <Category />
         },
         {
-          path: "flower",
-          element: <Flower />,
-        },
-      ],
+          path: 'flower',
+          element: <Flower />
+        }
+      ]
     },
     {
-      path: "*",
-      element: <NotFound />,
-    },
-  ]);
+      path: '*',
+      element: <NotFound />
+    }
+  ])
 
   return <RouterProvider router={router} />;
 }

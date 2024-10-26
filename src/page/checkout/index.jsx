@@ -1,43 +1,54 @@
-import React from "react";
-import "./index.scss";
-import { Col, Form, Input, Row } from "antd";
+import React from 'react'
+import './index.scss'
+import { Col, Form, Input, Row } from 'antd'
+import { ArrowLeftOutlined } from '@ant-design/icons'
 
 function Checkout() {
   return (
-    <div className="checkout">
-      <div className="checkout__left">
-        <h3>Check out</h3>
-        <Form
-          labelCol={{
-            span: 24,
-          }}
-        >
-          <Row gutter={12}>
-            <Col span={12}>
-              <Form.Item>
-                <Input placeholder="First Name" />
-              </Form.Item>
-            </Col>
+    <div className='checkout'>
+      <div className='checkout__left'>
+        <div className='checkout_back'>
+          <i class='fa fa-arrow-left'></i>
+          <h1>Check Out</h1>
+        </div>
 
-            <Col span={12}>
-              <Form.Item>
-                <Input placeholder="Last Name" />
-              </Form.Item>
-            </Col>
-          </Row>
+        <div className='basic_info'>
+          <Form
+            labelCol={{
+              span: 24
+            }}
+          >
+            <Row gutter={12}>
+              <Col span={12}>
+                <Form.Item>
+                  <Input placeholder='First Name' />
+                </Form.Item>
+              </Col>
 
-          <Form.Item>
-            <Input placeholder="Email" />
-          </Form.Item>
+              <Col span={12}>
+                <Form.Item>
+                  <Input placeholder='Last Name' />
+                </Form.Item>
+              </Col>
+            </Row>
 
-          <Form.Item name="" label="Address">
-            <Input placeholder="Your Address" />
-          </Form.Item>
-        </Form>
+            <Form.Item>
+              <Input placeholder='Email' />
+            </Form.Item>
+
+            <Form.Item>
+              <Input placeholder='Email' />
+            </Form.Item>
+
+            <Form.Item name='' label='Address'>
+              <Input placeholder='Your Address' />
+            </Form.Item>
+          </Form> 
+        </div>
       </div>
-      <div className="checkout__right"></div>
+      <div className='checkout__right'></div>
     </div>
-  );
+  )
 }
 
-export default Checkout;
+export default Checkout

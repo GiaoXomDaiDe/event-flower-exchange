@@ -4,7 +4,8 @@
   border-radius: 20px;
   overflow: hidden;
   margin: 30px 300px;
-  h3 {
+
+  h1 {
     margin-bottom: 20px;
   }
 
@@ -13,6 +14,18 @@
     height: 100%;
     background-color: #fff;
     padding: 50px 20px;
+
+    .checkout_back {
+      display: flex;
+      align-items: center;
+      i {
+        margin-right: 10px;
+        font-size: 1.5em; // Adjust this value to match the height of the text
+      }
+      h1 {
+        margin: 0; // Remove any default margin on the h1
+      }
+    }
   }
 
   &__right {

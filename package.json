@@ -36,6 +36,7 @@
     "react-ripples": "^2.2.1",
     "react-router-dom": "^6.27.0",
     "react-spring": "^9.7.4",
+    "redux-persist": "^6.0.0",
     "sass": "^1.79.5"
   },
   "devDependencies": {

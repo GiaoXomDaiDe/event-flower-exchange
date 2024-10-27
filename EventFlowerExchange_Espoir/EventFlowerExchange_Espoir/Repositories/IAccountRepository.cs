@@ -8,6 +8,7 @@ namespace EventFlowerExchange_Espoir.Repositories
         public Task<Account> GetAccountById(string accountId);
         public Task<Account> GetAccountByPhoneAsync(string phone);
         public Task<User> GetUserByAccountIdAsync(string accountId);
+        public Task<User> GetSellerProfileByAccountIdAsync(string accountId);
         public Task<string> GetAccountIdByShopName(string shopName);
         public Task<string> GetLatestAccountIdAsync();
 
@@ -20,5 +21,7 @@ namespace EventFlowerExchange_Espoir.Repositories
         public Task<dynamic> CreateUserAsync(User user);
         public Task<string> GetLatestUserIdAsync();
         public Task<dynamic> DeleteUserAsync(User user);
+        public  Task<dynamic> GetBankInfoOfSellerAsync(string accountId);
+        public Task<dynamic> GetListBankNameAsync();
     }
 }

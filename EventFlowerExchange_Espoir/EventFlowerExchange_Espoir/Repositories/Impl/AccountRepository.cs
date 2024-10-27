@@ -41,6 +41,16 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
                                       SellerAvatar = u.SellerAvatar
                                   }).FirstOrDefaultAsync();
         }
+        public async Task<User> GetSellerProfileByAccountIdAsync(string accountId)
+        {
+            return await _context.Users.Where(u => u.AccountId == accountId)
+                                  .Select(u => new User
+                                  {
+                                      ShopName = u.ShopName,
+                                      SellerAvatar = u.SellerAvatar,
+                                      SellerAddress = u.SellerAddress
+                                  }).FirstOrDefaultAsync();
+        }
         public async Task<string> GetLatestAccountIdAsync()
         {
             try
@@ -92,11 +102,12 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
 
 
         // FOR SELLER
+
         public async Task<User> GetUserByAccountId(string accountId)
         {
             return await _context.Users.FirstOrDefaultAsync(u => u.AccountId == accountId);
         }
-
+        
         public async Task<string> GetLatestUserIdAsync()
         {
             try
@@ -129,7 +140,7 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
                 using (var context = new EspoirDbContext())
                 {
                     await context.Users.AddAsync(user);
-                    return await context.SaveChangesAsync();
+                    return await context.SaveChangesAsync() ;
                 }
             }
             catch (Exception ex)
@@ -149,7 +160,37 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
             {
                 throw new Exception(ex.Message, ex);
             }
-
         }
+
+        /// <summary>
+        /// This function get the payment info of seller to show
+        /// </summary>
+        /// <param name="accountId"></param>
+        /// <returns></returns>
+        public async Task<dynamic> GetBankInfoOfSellerAsync(string accountId)
+        {
+            return await _context.Users.Where(u => u.AccountId == accountId).Select(u => new
+            {
+                u.CardName,
+                u.CardNumber,
+                u.CardProviderName,
+                u.TaxNumber
+            }).ToListAsync();
+        }
+
+        /// <summary>
+        /// This function will get a list of available card providers in db to show with Name and Fullname of it 
+        /// </summary>
+        /// <returns>List Of Card Providers</returns>
+        public async Task<dynamic> GetListBankNameAsync()
+        {
+            return await _context.CardProviders.Select(cp => new
+            {
+                cp.CardProviderName,
+                cp.CpfullName
+            }).ToListAsync();
+        }
+
+
     }
 }

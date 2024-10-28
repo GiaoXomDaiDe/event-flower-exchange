@@ -2,6 +2,7 @@ using EventFlowerExchange_Espoir.DatabaseConnection;
 using EventFlowerExchange_Espoir.Repositories;
 using EventFlowerExchange_Espoir.Repositories.Impl;
 using EventFlowerExchange_Espoir.Services;
+using EventFlowerExchange_Espoir.Services.Common;
 using EventFlowerExchange_Espoir.Services.Impl;
 using FirebaseAdmin;
 using Google;
@@ -95,6 +96,8 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
         options.JsonSerializerOptions.WriteIndented = false;
     });
+//Configure Cloudinary
+builder.Services.Configure<CloudinarySetting>(builder.Configuration.GetSection("CloudinarySettings"));
 
 builder.Services.AddEndpointsApiExplorer();
 // Add Identity services

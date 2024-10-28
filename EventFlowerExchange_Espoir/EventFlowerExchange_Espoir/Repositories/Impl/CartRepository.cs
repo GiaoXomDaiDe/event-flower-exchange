@@ -26,10 +26,15 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
         {
             return await _context.OrderDetails.FirstOrDefaultAsync(od => od.OrderDetailId == orderDetailId);
         }
-        public async Task<OrderDetail> GetCartItemByFlowerId(string flowerId)
+        public async Task<OrderDetail> GetCartItemByFlowerIdAndAccountAsync(string flowerId, string accountId)
         {
-            return await _context.OrderDetails.FirstOrDefaultAsync(c => c.FlowerId == flowerId);
+            return await _context.OrderDetails.FirstOrDefaultAsync(c => c.FlowerId == flowerId && c.AccountId == accountId);
         }
+        public async Task<OrderDetail> GetCartItemByCartIdAsync(string cartItemId)
+        {
+            return await _context.OrderDetails.FirstOrDefaultAsync(c => c.FlowerId == cartItemId);
+        }
+
         public async Task<string> GetLatestOrderDetailIdAsync()
         {
             try

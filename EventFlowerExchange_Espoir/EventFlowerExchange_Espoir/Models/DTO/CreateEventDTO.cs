@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using EventFlowerExchange_Espoir.Services.Common;
+using System.ComponentModel.DataAnnotations;
 
 namespace EventFlowerExchange_Espoir.Models.DTO
 {
@@ -16,7 +17,7 @@ namespace EventFlowerExchange_Espoir.Models.DTO
 
         [Required(ErrorMessage = "End Time is required.")]
         [DataType(DataType.DateTime, ErrorMessage = "Invalid End Time format.")]
-        [Compare("StartTime", ErrorMessage = "End Time must be after Start Time.")]
+        [DateAfter("StartTime", ErrorMessage = "End Time must be after Start Time.")]
         public DateTime EndTime { get; set; }
 
         [Required(ErrorMessage = "Creator ID is required.")]

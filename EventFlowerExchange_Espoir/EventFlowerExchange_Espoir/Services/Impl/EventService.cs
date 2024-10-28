@@ -23,13 +23,13 @@ namespace EventFlowerExchange_Espoir.Services.Impl
             string latestEventId = await _eventRepository.GetLatestEventIdAsync();
             if (string.IsNullOrEmpty(latestEventId))
             {
-                newEventId = "E00000001"; // Default value for the first event ID
+                newEventId = "E000000001"; // Default value for the first event ID
             }
             else
             {
                 int numericPart = int.Parse(latestEventId.Substring(1));
                 int newNumericPart = numericPart + 1;
-                newEventId = $"E{newNumericPart:d8}"; // Generate new event ID
+                newEventId = $"E{newNumericPart:d9}"; // Generate new event ID
             }
             return newEventId;
         }
@@ -40,7 +40,6 @@ namespace EventFlowerExchange_Espoir.Services.Impl
             {
                 var sellerEmail = TokenDecoder.GetEmailFromToken(accessToken);
                 var seller = await _accountRepository.GetAccountByEmailAsync(sellerEmail);
-
                 var eventEntity = new Event
                 {
                     EventId = await AutoGenerateEventId(),

@@ -251,7 +251,7 @@ namespace EventFlowerExchange_Espoir.Controllers
 
         [Authorize(Policy = "UserOnly")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        [HttpPost("seller-profile")]
+        [HttpGet("seller-profile")]
         public async Task<IActionResult> ViewSellerProfileAsync()
         {
             if (!ModelState.IsValid)
@@ -272,7 +272,7 @@ namespace EventFlowerExchange_Espoir.Controllers
 
         [Authorize(Policy = "UserOnly")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        [HttpPost("payment-info-of-seller")]
+        [HttpGet("payment-info-of-seller")]
         public async Task<IActionResult> ViewSellerPaymentInfoAsync()
         {
             if (!ModelState.IsValid)
@@ -290,7 +290,7 @@ namespace EventFlowerExchange_Espoir.Controllers
             return Ok(result);
         }
 
-        [HttpPost("list-of-bank")]
+        [HttpGet("list-of-bank")]
         public async Task<IActionResult> GetListOfBankAsync()
         {
             if (!ModelState.IsValid)

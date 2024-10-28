@@ -46,7 +46,7 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                     StatusCode = 404
                 };
             }
-            var flower = await _productRepository.GetFlowerByFlowerIdAsync(cartDTO.FlowerID);
+            var flower = await _productRepository.GetFlowerByFlowerNameAsync(cartDTO.FlowerName);
             if (flower == null)
             {
                 return new
@@ -63,7 +63,8 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                     StatusCode = 409
                 };
             }
-            var existProductInCart = await _cartRepository.GetCartItemByFlowerId(cartDTO.FlowerID);
+            string flowerId = flower.FlowerId;
+            var existProductInCart = await _cartRepository.GetCartItemByFlowerIdAndAccountAsync(flowerId, buyer.AccountId);
             if (existProductInCart != null)
             {
                 existProductInCart.Quantity = existProductInCart.Quantity + cartDTO.Quantity;
@@ -78,6 +79,7 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                         existProductInCart.FlowerId,
                         existProductInCart.Quantity,
                         existProductInCart.PaidPrice,
+                        UnitPrice = flower.Price,
                     }
                 };
             } else
@@ -86,7 +88,7 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                 {
                     OrderDetailId = await AutoGenerateOrderDetailId(),
                     OrderId = null,
-                    FlowerId = cartDTO.FlowerID,
+                    FlowerId = flowerId,
                     Quantity = cartDTO.Quantity,
                     PaidPrice = cartDTO.Quantity * flower.Price,
                     AccountId = buyer.AccountId,
@@ -101,6 +103,7 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                         cartItem.FlowerId,
                         cartItem.Quantity,
                         cartItem.PaidPrice,
+                        UnitPrice = flower.Price,
                     }
                 };
             }
@@ -122,7 +125,7 @@ namespace EventFlowerExchange_Espoir.Services.Impl
 
         public async Task<dynamic> UpdateCartAsync(string cartItemId, double quantity)
         {
-            var existCartItem = await _cartRepository.GetCartItemByFlowerId(cartItemId);
+            var existCartItem = await _cartRepository.GetCartItemByCartIdAsync(cartItemId);
             if (existCartItem == null)
             {
                 return new
@@ -131,7 +134,7 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                     StatusCode = 404
                 };
             }
-            var flowerInCart = await _productRepository.GetFlowerByFlowerIdAsync(cartItemId);
+            var flowerInCart = await _productRepository.GetFlowerByFlowerIdAsync(existCartItem.FlowerId);
             if (flowerInCart == null)
             {
                 return new

@@ -55,6 +55,13 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                     StatusCode = 404
                 };
             }
+            if (flower.AccountId == buyer.AccountId)
+            {
+                return new
+                {
+                    Message = "Cannot Buy This Product! Flower is your shop's owner"
+                };
+            }
             if (cartDTO.Quantity > flower.Quantity)
             {
                 return new
@@ -77,6 +84,7 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                     ExistCart = new
                     {
                         existProductInCart.FlowerId,
+                        flower.FlowerName,
                         existProductInCart.Quantity,
                         existProductInCart.PaidPrice,
                         UnitPrice = flower.Price,
@@ -101,6 +109,7 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                     Item = new
                     {
                         cartItem.FlowerId,
+                        flower.FlowerName,
                         cartItem.Quantity,
                         cartItem.PaidPrice,
                         UnitPrice = flower.Price,
@@ -176,7 +185,7 @@ namespace EventFlowerExchange_Espoir.Services.Impl
             };
         }
 
-        public async Task<dynamic> GetCartAsync(string accessToken)
+        public async Task<dynamic> GetCartListAsync(string accessToken)
         {
             string accEmail = TokenDecoder.GetEmailFromToken(accessToken);
             var acc = await _accountRepository.GetAccountByEmailAsync(accEmail);

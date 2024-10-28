@@ -78,8 +78,7 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
             return await _context.SaveChangesAsync() > 0;
         }
 
-        public async Task<dynamic> 
-            CartAsync(OrderDetail orderDetail)
+        public async Task<dynamic> CartAsync(OrderDetail orderDetail)
         {
             _context.OrderDetails.Remove(orderDetail);
             return await _context.SaveChangesAsync() > 0;

@@ -24,7 +24,17 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
         {
             return await _context.Flowers.FirstOrDefaultAsync(f => f.FlowerId == flowerId);
         }
-
+        public async Task<Flower> GetFlowerByFlowerNameAsync(string flowerName)
+        {
+            return await _context.Flowers.FirstOrDefaultAsync(f => f.FlowerName == flowerName);
+        }
+        public async Task<string> GetFlowerNameByFlowerId(string flowerId)
+        {
+            return await _context.Flowers
+                     .Where(f => f.FlowerId == flowerId)
+                     .Select(f => f.FlowerName)
+                     .FirstOrDefaultAsync();
+        }
         public async Task<List<Flower>> GetListFlowerByAccountId(string accountId)
         {
             return await _context.Flowers.Where(f => f.AccountId == accountId).ToListAsync();
@@ -204,7 +214,7 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
                 OldPrice = c.OldPrice,
                 DateExpiration = c.DateExpiration,
                 TagNames = GetTagNamesByIds(c.TagIds, _context),
-            }).ToListAsync(); 
+            }).ToListAsync();
             return (flowers, totalCount, totalPages);
         }
 

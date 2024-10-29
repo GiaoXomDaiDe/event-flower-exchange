@@ -26,10 +26,15 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
         {
             return await _context.OrderDetails.FirstOrDefaultAsync(od => od.OrderDetailId == orderDetailId);
         }
-        public async Task<OrderDetail> GetCartItemByFlowerId(string flowerId)
+        public async Task<OrderDetail> GetCartItemByFlowerIdAndAccountAsync(string flowerId, string accountId)
         {
-            return await _context.OrderDetails.FirstOrDefaultAsync(c => c.FlowerId == flowerId);
+            return await _context.OrderDetails.FirstOrDefaultAsync(c => c.FlowerId == flowerId && c.AccountId == accountId);
         }
+        public async Task<OrderDetail> GetCartItemByCartIdAsync(string cartItemId)
+        {
+            return await _context.OrderDetails.FirstOrDefaultAsync(c => c.OrderDetailId == cartItemId);
+        }
+
         public async Task<string> GetLatestOrderDetailIdAsync()
         {
             try
@@ -57,9 +62,24 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
         }
 
 
-        public async Task<List<OrderDetail>> GetListCartOfUser(string accountId)
+        public async Task<List<CartListDTO>> GetListCartOfUser(string accountId)
         {
-            return await _context.OrderDetails.Where(od => od.AccountId == accountId).ToListAsync();
+            var cartItemsWithFlowerNames = await _context.OrderDetails
+                .Where(od => od.AccountId == accountId)
+                .Join(_context.Flowers,
+                      od => od.FlowerId,
+                      f => f.FlowerId,
+                      (od, f) => new CartListDTO
+                      {
+                          OrderDetailId = od.OrderDetailId,
+                          Quantity = od.Quantity,
+                          PaidPrice = od.PaidPrice,
+                          FlowerId = od.FlowerId,
+                          FlowerName = f.FlowerName
+                      })
+                .ToListAsync();
+
+            return cartItemsWithFlowerNames;
         }
         public async Task<dynamic> AddToCartAsync(OrderDetail orderDetail)
         {
@@ -73,8 +93,7 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
             return await _context.SaveChangesAsync() > 0;
         }
 
-        public async Task<dynamic> 
-            CartAsync(OrderDetail orderDetail)
+        public async Task<dynamic> CartAsync(OrderDetail orderDetail)
         {
             _context.OrderDetails.Remove(orderDetail);
             return await _context.SaveChangesAsync() > 0;

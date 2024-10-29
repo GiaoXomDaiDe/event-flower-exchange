@@ -77,7 +77,7 @@ namespace EventFlowerExchange_Espoir.Controllers
             {
                 return BadRequest("Must fill in all field");
             }
-            var result = await _cartService.GetCartAsync(accessToken);
+            var result = await _cartService.GetCartListAsync(accessToken);
             return Ok(result);
         }
     }

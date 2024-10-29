@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace EventFlowerExchange_Espoir.Controllers
 {
@@ -205,26 +206,39 @@ namespace EventFlowerExchange_Espoir.Controllers
             {
                 return BadRequest("All fields are required");
             }
-
+            var isSeller = await _accountService.CheckSellerRole(sellerDTO.AccessToken);
+            if (isSeller == 1)
+            {
+                return Conflict(new
+                {
+                    message = "This account is already a seller"
+                });
+            }
+            
             var result = await _accountService.RegisterToBeSellerAsync(sellerDTO);
-            return StatusCode(204, new { message = "Seller registration successful" }); ;
+            return CreatedAtAction(nameof(RegisterToBeSeller), result);
         }
         [Authorize(Policy = "UserOnly")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPost("cancel-to-seller")]
-        public async Task<IActionResult> CancelSellerRoleAsync(string accessToken, string accountId)
+        public async Task<IActionResult> CancelSellerRoleAsync()
         {
             if (!ModelState.IsValid)
             {
                 var errors = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
                 return BadRequest(new { Errors = errors });
             }
-            if (string.IsNullOrEmpty(accessToken) && string.IsNullOrEmpty(accountId))
-            {
-                return BadRequest("All fields are required");
-            }
+            //if (string.IsNullOrEmpty(accessToken))
+            //{
+            //    return BadRequest("All fields are required");
+            //}
+            var accessToken = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
 
-            var result = await _accountService.CancelRoleSellerAsync(accessToken, accountId);
+            if (string.IsNullOrEmpty(accessToken))
+            {
+                return BadRequest("Access token is missing or invalid");
+            }
+            var result = await _accountService.CancelRoleSellerAsync(accessToken);
             if (result != 1)
             {
                 return BadRequest(result);
@@ -234,6 +248,60 @@ namespace EventFlowerExchange_Espoir.Controllers
                 Message = "Cancel Successful"
             });
         }
+
+        [Authorize(Policy = "UserOnly")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpGet("seller-profile")]
+        public async Task<IActionResult> ViewSellerProfileAsync()
+        {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
+                return BadRequest(new { Errors = errors });
+            }
+            var accessToken = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+
+            if (string.IsNullOrEmpty(accessToken))
+            {
+                return BadRequest("Access token is missing or invalid");
+            }
+            var result = await _accountService.GetSellerProfileAsync(accessToken);
+            return Ok(result);
+        }
+
+
+        [Authorize(Policy = "UserOnly")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpGet("payment-info-of-seller")]
+        public async Task<IActionResult> ViewSellerPaymentInfoAsync()
+        {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
+                return BadRequest(new { Errors = errors });
+            }
+            var accessToken = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+
+            if (string.IsNullOrEmpty(accessToken))
+            {
+                return BadRequest("Access token is missing or invalid");
+            }
+            var result = await _accountService.GetPaymentInfoOfSellerAsync(accessToken);
+            return Ok(result);
+        }
+
+        [HttpGet("list-of-bank")]
+        public async Task<IActionResult> GetListOfBankAsync()
+        {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
+                return BadRequest(new { Errors = errors });
+            }
+            var result = await _accountService.GetListOfBankAsync();
+            return Ok(result);
+        }
+
     }
 
 }

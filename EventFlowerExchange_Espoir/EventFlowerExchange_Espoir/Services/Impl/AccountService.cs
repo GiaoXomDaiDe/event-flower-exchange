@@ -72,7 +72,7 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                     IsSeller = 0,
                     //Status = 0
                 };
-               
+
                 // Save the acc
                 int result = await _accountReposiotry.CreateAccountAsync(acc);
 
@@ -254,7 +254,7 @@ namespace EventFlowerExchange_Espoir.Services.Impl
         }
 
         // Profile
-        public async Task<Account> GetUserAccountAsync (string accessToken)
+        public async Task<Account> GetUserAccountAsync(string accessToken)
         {
             string accountEmail = TokenDecoder.GetEmailFromToken(accessToken);
             var account = await _accountReposiotry.GetAccountByEmailAsync(accountEmail);
@@ -264,7 +264,7 @@ namespace EventFlowerExchange_Espoir.Services.Impl
         public async Task<bool> UpdateAccountProfileByAdminAsync(string accessToken, UpdateAccountProfileDTO accountProfile)
         {
             var accountEmail = TokenDecoder.GetEmailFromToken(accessToken);
-            var acc = await _accountReposiotry.GetAccountByEmailAsync (accountEmail);
+            var acc = await _accountReposiotry.GetAccountByEmailAsync(accountEmail);
             if (acc == null)
             {
                 return false;
@@ -316,19 +316,23 @@ namespace EventFlowerExchange_Espoir.Services.Impl
             }
             return newUserId;
         }
+
         public async Task<dynamic> RegisterToBeSellerAsync(SellerDTO newSeller)
         {
             string email = TokenDecoder.GetEmailFromToken(newSeller.AccessToken);
             var acc = await _accountReposiotry.GetAccountByEmailAsync(email);
-            if (acc == null )
+            if (acc == null)
             {
                 return "Account cannot be found. Please try again";
             }
 
-            if(acc.IsSeller == 1)
-            {
-                return "This account is already a seller";
-            }
+            //if (acc.IsSeller == 1)
+            //{
+            //    return new
+            //    {
+            //        Message = "This account is already a seller",
+            //    };
+            //}
 
             if (!string.IsNullOrEmpty(newSeller.SellerAvatar))
             {
@@ -354,20 +358,16 @@ namespace EventFlowerExchange_Espoir.Services.Impl
             };
 
             var result = await _accountReposiotry.CreateUserAsync(seller);
-            if (result != 1)
-            {
-                return result;
-            }
 
-            return new
+            return new 
             {
-                result,
+                Result = result,
                 Shop = seller,
-                Message = "Register to be seller successful"
+                Message = "Register to be seller successful",
             };
-        }
 
-        public async Task<dynamic> CancelRoleSellerAsync(string accessToken, string accountId)
+        }
+        public async Task<object>  CheckSellerRole(string accessToken)
         {
             string email = TokenDecoder.GetEmailFromToken(accessToken);
             var acc = await _accountReposiotry.GetAccountByEmailAsync(email);
@@ -376,19 +376,98 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                 return "Account cannot be found. Please try again";
             }
 
+            if (acc.IsSeller == 1)
+            {
+                return 1;
+            }
+            return 0;
+        }
+        public async Task<dynamic> CancelRoleSellerAsync(string accessToken)
+        {
+            string email = TokenDecoder.GetEmailFromToken(accessToken);
+            var acc = await _accountReposiotry.GetAccountByEmailAsync(email);
+            if (acc == null)
+            {
+                return new
+                {
+                    Message = "Account cannot be found. Please try again"
+                };
+            }
+
             if (acc.IsSeller == 0)
             {
-                return "This account is not a seller";
+                return new
+                {
+                    Message = "This account is not a seller"
+                };
             }
             acc.IsSeller = 0;
-            var flowers = await _productReposiotry.GetListFlowerByAccountId(accountId);
+            var flowers = await _productReposiotry.GetListFlowerByAccountId(acc.AccountId);
             if (flowers != null)
             {
                 await _productReposiotry.DeleteListOfFlowersAsEverAsync(flowers);
             }
-            var shop = await _accountReposiotry.GetUserByAccountId(accountId);
+            var shop = await _accountReposiotry.GetUserByAccountId(acc.AccountId);
             await _accountReposiotry.UpdateAccount(acc);
             return await _accountReposiotry.DeleteUserAsync(shop);
         }
+
+        public async Task<dynamic> GetSellerProfileAsync(string accessToken)
+        {
+            string email = TokenDecoder.GetEmailFromToken(accessToken);
+            var acc = await _accountReposiotry.GetAccountByEmailAsync(email);
+            if (acc == null)
+            {
+                return new
+                {
+                    StatusCode = 404,
+                    Message = "Your account is not exist"
+                };
+            }
+            if (acc.IsSeller == 0)
+            {
+                return new
+                {
+                    Message = "You are not a seller. Please register to be a seller"
+                };
+            }
+            var user = await _accountReposiotry.GetSellerProfileByAccountIdAsync(acc.AccountId);
+            return new
+            {
+                ShopName = user.ShopName,
+                Address = user.SellerAddress,
+                Avatar = user.SellerAvatar,
+            };
+        }
+
+        public async Task<dynamic> GetPaymentInfoOfSellerAsync(string accessToken)
+        {
+            string email = TokenDecoder.GetEmailFromToken(accessToken);
+            var acc = await _accountReposiotry.GetAccountByEmailAsync(email);
+            if (acc == null)
+            {
+                return new
+                {
+                    StatusCode = 404,
+                    Message = "Your account is not exist"
+                };
+            }
+            if (acc.IsSeller == 0)
+            {
+                return new
+                {
+                    Message = "You are not a seller. Please register to be a seller"
+                };
+            }
+            var user = await _accountReposiotry.GetBankInfoOfSellerAsync(acc.AccountId);
+            return user;
+        }
+
+        public async Task<dynamic> GetListOfBankAsync()
+        {
+            return await _accountReposiotry.GetListBankNameAsync();
+        }
+
+
     }
 }

@@ -1,0 +1,40 @@
+.not-found-wrapper {
+  background-color: #e3e3e3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+
+  .not-found {
+    background-color: #fbfbfb;
+    padding: 30px 200px;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+  }
+
+  h1 {
+    color: #3f3f3f;
+    font-family: "Beausite Classic Trial";
+    font-size: 128px;
+    font-style: normal;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+  h3 {
+    color: rgba(0, 0, 0, 0.75);
+    font-family: "Beausite Classic Trial";
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+  p {
+    color: #3f3f3f;
+    text-align: justify;
+    font-family: "Beausite Classic Trial";
+    font-size: 32px;
+    font-style: italic;
+    font-weight: 300;
+  }
+}

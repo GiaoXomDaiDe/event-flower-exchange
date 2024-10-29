@@ -1,13 +1,13 @@
 import PropTypes from 'prop-types'
-import { createContext } from 'react'
+import { createContext, useState } from 'react'
 
 const getInitialUserContext = () => ({
-  //isAuthenticated: false,
-  isAuthenticated: true,
+  isAuthenticated: false,
   setIsAuthenticated: () => null,
-  //isSellerMode: false,
-  isSellerMode: true,
+  isSellerMode: false,
   setIsSellerMode: () => null,
+  sellerInfo: null,
+  setSellerInfo: () => null,
   reset: () => null
 })
 
@@ -15,19 +15,31 @@ const initialAppContext = getInitialUserContext()
 
 export const SellerContext = createContext(initialAppContext)
 
-export const SellerProvider = ({ children, defaultValue: initialAppContext }) => {
+export const SellerProvider = ({ children, defaultValue = initialAppContext }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(defaultValue.isAuthenticated)
   const [isSellerMode, setIsSellerMode] = useState(defaultValue.isSellerMode)
+  const [sellerInfo, setSellerInfo] = useState(defaultValue.sellerInfo)
 
   const reset = () => {
     setIsAuthenticated(false)
     setIsSellerMode(false)
+    setSellerInfo(null)
   }
 
   return (
-    <SellerContext.SellerProvider value={{ isAuthenticated, setIsAuthenticated, isSellerMode, setIsSellerMode, reset }}>
+    <SellerContext.Provider
+      value={{
+        isAuthenticated,
+        setIsAuthenticated,
+        isSellerMode,
+        setIsSellerMode,
+        sellerInfo,
+        setSellerInfo,
+        reset
+      }}
+    >
       {children}
-    </SellerContext.SellerProvider>
+    </SellerContext.Provider>
   )
 }
 
@@ -35,6 +47,7 @@ SellerProvider.propTypes = {
   children: PropTypes.node,
   defaultValue: PropTypes.shape({
     isAuthenticated: PropTypes.bool,
-    isSellerMode: PropTypes.bool
+    isSellerMode: PropTypes.bool,
+    sellerInfo: PropTypes.object
   })
 }

@@ -8,27 +8,53 @@ import {
   ShopOutlined,
   ShoppingCartOutlined
 } from '@ant-design/icons'
-import { Avatar, Badge, Col, Divider, Image, Layout, Popover, Row, Tooltip, Typography } from 'antd'
+import { useQuery } from '@tanstack/react-query'
+import { Avatar, Badge, Breadcrumb, Col, Divider, Image, Layout, Popover, Row, Tooltip, Typography } from 'antd'
 import { Content, Header } from 'antd/es/layout/layout'
-import _ from 'lodash'
-import PropTypes from 'prop-types'
-import { Link, useLocation } from 'react-router-dom'
+import { useContext } from 'react'
+import { Link, Outlet, useLocation } from 'react-router-dom'
+
+import sellerApi from '../../apis/seller.api.js'
 import SungJinWo from '../../assets/images/profile_image.jpg'
 import Sidebar from '../../components/Seller/Sidebar/Sidebar.jsx'
 import { LayoutProvider } from '../../contexts/layout.context.jsx'
+import { SellerContext } from '../../contexts/seller.context.jsx'
 
 const { Title, Text } = Typography
 
-export default function SellerLayout({ children }) {
+export default function SellerLayout() {
   const location = useLocation()
   const { pathname } = location
   const pathArray = pathname.split('/').filter((item) => item !== '')
-  const capitalPathArray = _.map(pathArray, _.capitalize)
-  const breadcrumbs = capitalPathArray.join(' / ')
-  const title = pathArray[1].replace(/-/g, ' ').replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function (match) {
-    return match.toUpperCase()
+  const breadcrumbItems = pathArray.map((path, index) => {
+    const url = '/' + pathArray.slice(0, index + 1).join('/')
+    const name = path.replace(/-/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase())
+
+    return {
+      key: url,
+      name: name,
+      path: url
+    }
+  })
+  const title = breadcrumbItems.length > 0 ? breadcrumbItems[breadcrumbItems.length - 1].name : 'Dashboard'
+
+  const { setSellerInfo, sellerInfo } = useContext(SellerContext)
+
+  // Lấy thông tin người bán
+  const { data: sellerProfileData, isLoading: isSellerProfileLoading } = useQuery({
+    queryKey: ['sellerProfile'],
+    queryFn: () => sellerApi.getSellerProfile()
   })
 
+  // Lấy thông tin thẻ tín dụng
+  const { data: creditCardData, isLoading: isCreditCardLoading } = useQuery({
+    queryKey: ['creditCardInfo'],
+    queryFn: () => sellerApi.getCreditCardInfo()
+  })
+  if (isSellerProfileLoading || isCreditCardLoading) {
+    return <div>Loading...</div>
+  }
+  console.log(sellerProfileData)
   const notificationItems = [
     {
       id: 1,
@@ -112,7 +138,7 @@ export default function SellerLayout({ children }) {
 
   const userContent = (
     <div className='p-3 font-beausite space-y-3'>
-      <div className='font-bold'>👋 Hello, SungJinWoo</div>
+      <div className='font-bold'>👋 Hello, {sellerProfileData?.data.shopName}</div>
       <Divider style={{ margin: '8px 0' }} />
       <div>Profile setting</div>
       <div>Logout</div>
@@ -125,14 +151,23 @@ export default function SellerLayout({ children }) {
         <Layout>
           <Header className='sticky top-4 z-10 mx-3 p-2 flex items-center justify-between bg-gray-100/20 backdrop-blur-xl min-h-[5rem]'>
             <div className='flex flex-col justify-center'>
-              <Typography.Text className='font-beausite text-gray-600'>{breadcrumbs}</Typography.Text>
+              <Breadcrumb
+                items={breadcrumbItems.map((item, index) => ({
+                  key: item.key,
+                  title:
+                    index !== breadcrumbItems.length - 1 ? (
+                      <Link to={item.path}>{item.name}</Link>
+                    ) : (
+                      <Typography.Text>{item.name}</Typography.Text>
+                    )
+                }))}
+              />
               <Typography.Title strong className='font-beausite text-gray-600' level={2} style={{ margin: 0 }}>
                 {title}
               </Typography.Title>
             </div>
             <div className='flex items-center bg-white shadow-md px-2 pl-5 py-2 outline-none rounded-full'>
               <div className='flex items-center space-x-6'>
-                {/* Popover for AppstoreOutlined icon */}
                 <Popover
                   content={appPopoverContent}
                   trigger='hover'
@@ -162,18 +197,16 @@ export default function SellerLayout({ children }) {
                   placement='bottomRight'
                   overlayClassName='animate-fadeInDown'
                 >
-                  <Avatar size={40} src={SungJinWo} />
+                  <Avatar size={40} src={sellerProfileData?.data.sellerAvatar} />
                 </Popover>
               </div>
             </div>
           </Header>
-          <Content className='p-6'>{children}</Content>
+          <Content className='p-6'>
+            <Outlet />
+          </Content>
         </Layout>
       </Layout>
     </LayoutProvider>
   )
-}
-
-SellerLayout.propTypes = {
-  children: PropTypes.node.isRequired
 }

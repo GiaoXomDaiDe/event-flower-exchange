@@ -79,7 +79,6 @@ export default function OrderManagement() {
     return { filteredData: filtered, expandedKeys }
   }, [orders, cusNameFilter, productNameFilter, selectedDates])
 
-  // Cập nhật expandedRowKeys khi expandedKeys thay đổi
   useEffect(() => {
     setExpandedRowKeys(expandedKeys)
   }, [expandedKeys])

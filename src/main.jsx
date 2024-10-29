@@ -1,10 +1,14 @@
+// main.jsx
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import 'antd/dist/reset.css' // Sử dụng reset.css cho phiên bản Ant Design v5
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { App as AntApp, ConfigProvider } from 'antd' // Import ConfigProvider và App từ antd
+import 'antd/dist/reset.css'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import App from './App.jsx'
-import './index.css' // Đảm bảo Tailwind cũng được thêm vào
+import { SellerProvider } from './contexts/seller.context.jsx'
+import './index.css'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -18,7 +22,21 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
-        <App />
+        <ConfigProvider
+          theme={{
+            token: {
+              fontFamily: 'Beausite Classic Trial',
+              colorPrimary: '#ff6d7e'
+            }
+          }}
+        >
+          <AntApp>
+            <SellerProvider>
+              <App />
+            </SellerProvider>
+          </AntApp>
+        </ConfigProvider>
+        <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </BrowserRouter>
   </StrictMode>

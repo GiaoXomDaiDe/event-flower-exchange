@@ -1,77 +1,93 @@
-import { Navigate, useRoutes } from 'react-router-dom'
+// useRouteElements.jsx
+import { useContext } from 'react'
+import { Navigate, Outlet, useRoutes } from 'react-router-dom'
+import RegisterToSeller from './components/Seller/RegisterToSeller/RegisterToSeller.jsx'
+import { SellerContext } from './contexts/seller.context.jsx'
 import SellerLayout from './layouts/SellerLayout/SellerLayout.jsx'
+import AddNewProduct from './pages/AddNewProduct/AddNewProduct.jsx'
 import DashBoard from './pages/DashBoard'
 import OrderManagement from './pages/OrderManagement/OrderManagement.jsx'
 import PostManagement from './pages/PostManagement'
 import ProductManagement from './pages/ProductManagement/index.js'
+import SellerProductDetails from './pages/SellerProductDetails/SellerProductDetails.jsx'
+import SellerRegister from './pages/SellerRegister/SellerRegister.jsx'
 import ShopManagement from './pages/ShopManagement'
 
-// function SellerProtectedRoute() {
-//   const { isAuthenticated, isSellerMode } = useContext(SellerContext)
-//   return isAuthenticated && isSellerMode ? <Outlet /> : <Navigate to='/login' />
-// }
+function SellerProtectedRoute() {
+  const { isAuthenticated, isSellerMode } = useContext(SellerContext)
+  return isAuthenticated && isSellerMode ? <Outlet /> : <Navigate to='/login' replace />
+}
 
-// function BuyerProtectedRoute() {
-//   const { isAuthenticated, isSellerMode } = useContext(SellerContext)
-//   return isAuthenticated && !isSellerMode ? <Outlet /> : <Navigate to='/login' />
-// }
-
-// function RejectedRoute() {
-//   const { isAuthenticated } = useContext(SellerContext)
-//   return !isAuthenticated ? <Outlet /> : <Navigate to='/' />
-// }
+function SellerRejectedRoute() {
+  const { isAuthenticated, isSellerMode } = useContext(SellerContext)
+  return !isAuthenticated || !isSellerMode ? <Outlet /> : <Navigate to='/seller/dashboard' replace />
+}
 
 export default function useRouteElements() {
   const routeElements = useRoutes([
     {
-      path: '/seller/dashboard',
-      element: (
-        <SellerLayout>
-          <DashBoard />
-        </SellerLayout>
-      )
+      path: '/seller',
+      element: <SellerProtectedRoute />,
+      children: [
+        {
+          path: '',
+          element: <SellerLayout />,
+          children: [
+            {
+              path: 'dashboard',
+              element: <DashBoard />
+            },
+            {
+              path: 'product-management',
+              children: [
+                { index: true, element: <ProductManagement /> },
+                {
+                  path: 'add-new-product',
+                  element: <AddNewProduct />
+                },
+                {
+                  path: 'product-details/:productId',
+                  element: <SellerProductDetails />
+                }
+              ]
+            },
+            {
+              path: 'post-management',
+              element: <PostManagement />
+            },
+            {
+              path: 'order-management',
+              element: <OrderManagement />
+            },
+            {
+              path: 'shop-management',
+              element: <ShopManagement />
+            },
+            {
+              path: '',
+              element: <Navigate to='dashboard' replace />
+            }
+          ]
+        }
+      ]
     },
     {
-      path: '/seller/product-management',
-      element: (
-        <SellerLayout>
-          <ProductManagement />
-        </SellerLayout>
-      )
+      path: '/seller/register',
+      element: <SellerRejectedRoute />,
+      children: [
+        {
+          path: '',
+          element: <SellerRegister />
+        }
+      ]
     },
-    {
-      path: '/seller/post-management',
-      element: (
-        <SellerLayout>
-          <PostManagement />
-        </SellerLayout>
-      )
-    },
-    {
-      path: '/seller/order-management',
-      element: (
-        <SellerLayout>
-          <OrderManagement />
-        </SellerLayout>
-      )
-    },
-    {
-      path: '/seller/shop-management',
-      element: (
-        <SellerLayout>
-          <ShopManagement />
-        </SellerLayout>
-      )
-    },
-    // Add this route to redirect from '/' to '/seller/dashboard'
     {
       path: '/',
-      element: <Navigate to='/seller/dashboard' replace />
+      element: <RegisterToSeller />
     },
-    // Optional: Redirect all unmatched routes to '/seller/dashboard'
     {
       path: '*',
-      element: <Navigate to='/seller/dashboard' replace />
+      element: <Navigate to='/' replace />
     }
   ])
   return routeElements

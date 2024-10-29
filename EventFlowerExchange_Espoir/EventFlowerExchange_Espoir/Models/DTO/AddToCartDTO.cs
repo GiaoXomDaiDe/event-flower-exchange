@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace EventFlowerExchange_Espoir.Models.DTO
 {
@@ -10,6 +11,7 @@ namespace EventFlowerExchange_Espoir.Models.DTO
         public string FlowerName { get; set; }
 
         [Required(ErrorMessage = "Quantity is required")]
-        public double Quantity { get; set; }
+        [DefaultValue(1)]
+        public double Quantity { get; set; } 
     }
 }

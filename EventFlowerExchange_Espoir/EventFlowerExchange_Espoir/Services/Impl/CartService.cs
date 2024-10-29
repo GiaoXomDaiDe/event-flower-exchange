@@ -161,14 +161,7 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                     StatusCode = 409
                 };
             }
-            else if (quantity > existCartItem.Quantity)
-            {
-                return new
-                {
-                    Message = $"Exceed the total number of flowers in stock",
-                    StatusCode = 409
-                };
-            }
+
             existCartItem.Quantity = existCartItem.Quantity + quantity;
             existCartItem.PaidPrice = flowerInCart.Price * existCartItem.Quantity;
             var result = await _cartRepository.UpdateCartAsync(existCartItem);
@@ -180,7 +173,8 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                 {
                     existCartItem.FlowerId,
                     existCartItem.Quantity,
-                    existCartItem.PaidPrice,
+                    existCartItem.PaidPrice,       
+                    flowerInCart.FlowerName,
                 }
             };
         }

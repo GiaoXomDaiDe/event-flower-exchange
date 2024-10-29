@@ -1,4 +1,5 @@
 ﻿using EventFlowerExchange_Espoir.Models;
+using EventFlowerExchange_Espoir.Models.DTO;
 
 namespace EventFlowerExchange_Espoir.Repositories
 {
@@ -7,7 +8,7 @@ namespace EventFlowerExchange_Espoir.Repositories
         public Task<List<OrderDetail>> GetCartItemsByOrderId(string orderId);
         public Task<OrderDetail> GetCartByOrderDetailId(string orderDetailId);
         public Task<string> GetLatestOrderDetailIdAsync();
-        public Task<List<OrderDetail>> GetListCartOfUser(string accountId);
+        public Task<List<CartListDTO>> GetListCartOfUser(string accountId);
         public Task<OrderDetail> GetCartItemByFlowerIdAndAccountAsync(string flowerId, string accountId);
         public Task<OrderDetail> GetCartItemByCartIdAsync(string cartItemId);
         public Task<dynamic> AddToCartAsync(OrderDetail orderDetail);

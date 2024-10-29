@@ -24,9 +24,9 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
         {
             return await _context.Flowers.FirstOrDefaultAsync(f => f.FlowerId == flowerId);
         }
-        public async Task<Flower> GetFlowerByFlowerNameAsync(string flowerName)
+        public async Task<Flower> GetFlowerByFlowerNameAsync(string flowerId)
         {
-            return await _context.Flowers.FirstOrDefaultAsync(f => f.FlowerName == flowerName);
+            return await _context.Flowers.FirstOrDefaultAsync(f => f.FlowerId.Equals(flowerId));
         }
         public async Task<string> GetFlowerNameByFlowerId(string flowerId)
         {
@@ -228,6 +228,14 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
             };
             return query;
 
+        }
+
+        public async Task<Account> GetSellerByFlowerId(string flowerId)
+        {
+            var sellerId = await _context.Flowers
+                .FirstOrDefaultAsync(item => item.FlowerId.Equals(flowerId));
+            return await _context.Accounts
+                .FirstOrDefaultAsync(item => item.AccountId.Equals(sellerId)) ?? new Account();
         }
 
 

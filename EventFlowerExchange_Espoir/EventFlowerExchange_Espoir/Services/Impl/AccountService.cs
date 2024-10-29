@@ -326,14 +326,6 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                 return "Account cannot be found. Please try again";
             }
 
-            //if (acc.IsSeller == 1)
-            //{
-            //    return new
-            //    {
-            //        Message = "This account is already a seller",
-            //    };
-            //}
-
             if (string.IsNullOrEmpty(newSeller.SellerAvatar))
             {
                 newSeller.SellerAvatar = "empty";

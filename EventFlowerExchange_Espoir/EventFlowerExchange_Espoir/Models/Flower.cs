@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CloudinaryDotNet.Actions;
+using System;
 using System.Collections.Generic;
 
 namespace EventFlowerExchange_Espoir.Models;
@@ -38,7 +39,8 @@ public partial class Flower
     public int Status { get; set; }
 
     public string Attachment { get; set; } = null!;
-
+    public string EventId { get; set; } = null!;
+    public virtual Event Event { get; set; } = null!;
     public virtual Account Account { get; set; } = null!;
 
     public virtual FlowerCate Cate { get; set; } = null!;

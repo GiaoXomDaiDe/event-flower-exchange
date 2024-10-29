@@ -86,11 +86,10 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                 {
                     OrderId = await AutoGenerateOrderId(),
                     AccountId = acc.AccountId,
-                    AdminID = null,
+                    SellerId = null,
                     Detail = $"Total of product in order is {cartItems.Count}",
                     Status = 1, // 1. Confirming order - 4. Delivering - 5. Shipped successfully
                     PaymentStatus = 0, // 0. Paying 1.Paid
-                    DeliveryUnit = orderDTO.DeliveryUnit,
                     TotalMoney = totalAmount,
                     Date = DateOnly.FromDateTime(DateTime.Now),
                     OrderDetails = cartItems
@@ -125,7 +124,6 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                         newOrder.Status,
                         newOrder.TotalMoney,
                         newOrder.PaymentStatus,
-                        newOrder.DeliveryUnit,
                     },
 
                 };

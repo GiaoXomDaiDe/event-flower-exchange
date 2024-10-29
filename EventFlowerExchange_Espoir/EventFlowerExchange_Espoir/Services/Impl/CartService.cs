@@ -11,11 +11,13 @@ namespace EventFlowerExchange_Espoir.Services.Impl
         private readonly ICartRepository _cartRepository;
         private readonly IAccountRepository _accountRepository;
         private readonly IProductRepository _productRepository;
-        public CartService(ICartRepository cartRepository, IAccountRepository accountRepository, IProductRepository productRepository)
+        private readonly IOrderRepository _orderRepository;
+        public CartService(ICartRepository cartRepository, IAccountRepository accountRepository, IProductRepository productRepository, IOrderRepository orderRepository)
         {
             _cartRepository = cartRepository;
             _accountRepository = accountRepository;
             _productRepository = productRepository;
+            _orderRepository = orderRepository;
         }
         public async Task<string> AutoGenerateOrderDetailId()
         {
@@ -92,10 +94,22 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                 };
             } else
             {
+                var seller = await _productRepository.GetSellerByFlowerId(flowerId);
+                var order = await _orderRepository.CreateOrder(new Order()
+                {
+                    OrderId = await _orderRepository.AutoGenerateOrderId(),
+                    AccountId = buyer.AccountId,
+                    SellerId = seller.AccountId,
+                    Date = DateOnly.FromDateTime(DateTime.Now),
+                    Status = 1,
+                    PaymentStatus = 0,
+                    TotalMoney = 0,
+                    Detail = ""
+                });
                 var cartItem = new OrderDetail
                 {
                     OrderDetailId = await AutoGenerateOrderDetailId(),
-                    OrderId = null,
+                    OrderId = order.OrderId,
                     FlowerId = flowerId,
                     Quantity = cartDTO.Quantity,
                     PaidPrice = cartDTO.Quantity * flower.Price,
@@ -115,6 +129,7 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                         UnitPrice = flower.Price,
                     }
                 };
+
             }
         }
         public async Task<dynamic> DeleteCartItemAsync(string cartItemId)
@@ -175,6 +190,7 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                     existCartItem.Quantity,
                     existCartItem.PaidPrice,       
                     flowerInCart.FlowerName,
+                    UnitPrice = flowerInCart.Price,
                 }
             };
         }

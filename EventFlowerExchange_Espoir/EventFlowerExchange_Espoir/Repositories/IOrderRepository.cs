@@ -6,7 +6,8 @@ namespace EventFlowerExchange_Espoir.Repositories
     {
         public Task<Order> GetOrderByAccountId(string accountId);
         public Task<string> GetLatestOrderIdAsync();
-        public Task<dynamic> CreateOrder(Order order);
+        public Task<string> AutoGenerateOrderId();
+        public Task<Order> CreateOrder(Order order);
         public Task<dynamic> UpdateOrder(Order order);
         public Task<dynamic> DeleteOrder(Order order);
     }

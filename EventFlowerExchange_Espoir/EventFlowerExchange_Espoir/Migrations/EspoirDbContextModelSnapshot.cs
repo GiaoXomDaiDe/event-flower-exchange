@@ -292,6 +292,12 @@ namespace EventFlowerExchange_Espoir.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
+                    b.Property<string>("EventId")
+                        .HasMaxLength(255)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("EventId");
+
                     b.Property<string>("FlowerName")
                         .IsRequired()
                         .HasMaxLength(255)
@@ -337,6 +343,8 @@ namespace EventFlowerExchange_Espoir.Migrations
                     b.HasIndex("AccountId");
 
                     b.HasIndex("CateId");
+
+                    b.HasIndex("EventId");
 
                     b.ToTable("Flowers");
                 });
@@ -480,20 +488,8 @@ namespace EventFlowerExchange_Espoir.Migrations
                         .HasColumnType("varchar(255)")
                         .HasColumnName("AccountID");
 
-                    b.Property<string>("AdminID")
-                        .HasMaxLength(255)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(255)")
-                        .HasColumnName("AdminID");
-
                     b.Property<DateOnly>("Date")
                         .HasColumnType("date");
-
-                    b.Property<string>("DeliveryUnit")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Detail")
                         .IsRequired()
@@ -502,6 +498,12 @@ namespace EventFlowerExchange_Espoir.Migrations
 
                     b.Property<int>("PaymentStatus")
                         .HasColumnType("int");
+
+                    b.Property<string>("SellerId")
+                        .HasMaxLength(255)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("SellerID");
 
                     b.Property<long>("Status")
                         .HasColumnType("bigint");
@@ -513,6 +515,8 @@ namespace EventFlowerExchange_Espoir.Migrations
                         .HasName("PK__Orders__C3905BAFDCD4601F");
 
                     b.HasIndex("AccountId");
+
+                    b.HasIndex("SellerId");
 
                     b.ToTable("Orders");
                 });
@@ -768,6 +772,10 @@ namespace EventFlowerExchange_Espoir.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(255)");
 
+                    b.Property<string>("OrderId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
@@ -775,6 +783,8 @@ namespace EventFlowerExchange_Espoir.Migrations
                         .HasName("PK__Transact__55433A4B73CCE48A");
 
                     b.HasIndex("AccountId");
+
+                    b.HasIndex("OrderId");
 
                     b.ToTable("Transactions");
                 });
@@ -903,9 +913,16 @@ namespace EventFlowerExchange_Espoir.Migrations
                         .IsRequired()
                         .HasConstraintName("FK_Flowers_Cate");
 
+                    b.HasOne("EventFlowerExchange_Espoir.Models.Event", "Event")
+                        .WithMany("Flowers")
+                        .HasForeignKey("EventId")
+                        .HasConstraintName("FK_Flowers_Event");
+
                     b.Navigation("Account");
 
                     b.Navigation("Cate");
+
+                    b.Navigation("Event");
                 });
 
             modelBuilder.Entity("EventFlowerExchange_Espoir.Models.Notification", b =>
@@ -927,7 +944,13 @@ namespace EventFlowerExchange_Espoir.Migrations
                         .IsRequired()
                         .HasConstraintName("FK_Orders_Account");
 
+                    b.HasOne("EventFlowerExchange_Espoir.Models.Account", "Seller")
+                        .WithMany()
+                        .HasForeignKey("SellerId");
+
                     b.Navigation("Account");
+
+                    b.Navigation("Seller");
                 });
 
             modelBuilder.Entity("EventFlowerExchange_Espoir.Models.OrderDetail", b =>
@@ -1003,7 +1026,15 @@ namespace EventFlowerExchange_Espoir.Migrations
                         .IsRequired()
                         .HasConstraintName("FK_Transaction_Account");
 
+                    b.HasOne("EventFlowerExchange_Espoir.Models.Order", "Order")
+                        .WithMany("Transactions")
+                        .HasForeignKey("OrderId")
+                        .IsRequired()
+                        .HasConstraintName("FK_Transaction_Order");
+
                     b.Navigation("Account");
+
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("EventFlowerExchange_Espoir.Models.User", b =>
@@ -1053,6 +1084,11 @@ namespace EventFlowerExchange_Espoir.Migrations
                     b.Navigation("Users");
                 });
 
+            modelBuilder.Entity("EventFlowerExchange_Espoir.Models.Event", b =>
+                {
+                    b.Navigation("Flowers");
+                });
+
             modelBuilder.Entity("EventFlowerExchange_Espoir.Models.EventCate", b =>
                 {
                     b.Navigation("Events");
@@ -1082,6 +1118,8 @@ namespace EventFlowerExchange_Espoir.Migrations
             modelBuilder.Entity("EventFlowerExchange_Espoir.Models.Order", b =>
                 {
                     b.Navigation("OrderDetails");
+
+                    b.Navigation("Transactions");
                 });
 
             modelBuilder.Entity("EventFlowerExchange_Espoir.Models.PostDetail", b =>

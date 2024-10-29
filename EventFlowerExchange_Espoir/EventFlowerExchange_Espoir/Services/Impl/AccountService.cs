@@ -334,11 +334,11 @@ namespace EventFlowerExchange_Espoir.Services.Impl
             //    };
             //}
 
-            if (!string.IsNullOrEmpty(newSeller.SellerAvatar))
+            if (string.IsNullOrEmpty(newSeller.SellerAvatar))
             {
                 newSeller.SellerAvatar = "empty";
             }
-            if (!string.IsNullOrEmpty(newSeller.SellerAddress))
+            if (string.IsNullOrEmpty(newSeller.SellerAddress))
             {
                 newSeller.SellerAddress = acc.Address;
             }

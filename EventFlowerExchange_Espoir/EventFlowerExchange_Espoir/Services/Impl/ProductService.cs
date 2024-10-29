@@ -265,7 +265,7 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                 Condition = flower.Condition,
                 Quantity = flower.Quantity,
                 OldPrice = flower.OldPrice,
-                Discount = $"{flower.Price / flower.OldPrice}%",
+                Discount = $"{flower.Price/flower.OldPrice}",
                 ShopName = shop.ShopName,
                 DateExpiration = flower.DateExpiration,
                 Attachment = flower.Attachment,

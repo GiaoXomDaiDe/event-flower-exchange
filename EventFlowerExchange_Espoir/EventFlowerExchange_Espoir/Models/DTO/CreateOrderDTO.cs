@@ -7,6 +7,5 @@ namespace EventFlowerExchange_Espoir.Models.DTO
         public string accessToken { get; set; }
         
         public string CartItemIds { get; set; }
-        public string DeliveryUnit { get; set; }
     }
 }

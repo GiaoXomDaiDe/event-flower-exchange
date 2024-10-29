@@ -137,11 +137,8 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
         {
             try
             {
-                using (var context = new EspoirDbContext())
-                {
-                    await context.Users.AddAsync(user);
-                    return await context.SaveChangesAsync() ;
-                }
+                await _context.Users.AddAsync(user);
+                return await _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {

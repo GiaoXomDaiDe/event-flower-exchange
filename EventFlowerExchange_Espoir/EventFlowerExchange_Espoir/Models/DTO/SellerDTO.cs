@@ -18,6 +18,7 @@ namespace EventFlowerExchange_Espoir.Models.DTO
         public string TaxNumber { get; set; }
         public string? SellerAvatar { get; set; }
         public string? SellerAddress { get; set; }
-        public string ShopName { get; set; } = null!;
+        [Required(ErrorMessage = "Name of shop is required")]
+        public string ShopName { get; set; }
     }
 }

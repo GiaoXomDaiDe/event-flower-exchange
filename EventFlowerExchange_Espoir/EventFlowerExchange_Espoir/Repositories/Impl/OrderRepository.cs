@@ -43,15 +43,17 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
                 throw new Exception(e.Message, e);
             }
         }
-        public async Task<dynamic> CreateOrder(Order order)
+        public async Task<Order> CreateOrder(Order order)
         {
             try
             {
                 await _context.Orders.AddAsync(order);
-                return await _context.SaveChangesAsync();
-            } catch (Exception ex)
+                await _context.SaveChangesAsync();
+                return order;
+            }
+            catch (Exception ex)
             {
-                throw new Exception($"Error at OrderRepository: {ex.Message}");
+                throw new Exception($"Error at OrderRepository: {ex.InnerException}");
             }
         }
 
@@ -61,7 +63,8 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
             {
                 _context.Orders.Update(order);
                 return await _context.SaveChangesAsync();
-            } catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw new Exception($"Error at OrderRepository: {ex.Message}");
             }
@@ -73,7 +76,22 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
             return await _context.SaveChangesAsync();
         }
 
-        // for cart
+        public async Task<string> AutoGenerateOrderId()
+        {
+            string newOrderId = "";
+            string latestOrderId = await GetLatestOrderIdAsync();
+            if (string.IsNullOrEmpty(latestOrderId))
+            {
+                newOrderId = "O00000001";
+            }
+            else
+            {
+                int numericpart = int.Parse(latestOrderId.Substring(2));
+                int newnumericpart = numericpart + 1;
+                newOrderId = $"O{newnumericpart:d8}";
+            }
+            return newOrderId;
+        }        // for cart
 
     }
 }

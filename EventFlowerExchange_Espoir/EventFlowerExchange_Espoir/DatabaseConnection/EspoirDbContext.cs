@@ -59,10 +59,11 @@ public partial class EspoirDbContext : DbContext
     private string GetConnectionString()
     {
         IConfiguration configuration = new ConfigurationBuilder()
-               .SetBasePath(Directory.GetCurrentDirectory())
-              .AddJsonFile("appsettings.json", true, true).Build();
+              .SetBasePath(Directory.GetCurrentDirectory())
+              .AddJsonFile("appsettings.json", true, true)
+              .Build();
 
-        return configuration["ConnectionStrings:DefaultConnection"];
+        return configuration["ConnectionStrings:DefaultConnection"] ?? string.Empty;
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -209,6 +210,11 @@ public partial class EspoirDbContext : DbContext
                 .HasMaxLength(255)
                 .IsUnicode(false)
                 .HasColumnName("CateID");
+            entity.Property(e => e.EventId)
+                .HasMaxLength(255)
+                .IsUnicode(false)
+                .HasColumnName("EventId")
+                .IsRequired(false);
             entity.Property(e => e.Condition).HasMaxLength(255);
             entity.Property(e => e.DateExpiration).HasMaxLength(255);
             entity.Property(e => e.Description).HasMaxLength(255);
@@ -223,6 +229,11 @@ public partial class EspoirDbContext : DbContext
                 .HasForeignKey(d => d.AccountId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Flowers_Account");
+
+            entity.HasOne(d => d.Event).WithMany(p => p.Flowers)
+                .HasForeignKey(d => d.EventId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Flowers_Event");
 
             entity.HasOne(d => d.Cate).WithMany(p => p.Flowers)
                 .HasForeignKey(d => d.CateId)
@@ -319,13 +330,10 @@ public partial class EspoirDbContext : DbContext
                 .HasMaxLength(255)
                 .IsUnicode(false)
                 .HasColumnName("AccountID");
-            entity.Property(e => e.AdminID)
-    .HasMaxLength(255)
-    .IsUnicode(false)
-    .HasColumnName("AdminID");
-            entity.Property(e => e.DeliveryUnit)
+            entity.Property(e => e.SellerId)
                 .HasMaxLength(255)
-                .IsUnicode(false);
+                .IsUnicode(false)
+                .HasColumnName("SellerID");
             entity.Property(e => e.Detail).HasMaxLength(255);
 
             entity.HasOne(d => d.Account).WithMany(p => p.Orders)
@@ -508,6 +516,11 @@ public partial class EspoirDbContext : DbContext
                 .HasForeignKey(d => d.AccountId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Transaction_Account");
+
+            entity.HasOne(d => d.Order).WithMany(p => p.Transactions)
+                .HasForeignKey(d => d.OrderId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Transaction_Order");
         });
 
         modelBuilder.Entity<User>(entity =>

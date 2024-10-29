@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace EventFlowerExchange_Espoir.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialNewDBSetUp : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -108,11 +108,10 @@ namespace EventFlowerExchange_Espoir.Migrations
                     Detail = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     Date = table.Column<DateOnly>(type: "date", nullable: false),
                     AccountID = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
-                    AdminID = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
+                    SellerID = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
                     Status = table.Column<long>(type: "bigint", nullable: false),
                     TotalMoney = table.Column<double>(type: "float", nullable: false),
-                    PaymentStatus = table.Column<int>(type: "int", nullable: false),
-                    DeliveryUnit = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false)
+                    PaymentStatus = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -120,6 +119,11 @@ namespace EventFlowerExchange_Espoir.Migrations
                     table.ForeignKey(
                         name: "FK_Orders_Account",
                         column: x => x.AccountID,
+                        principalTable: "Account",
+                        principalColumn: "AccountID");
+                    table.ForeignKey(
+                        name: "FK_Orders_Account_SellerID",
+                        column: x => x.SellerID,
                         principalTable: "Account",
                         principalColumn: "AccountID");
                 });
@@ -137,26 +141,6 @@ namespace EventFlowerExchange_Espoir.Migrations
                     table.PrimaryKey("PK__SellerWa__84D4F92E09A9F44F", x => x.WalletID);
                     table.ForeignKey(
                         name: "FK_SellerWallet_Account",
-                        column: x => x.AccountID,
-                        principalTable: "Account",
-                        principalColumn: "AccountID");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Transactions",
-                columns: table => new
-                {
-                    TransactionID = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
-                    Detail = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
-                    Date = table.Column<DateOnly>(type: "date", nullable: false),
-                    Status = table.Column<int>(type: "int", nullable: false),
-                    AccountID = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK__Transact__55433A4B73CCE48A", x => x.TransactionID);
-                    table.ForeignKey(
-                        name: "FK_Transaction_Account",
                         column: x => x.AccountID,
                         principalTable: "Account",
                         principalColumn: "AccountID");
@@ -218,44 +202,6 @@ namespace EventFlowerExchange_Espoir.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Flowers",
-                columns: table => new
-                {
-                    FlowerID = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
-                    FlowerName = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    CateID = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    Size = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    Condition = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    Quantity = table.Column<double>(type: "float", nullable: false),
-                    Price = table.Column<double>(type: "float", nullable: false),
-                    OldPrice = table.Column<double>(type: "float", nullable: false),
-                    AccountID = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
-                    CreatedAt = table.Column<DateOnly>(type: "date", nullable: false),
-                    DateExpiration = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    UpdateAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdateBy = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
-                    IsDeleted = table.Column<int>(type: "int", nullable: false),
-                    Status = table.Column<int>(type: "int", nullable: false),
-                    Attachment = table.Column<string>(type: "varchar(max)", unicode: false, nullable: false),
-                    TagIds = table.Column<string>(type: "varchar(500)", unicode: false, maxLength: 500, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK__Flowers__97C47C3901C1A129", x => x.FlowerID);
-                    table.ForeignKey(
-                        name: "FK_Flowers_Account",
-                        column: x => x.AccountID,
-                        principalTable: "Account",
-                        principalColumn: "AccountID");
-                    table.ForeignKey(
-                        name: "FK_Flowers_Cate",
-                        column: x => x.CateID,
-                        principalTable: "FlowerCate",
-                        principalColumn: "FCateID");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Notifications",
                 columns: table => new
                 {
@@ -301,6 +247,32 @@ namespace EventFlowerExchange_Espoir.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Transactions",
+                columns: table => new
+                {
+                    TransactionID = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
+                    Detail = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
+                    Date = table.Column<DateOnly>(type: "date", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    AccountID = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
+                    OrderId = table.Column<string>(type: "varchar(255)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK__Transact__55433A4B73CCE48A", x => x.TransactionID);
+                    table.ForeignKey(
+                        name: "FK_Transaction_Account",
+                        column: x => x.AccountID,
+                        principalTable: "Account",
+                        principalColumn: "AccountID");
+                    table.ForeignKey(
+                        name: "FK_Transaction_Order",
+                        column: x => x.OrderId,
+                        principalTable: "Orders",
+                        principalColumn: "OrderID");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "PayoutHistory",
                 columns: table => new
                 {
@@ -318,6 +290,50 @@ namespace EventFlowerExchange_Espoir.Migrations
                         column: x => x.UserID,
                         principalTable: "Users",
                         principalColumn: "UserID");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Flowers",
+                columns: table => new
+                {
+                    FlowerID = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
+                    FlowerName = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    CateID = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    Size = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    Condition = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    Quantity = table.Column<double>(type: "float", nullable: false),
+                    Price = table.Column<double>(type: "float", nullable: false),
+                    OldPrice = table.Column<double>(type: "float", nullable: false),
+                    AccountID = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
+                    CreatedAt = table.Column<DateOnly>(type: "date", nullable: false),
+                    DateExpiration = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    UpdateAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdateBy = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
+                    IsDeleted = table.Column<int>(type: "int", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    Attachment = table.Column<string>(type: "varchar(max)", unicode: false, nullable: false),
+                    EventId = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
+                    TagIds = table.Column<string>(type: "varchar(500)", unicode: false, maxLength: 500, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK__Flowers__97C47C3901C1A129", x => x.FlowerID);
+                    table.ForeignKey(
+                        name: "FK_Flowers_Account",
+                        column: x => x.AccountID,
+                        principalTable: "Account",
+                        principalColumn: "AccountID");
+                    table.ForeignKey(
+                        name: "FK_Flowers_Cate",
+                        column: x => x.CateID,
+                        principalTable: "FlowerCate",
+                        principalColumn: "FCateID");
+                    table.ForeignKey(
+                        name: "FK_Flowers_Event",
+                        column: x => x.EventId,
+                        principalTable: "Event",
+                        principalColumn: "EventID");
                 });
 
             migrationBuilder.CreateTable(
@@ -444,6 +460,11 @@ namespace EventFlowerExchange_Espoir.Migrations
                 column: "CateID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Flowers_EventId",
+                table: "Flowers",
+                column: "EventId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Notifications_NotifyType",
                 table: "Notifications",
                 column: "NotifyType");
@@ -457,6 +478,11 @@ namespace EventFlowerExchange_Espoir.Migrations
                 name: "IX_Orders_AccountID",
                 table: "Orders",
                 column: "AccountID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Orders_SellerID",
+                table: "Orders",
+                column: "SellerID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PayoutHistory_UserID",
@@ -489,6 +515,11 @@ namespace EventFlowerExchange_Espoir.Migrations
                 column: "AccountID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Transactions_OrderId",
+                table: "Transactions",
+                column: "OrderId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Users_AccountID",
                 table: "Users",
                 column: "AccountID");
@@ -507,9 +538,6 @@ namespace EventFlowerExchange_Espoir.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Event");
-
             migrationBuilder.DropTable(
                 name: "Feedback");
 
@@ -541,19 +569,16 @@ namespace EventFlowerExchange_Espoir.Migrations
                 name: "Wishlist");
 
             migrationBuilder.DropTable(
-                name: "EventCate");
-
-            migrationBuilder.DropTable(
                 name: "NotificationType");
-
-            migrationBuilder.DropTable(
-                name: "Orders");
 
             migrationBuilder.DropTable(
                 name: "Users");
 
             migrationBuilder.DropTable(
                 name: "PostDetail");
+
+            migrationBuilder.DropTable(
+                name: "Orders");
 
             migrationBuilder.DropTable(
                 name: "CardProviders");
@@ -566,6 +591,12 @@ namespace EventFlowerExchange_Espoir.Migrations
 
             migrationBuilder.DropTable(
                 name: "FlowerCate");
+
+            migrationBuilder.DropTable(
+                name: "Event");
+
+            migrationBuilder.DropTable(
+                name: "EventCate");
         }
     }
 }

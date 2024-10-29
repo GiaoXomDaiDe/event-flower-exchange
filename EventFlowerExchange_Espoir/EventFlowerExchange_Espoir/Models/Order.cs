@@ -13,16 +13,17 @@ public partial class Order
     public DateOnly Date { get; set; }
 
     public string AccountId { get; set; } = null!;
-    public string? AdminID { get; set; }
+    public string? SellerId { get; set; }
     public long Status { get; set; }
 
     public double TotalMoney { get; set; }
 
     public int PaymentStatus { get; set; }
 
-    public string DeliveryUnit { get; set; } = null!;
-
     public virtual Account Account { get; set; } = null!;
+    public virtual Account Seller { get; set; } = null!;
+
+    public virtual ICollection<Transaction> Transactions { get; set; } = new List<Transaction>();
 
     public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 }

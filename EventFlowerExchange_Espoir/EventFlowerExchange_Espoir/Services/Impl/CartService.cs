@@ -11,11 +11,13 @@ namespace EventFlowerExchange_Espoir.Services.Impl
         private readonly ICartRepository _cartRepository;
         private readonly IAccountRepository _accountRepository;
         private readonly IProductRepository _productRepository;
-        public CartService(ICartRepository cartRepository, IAccountRepository accountRepository, IProductRepository productRepository)
+        private readonly IOrderRepository _orderRepository;
+        public CartService(ICartRepository cartRepository, IAccountRepository accountRepository, IProductRepository productRepository, IOrderRepository orderRepository)
         {
             _cartRepository = cartRepository;
             _accountRepository = accountRepository;
             _productRepository = productRepository;
+            _orderRepository = orderRepository;
         }
         public async Task<string> AutoGenerateOrderDetailId()
         {
@@ -55,6 +57,13 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                     StatusCode = 404
                 };
             }
+            if (flower.AccountId == buyer.AccountId)
+            {
+                return new
+                {
+                    Message = "Cannot Buy This Product! Flower is your shop's owner"
+                };
+            }
             if (cartDTO.Quantity > flower.Quantity)
             {
                 return new
@@ -77,6 +86,7 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                     ExistCart = new
                     {
                         existProductInCart.FlowerId,
+                        flower.FlowerName,
                         existProductInCart.Quantity,
                         existProductInCart.PaidPrice,
                         UnitPrice = flower.Price,
@@ -84,10 +94,22 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                 };
             } else
             {
+                var seller = await _productRepository.GetSellerByFlowerId(flowerId);
+                var order = await _orderRepository.CreateOrder(new Order()
+                {
+                    OrderId = await _orderRepository.AutoGenerateOrderId(),
+                    AccountId = buyer.AccountId,
+                    SellerId = seller.AccountId,
+                    Date = DateOnly.FromDateTime(DateTime.Now),
+                    Status = 1,
+                    PaymentStatus = 0,
+                    TotalMoney = 0,
+                    Detail = ""
+                });
                 var cartItem = new OrderDetail
                 {
                     OrderDetailId = await AutoGenerateOrderDetailId(),
-                    OrderId = null,
+                    OrderId = order.OrderId,
                     FlowerId = flowerId,
                     Quantity = cartDTO.Quantity,
                     PaidPrice = cartDTO.Quantity * flower.Price,
@@ -101,11 +123,13 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                     Item = new
                     {
                         cartItem.FlowerId,
+                        flower.FlowerName,
                         cartItem.Quantity,
                         cartItem.PaidPrice,
                         UnitPrice = flower.Price,
                     }
                 };
+
             }
         }
         public async Task<dynamic> DeleteCartItemAsync(string cartItemId)
@@ -152,14 +176,7 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                     StatusCode = 409
                 };
             }
-            else if (quantity > existCartItem.Quantity)
-            {
-                return new
-                {
-                    Message = $"Exceed the total number of flowers in stock",
-                    StatusCode = 409
-                };
-            }
+
             existCartItem.Quantity = existCartItem.Quantity + quantity;
             existCartItem.PaidPrice = flowerInCart.Price * existCartItem.Quantity;
             var result = await _cartRepository.UpdateCartAsync(existCartItem);
@@ -171,12 +188,14 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                 {
                     existCartItem.FlowerId,
                     existCartItem.Quantity,
-                    existCartItem.PaidPrice,
+                    existCartItem.PaidPrice,       
+                    flowerInCart.FlowerName,
+                    UnitPrice = flowerInCart.Price,
                 }
             };
         }
 
-        public async Task<dynamic> GetCartAsync(string accessToken)
+        public async Task<dynamic> GetCartListAsync(string accessToken)
         {
             string accEmail = TokenDecoder.GetEmailFromToken(accessToken);
             var acc = await _accountRepository.GetAccountByEmailAsync(accEmail);

@@ -3,6 +3,7 @@ using EventFlowerExchange_Espoir.Models.DTO;
 using EventFlowerExchange_Espoir.Repositories;
 using EventFlowerExchange_Espoir.Services.Common;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace EventFlowerExchange_Espoir.Services.Impl
 {
@@ -195,12 +196,34 @@ namespace EventFlowerExchange_Espoir.Services.Impl
             };
         }
 
+        //public async Task<dynamic> GetCartListAsync(string accessToken)
+        //{
+        //    string accEmail = TokenDecoder.GetEmailFromToken(accessToken);
+        //    var acc = await _accountRepository.GetAccountByEmailAsync(accEmail);
+        //    var result = await _cartRepository.GetListCartOfUser(acc.AccountId);
+        //    return result;
+        //}
+
         public async Task<dynamic> GetCartListAsync(string accessToken)
         {
             string accEmail = TokenDecoder.GetEmailFromToken(accessToken);
             var acc = await _accountRepository.GetAccountByEmailAsync(accEmail);
-            var result = await _cartRepository.GetListCartOfUser(acc.AccountId);
-            return result;
+            var listCart = await _cartRepository.GetListCartOfUser(acc.AccountId);
+            var orders = await _orderRepository.GetListOrderNotPaymentByAccountIdAsync(acc.AccountId);
+            List<List<OrderDetail>> list = new()
+            {
+
+            };
+            foreach (var item in orders)
+            {
+                var listDetails = new List<OrderDetail>();
+                var orderDetails = listCart
+                                .Where(cart => cart.OrderId == item.OrderId)
+                                .ToList();
+                listDetails.AddRange((IEnumerable<OrderDetail>)orderDetails);
+                list.Add(listDetails);
+            }
+            return list;
         }
     }
 }

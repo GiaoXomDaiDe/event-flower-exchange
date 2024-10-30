@@ -10,5 +10,9 @@ namespace EventFlowerExchange_Espoir.Repositories
         public Task<Order> CreateOrder(Order order);
         public Task<dynamic> UpdateOrder(Order order);
         public Task<dynamic> DeleteOrder(Order order);
+
+        public Task<List<Order>> GetListOrderNotPaymentByAccountIdAsync(string accountId);
+        public Task<double> GetTotalMoneyOfOrder(string orderId);
+
     }
 }

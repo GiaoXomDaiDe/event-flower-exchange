@@ -75,12 +75,14 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
                           Quantity = od.Quantity,
                           PaidPrice = od.PaidPrice,
                           FlowerId = od.FlowerId,
-                          FlowerName = f.FlowerName
+                          FlowerName = f.FlowerName,
+                          OrderId = od.OrderId,
                       })
                 .ToListAsync();
 
             return cartItemsWithFlowerNames;
         }
+
         public async Task<dynamic> AddToCartAsync(OrderDetail orderDetail)
         {
             await _context.OrderDetails.AddAsync(orderDetail);

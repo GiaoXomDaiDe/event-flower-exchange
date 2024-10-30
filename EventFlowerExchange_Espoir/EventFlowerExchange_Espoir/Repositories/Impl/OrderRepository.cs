@@ -91,7 +91,37 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
                 newOrderId = $"O{newnumericpart:d8}";
             }
             return newOrderId;
-        }        // for cart
+        }       
+        
+        // for cart
+        public async Task<List<Order>> GetListOrderNotPaymentByAccountIdAsync(string accountId)
+        {
+            var listOrder = await _context.Orders
+                .Where(order => order.AccountId.Equals(accountId) &&
+                                order.Status == 1 &&
+                                order.PaymentStatus == 0)
+                .ToListAsync();
+            return listOrder;
+        }
 
+        public async Task<double> GetTotalMoneyOfOrder(string orderId)
+        {
+            var orderDetails = await _context.OrderDetails
+                                            .Where(item => item.OrderId.Equals(orderId))
+                                            .ToListAsync();
+            var totalMoney = (double)0;
+            foreach (var item in orderDetails)
+            {
+                var flower = await _context.Flowers
+                                    .FirstOrDefaultAsync(flower => flower.FlowerId.Equals(item.FlowerId));
+                totalMoney += flower.Price * item.Quantity;
+            }
+            var order = await _context.Orders
+                .FirstOrDefaultAsync(order => order.OrderId.Equals(orderId));
+            order.TotalMoney = totalMoney;
+            _context.Attach(order).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return totalMoney;
+        }
     }
 }

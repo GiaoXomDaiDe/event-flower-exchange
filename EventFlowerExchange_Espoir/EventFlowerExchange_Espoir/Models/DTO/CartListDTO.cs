@@ -7,5 +7,6 @@
         public double PaidPrice { get; set; }
         public string FlowerId { get; set; }
         public string FlowerName { get; set; }
+        public string OrderId { get; set; }
     }
 }

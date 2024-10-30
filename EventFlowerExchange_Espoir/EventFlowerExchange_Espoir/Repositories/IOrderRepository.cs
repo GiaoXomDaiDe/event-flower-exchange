@@ -14,5 +14,7 @@ namespace EventFlowerExchange_Espoir.Repositories
         public Task<List<Order>> GetListOrderNotPaymentByAccountIdAsync(string accountId);
         public Task<double> GetTotalMoneyOfOrder(string orderId);
 
+        public Task<Order> GetOrderById(string orderId);
+
     }
 }

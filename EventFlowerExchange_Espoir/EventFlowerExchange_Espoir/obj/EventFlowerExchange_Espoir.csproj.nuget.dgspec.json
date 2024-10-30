@@ -102,10 +102,6 @@
               "target": "Package",
               "version": "[1.6.0, )"
             },
-            "QrCode.Net": {
-              "target": "Package",
-              "version": "[0.4.0, )"
-            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.7.3, )"
@@ -114,9 +110,9 @@
               "target": "Package",
               "version": "[1.4.5, )"
             },
-            "iTextSharp": {
+            "payOS": {
               "target": "Package",
-              "version": "[5.5.13.4, )"
+              "version": "[1.0.8, )"
             }
           },
           "imports": [

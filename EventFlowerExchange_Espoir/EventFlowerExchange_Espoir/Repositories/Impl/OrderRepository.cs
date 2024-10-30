@@ -123,5 +123,11 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
             await _context.SaveChangesAsync();
             return totalMoney;
         }
+
+        public async Task<Order> GetOrderById(string orderId)
+        {
+            return await _context.Orders
+                .FirstOrDefaultAsync(item => item.OrderId.Equals(orderId)) ?? new Order();
+        }
     }
 }

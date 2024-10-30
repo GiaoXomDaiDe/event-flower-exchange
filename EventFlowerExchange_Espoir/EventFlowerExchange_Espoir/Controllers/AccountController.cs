@@ -228,10 +228,7 @@ namespace EventFlowerExchange_Espoir.Controllers
                 var errors = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
                 return BadRequest(new { Errors = errors });
             }
-            //if (string.IsNullOrEmpty(accessToken))
-            //{
-            //    return BadRequest("All fields are required");
-            //}
+
             var accessToken = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
 
             if (string.IsNullOrEmpty(accessToken))

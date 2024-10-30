@@ -4,7 +4,6 @@ using EventFlowerExchange_Espoir.Models.DTO;
 using EventFlowerExchange_Espoir.Repositories;
 using EventFlowerExchange_Espoir.Repositories.Impl;
 using EventFlowerExchange_Espoir.Services.Common;
-using iTextSharp.text.pdf.qrcode;
 using Microsoft.EntityFrameworkCore;
 using QRCoder;
 using System.Drawing;
@@ -137,85 +136,6 @@ namespace EventFlowerExchange_Espoir.Services.Impl
         {
             return await _orderRepository.GetTotalMoneyOfOrder(orderId);
         }
-        public byte[] GenerateQRCode(string accountNumber, string bankName, decimal amount, string currency, string description)
-        {
-            // Tạo nội dung theo chuẩn EMVCo VietQR
-            string payloadFormatIndicator = "000202";
-            string pointOfInitiationMethod = "010211";
-            string merchantAccountInfoTemplate = "39"; // Template ID cho VietQR
-            string accountInfo = $"00{bankName.Length:D2}{bankName}{accountNumber}";
-            string merchantCategoryCode = "52040000";
-            string transactionCurrency = "5303" + GetCurrencyCode(currency);
-            string transactionAmount = $"54{amount.ToString("F2").Replace(".", "").Length:D2}{amount.ToString("F2").Replace(".", "")}";
-            string countryCode = "5802VN";
-            string merchantName = $"59{bankName.Length:D2}{bankName}";
-            string merchantCity = "6007Ha Noi"; // Sử dụng thành phố mặc định
-            string additionalDataFieldTemplate = $"62{description.Length:D2}{description}";
-            string crc = "6304";
 
-            // Tạo payload cho mã QR
-            string payload = payloadFormatIndicator +
-                             pointOfInitiationMethod +
-                             merchantAccountInfoTemplate +
-                             accountInfo +
-                             merchantCategoryCode +
-                             transactionCurrency +
-                             transactionAmount +
-                             countryCode +
-                             merchantName +
-                             merchantCity +
-                             additionalDataFieldTemplate +
-                             crc;
-
-            // Tính toán giá trị CRC
-            string crcValue = GetCRC16(payload);
-            payload += crcValue;
-
-            using (var qrGenerator = new QRCodeGenerator())
-            {
-                var qrCodeData = qrGenerator.CreateQrCode(payload, QRCodeGenerator.ECCLevel.Q);
-                var qrCode = new QRCode(qrCodeData);
-                using (var qrCodeImage = qrCode.GetGraphic(20))
-                {
-                    using (var ms = new MemoryStream())
-                    {
-                        qrCodeImage.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
-                        return ms.ToArray();
-                    }
-                }
-            }
-        }
-        private string GetCRC16(string input)
-        {
-            ushort polynomial = 0x1021;
-            ushort crc = 0xFFFF;
-
-            foreach (byte b in System.Text.Encoding.ASCII.GetBytes(input))
-            {
-                crc ^= (ushort)(b << 8);
-                for (int i = 0; i < 8; i++)
-                {
-                    if ((crc & 0x8000) != 0)
-                    {
-                        crc = (ushort)((crc << 1) ^ polynomial);
-                    }
-                    else
-                    {
-                        crc <<= 1;
-                    }
-                }
-            }
-
-            return crc.ToString("X4");
-        }
-        private string GetCurrencyCode(string currency)
-        {
-            return currency.ToUpper() switch
-            {
-                "VND" => "704",
-                "USD" => "840",
-                _ => throw new ArgumentException("Unsupported currency")
-            };
-        }
     }
 }

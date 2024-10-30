@@ -47,19 +47,6 @@
           }
         }
       },
-      "BouncyCastle.Cryptography/2.4.0": {
-        "type": "package",
-        "compile": {
-          "lib/net6.0/BouncyCastle.Cryptography.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/net6.0/BouncyCastle.Cryptography.dll": {
-            "related": ".xml"
-          }
-        }
-      },
       "CloudinaryDotNet/1.26.2": {
         "type": "package",
         "dependencies": {
@@ -192,18 +179,6 @@
           "lib/net6.0/Humanizer.dll": {
             "related": ".xml"
           }
-        }
-      },
-      "iTextSharp/5.5.13.4": {
-        "type": "package",
-        "dependencies": {
-          "BouncyCastle.Cryptography": "2.4.0"
-        },
-        "compile": {
-          "lib/net461/itextsharp.dll": {}
-        },
-        "runtime": {
-          "lib/net461/itextsharp.dll": {}
         }
       },
       "Microsoft.AspNetCore.Authentication.Google/8.0.8": {
@@ -1189,16 +1164,19 @@
           }
         }
       },
-      "QrCode.Net/0.4.0": {
+      "payOS/1.0.8": {
         "type": "package",
+        "dependencies": {
+          "Newtonsoft.Json": "13.0.3"
+        },
         "compile": {
-          "lib/net45/Gma.QrCodeNet.Encoding.dll": {
-            "related": ".pdb;.xml"
+          "lib/net6.0/payos-lib-backend-dotnet.dll": {
+            "related": ".runtimeconfig.json"
           }
         },
         "runtime": {
-          "lib/net45/Gma.QrCodeNet.Encoding.dll": {
-            "related": ".pdb;.xml"
+          "lib/net6.0/payos-lib-backend-dotnet.dll": {
+            "related": ".runtimeconfig.json"
           }
         }
       },
@@ -2588,26 +2566,6 @@
         "lib/netstandard2.0/Azure.Identity.xml"
       ]
     },
-    "BouncyCastle.Cryptography/2.4.0": {
-      "sha512": "SwXsAV3sMvAU/Nn31pbjhWurYSjJ+/giI/0n6tCrYoupEK34iIHCuk3STAd9fx8yudM85KkLSVdn951vTng/vQ==",
-      "type": "package",
-      "path": "bouncycastle.cryptography/2.4.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "LICENSE.md",
-        "README.md",
-        "bouncycastle.cryptography.2.4.0.nupkg.sha512",
-        "bouncycastle.cryptography.nuspec",
-        "lib/net461/BouncyCastle.Cryptography.dll",
-        "lib/net461/BouncyCastle.Cryptography.xml",
-        "lib/net6.0/BouncyCastle.Cryptography.dll",
-        "lib/net6.0/BouncyCastle.Cryptography.xml",
-        "lib/netstandard2.0/BouncyCastle.Cryptography.dll",
-        "lib/netstandard2.0/BouncyCastle.Cryptography.xml",
-        "packageIcon.png"
-      ]
-    },
     "CloudinaryDotNet/1.26.2": {
       "sha512": "JUDOUKa7T+h0nmMhBdBxCkCldN4/DIZLOlh5p30KrcBX6Spral6vxTWhzk6OH2pGd8MGL5R379EsK7tJr/IQpw==",
       "type": "package",
@@ -2765,22 +2723,6 @@
         "lib/netstandard2.0/Humanizer.dll",
         "lib/netstandard2.0/Humanizer.xml",
         "logo.png"
-      ]
-    },
-    "iTextSharp/5.5.13.4": {
-      "sha512": "/cvCNv8AJ+XuD99u4NfHSSxkBJKTdvP36wcfQF9V1Cjzi1ycyFSa4vJ64a3DhFVUTKVO60WF8OmAqngQDTHgYA==",
-      "type": "package",
-      "path": "itextsharp/5.5.13.4",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "LICENSE.md",
-        "gnu-agpl-v3.0.md",
-        "itextsharp.5.5.13.4.nupkg.sha512",
-        "itextsharp.nuspec",
-        "lib/net461/iTextSharp.xml",
-        "lib/net461/itextsharp.dll",
-        "notice.txt"
       ]
     },
     "Microsoft.AspNetCore.Authentication.Google/8.0.8": {
@@ -4540,33 +4482,18 @@
         "packageIcon.png"
       ]
     },
-    "QrCode.Net/0.4.0": {
-      "sha512": "/IGAS08L3o0GYsVU1VQnE23w00EVaQ1GP5cS2uEfGsiszZ2X6AnbHImwXL1XPM0opT0GOVgbX4Bhp/7eB22Ugg==",
+    "payOS/1.0.8": {
+      "sha512": "vi2N7QFqrdrl0bhX9smE0f3j4PIBYvE7Y+/VWXfMLEfP1kyUWK27xS4Czmp4GBWtNpCNCQKriFuns3msHxLjNQ==",
       "type": "package",
-      "path": "qrcode.net/0.4.0",
+      "path": "payos/1.0.8",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "NuGet.exe",
-        "lib/net35/Gma.QrCodeNet.Encoding.dll",
-        "lib/net35/Gma.QrCodeNet.Encoding.pdb",
-        "lib/net35/Gma.QrCodeNet.Encoding.xml",
-        "lib/net40/Gma.QrCodeNet.Encoding.XML",
-        "lib/net40/Gma.QrCodeNet.Encoding.dll",
-        "lib/net40/Gma.QrCodeNet.Encoding.pdb",
-        "lib/net45/Gma.QrCodeNet.Encoding.dll",
-        "lib/net45/Gma.QrCodeNet.Encoding.pdb",
-        "lib/net45/Gma.QrCodeNet.Encoding.xml",
-        "lib/netcore45/Gma.QrCodeNet.Encoding.dll",
-        "lib/netcore45/Gma.QrCodeNet.Encoding.pdb",
-        "lib/netcore45/Gma.QrCodeNet.Encoding.pri",
-        "lib/netcore45/Gma.QrCodeNet.Encoding.xml",
-        "lib/netcore45/Themes/Generic.xaml",
-        "lib/sl5/Gma.QrCodeNet.Encoding.dll",
-        "lib/sl5/Gma.QrCodeNet.Encoding.pdb",
-        "lib/sl5/Gma.QrCodeNet.Encoding.xml",
-        "qrcode.net.0.4.0.nupkg.sha512",
-        "qrcode.net.nuspec"
+        "README.md",
+        "lib/net6.0/payos-lib-backend-dotnet.dll",
+        "lib/net6.0/payos-lib-backend-dotnet.runtimeconfig.json",
+        "payos.1.0.8.nupkg.sha512",
+        "payos.nuspec"
       ]
     },
     "QRCoder/1.6.0": {
@@ -7657,10 +7584,9 @@
       "Microsoft.EntityFrameworkCore.Tools >= 8.0.8",
       "Microsoft.VisualStudio.Azure.Containers.Tools.Targets >= 1.21.0",
       "QRCoder >= 1.6.0",
-      "QrCode.Net >= 0.4.0",
       "Swashbuckle.AspNetCore >= 6.7.3",
       "System.Linq.Dynamic.Core >= 1.4.5",
-      "iTextSharp >= 5.5.13.4"
+      "payOS >= 1.0.8"
     ]
   },
   "packageFolders": {
@@ -7765,10 +7691,6 @@
             "target": "Package",
             "version": "[1.6.0, )"
           },
-          "QrCode.Net": {
-            "target": "Package",
-            "version": "[0.4.0, )"
-          },
           "Swashbuckle.AspNetCore": {
             "target": "Package",
             "version": "[6.7.3, )"
@@ -7777,9 +7699,9 @@
             "target": "Package",
             "version": "[1.4.5, )"
           },
-          "iTextSharp": {
+          "payOS": {
             "target": "Package",
-            "version": "[5.5.13.4, )"
+            "version": "[1.0.8, )"
           }
         },
         "imports": [
@@ -7804,27 +7726,5 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
       }
     }
-  },
-  "logs": [
-    {
-      "code": "NU1701",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Package 'iTextSharp 5.5.13.4' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net8.0'. This package may not be fully compatible with your project.",
-      "libraryId": "iTextSharp",
-      "targetGraphs": [
-        "net8.0"
-      ]
-    },
-    {
-      "code": "NU1701",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Package 'QrCode.Net 0.4.0' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net8.0'. This package may not be fully compatible with your project.",
-      "libraryId": "QrCode.Net",
-      "targetGraphs": [
-        "net8.0"
-      ]
-    }
-  ]
+  }
 }

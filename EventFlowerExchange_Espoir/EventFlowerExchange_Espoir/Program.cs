@@ -65,6 +65,7 @@ builder.Services.AddScoped<ITransactionService, TransactionService>();
 builder.Services.AddScoped<IFlowerTagService, FlowerTagService>();
 builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<IImageService, ImageService>();
+builder.Services.AddScoped<IPaymentService, PaymentService>();
 // repository // ko de sai nha may ba
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped<IEventCategoryRepository, EventCategoryRepository>();

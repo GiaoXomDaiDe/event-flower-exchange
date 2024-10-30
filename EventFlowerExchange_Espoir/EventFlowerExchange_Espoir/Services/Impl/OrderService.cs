@@ -136,6 +136,13 @@ namespace EventFlowerExchange_Espoir.Services.Impl
         {
             return await _orderRepository.GetTotalMoneyOfOrder(orderId);
         }
-
+        public async Task CheckoutRequest(CheckoutRequest request)
+        {
+            var order = await _orderRepository.GetOrderById(request.OrderId);
+            order.PhoneNumber = request.PhoneNumber;
+            order.FullName = request.FullName;
+            order.Address = request.Address;
+            await _orderRepository.UpdateOrder(order);
+        }
     }
 }

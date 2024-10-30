@@ -6,5 +6,6 @@ namespace EventFlowerExchange_Espoir.Services
     {
         public Task<dynamic> CreateAnOrderFromCartAsync(CreateOrderDTO orderDTO);
         public Task<double> RetrieveTotalMoneyByOrderId(string orderId);
+        public Task CheckoutRequest(CheckoutRequest request);
     }
 }

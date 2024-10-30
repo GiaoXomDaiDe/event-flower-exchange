@@ -1,4 +1,5 @@
-﻿using EventFlowerExchange_Espoir.Repositories;
+﻿using EventFlowerExchange_Espoir.Models.DTO;
+using EventFlowerExchange_Espoir.Repositories;
 using EventFlowerExchange_Espoir.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -47,6 +48,27 @@ namespace EventFlowerExchange_Espoir.Controllers
         {
             var totalMoney = await _orderRepository.GetTotalMoneyOfOrder(orderId);
             return Ok(totalMoney);
+        }
+
+        [HttpGet("success-payment")]
+        public async Task<IActionResult> SuccessPayment(string transactionId)
+        {
+            await _paymentService.SuccessPayment(transactionId);
+            return Ok(new ApiResponse()
+            {
+                StatusCode = 200,
+                Message = "Payment successful! Your order is on the way to deliver!"
+            });
+        }
+        [HttpGet("failed-payment")]
+        public async Task<IActionResult> FailedPayment(string transactionId)
+        {
+            await _paymentService.FailedPayment(transactionId);
+            return Ok(new ApiResponse()
+            {
+                StatusCode = 200,
+                Message = "Payment failed! Please try again!"
+            });
         }
     }
 }

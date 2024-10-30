@@ -41,5 +41,17 @@ namespace EventFlowerExchange_Espoir.Controllers
 
             return Ok(result);
         }
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpPost("checkout-order")]
+        public async Task<IActionResult> CreateOrderForCheckout(CheckoutRequest request)
+        {
+            await _orderService.CheckoutRequest(request);
+            return Ok(new ApiResponse()
+            {
+                StatusCode = 200,
+                Message = "Checkout successful! Please call API Payment for the next steps!"
+            });
+        }
     }
 }

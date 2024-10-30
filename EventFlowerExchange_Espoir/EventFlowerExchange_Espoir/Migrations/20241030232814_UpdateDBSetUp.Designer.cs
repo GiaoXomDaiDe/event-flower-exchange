@@ -4,6 +4,7 @@ using EventFlowerExchange_Espoir.DatabaseConnection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EventFlowerExchange_Espoir.Migrations
 {
     [DbContext(typeof(EspoirDbContext))]
-    partial class EspoirDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241030232814_UpdateDBSetUp")]
+    partial class UpdateDBSetUp
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

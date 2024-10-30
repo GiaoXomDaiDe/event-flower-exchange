@@ -12,7 +12,7 @@ function SearchPage() {
   const [flowers, setFlowers] = useState([]);
   const [searchResult, setSearchResult] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-
+  const pageSize = 20;
 
   const CheckboxGroup = Checkbox.Group;
 
@@ -36,7 +36,7 @@ function SearchPage() {
       {
         params: {
           pageIndex: currentPage,
-          pageSize: 20,
+          pageSize: pageSize,
           sortBy: "FlowerName",
           sortDesc: true,
           search: searchValue,
@@ -111,9 +111,7 @@ function SearchPage() {
           </div>
           <div className="search_content">
             {flowers.map((flower, index) => (
-              <Link style={{textDecoration: "none", color: "#222222"}} to={`/product/${flower.flowerId}`}>
                 <ProductCard key={index} flower={flower} />
-              </Link>
             ))}
 
             <div className="pageNo">
@@ -124,7 +122,7 @@ function SearchPage() {
                 total={searchResult.totalCount}
                 showTotal={showTotal}
                 showQuickJumper
-                defaultPageSize={20}
+                defaultPageSize={pageSize}
               />
             </div>
           </div>

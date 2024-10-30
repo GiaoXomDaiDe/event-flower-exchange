@@ -24,17 +24,17 @@ function CheckOut() {
       <div className={cx("container")}>
         <div className={cx("content")}>
           <div className={cx("content-input")}>
-            <img
+            {/* <img
               src={assets.fieldPicture}
               alt="Field"
               className={cx("field-picture")}
-            />
+            /> */}
             <div className={cx("checkout-back")}>
-              <ArrowLeftOutlined style={{ fontSize: 25, cursor: "pointer" }} />
+              {/* <ArrowLeftOutlined style={{ fontSize: 25, cursor: "pointer" }} /> */}
               <h1>Check Out</h1>
             </div>
 
-            <ConfigProvider
+            {/* <ConfigProvider
               theme={{
                 components: {
                   Input: {
@@ -49,25 +49,25 @@ function CheckOut() {
                   },
                 },
               }}
-            >
+            > */}
               <div className={cx("checkout-input")}>
                 <div className={cx("checkout-contact")}>
                   <h1>Contact</h1>
                   <div className={cx("checkout-contact-name")}>
-                    <Input
+                    {/* <Input
                       placeholder="First Name"
                       size="large"
                       style={{ width: 335 }}
-                    />
-                    <Input
+                    /> */}
+                    {/* <Input
                       placeholder="Last Name"
                       size="large"
                       style={{ width: 335 }}
-                    />
+                    /> */}
                   </div>
 
-                  <Input placeholder="Email" size="large" type="email" />
-                  <Input placeholder="Phone Number" size="large" />
+                  {/* <Input placeholder="Email" size="large" type="email" /> */}
+                  {/* <Input placeholder="Phone Number" size="large" /> */}
                 </div>
 
                 <div className={cx("checkout-delivery")}>
@@ -108,10 +108,10 @@ function CheckOut() {
                   {/* Cash on Credit Card */}
                   <div className={cx("credit-card")}>
                     <div className={cx("choose-credit-card")}>
-                      <input type="radio" className={cx("radio")} />
+                      <input name="paymentMethod" type="radio" className={cx("radio")} />
                       <label htmlFor="radio" className={cx("radioLabel")}>
                         {" "}
-                        <h4>Creadit Card</h4>
+                        <h4>PayOS</h4>
                       </label>
                     </div>
 
@@ -123,7 +123,7 @@ function CheckOut() {
                 </div>
 
                 {/* Credit Card Form */}
-                <div className={cx("credit-card-form")}>
+                {/* <div className={cx("credit-card-form")}>
                   <Input placeholder="Card Number" size="large" />
                   <div className={cx("credit-card-code-number")}>
                     <Input
@@ -143,11 +143,12 @@ function CheckOut() {
                     size="large"
                     type="email"
                   />
-                </div>
+                </div> */}
+
                 {/* Cash on delivery */}
                 <div className={cx("cash-on-delivery")}>
                   <div className={cx("choose-cash-on-delivery")}>
-                    <input type="radio" className={cx("radio")} />
+                    <input name="paymentMethod" type="radio" className={cx("radio")} />
                     <label htmlFor="radio" className={cx("radioLabel")}>
                       {" "}
                       <h4>Cash on Delivery</h4>
@@ -155,13 +156,17 @@ function CheckOut() {
                   </div>
                 </div>
               </div>
-            </ConfigProvider>
+            {/* </ConfigProvider> */}
             <button className={cx("pay-now-btn")}>Pay now</button>
           </div>
         </div>
         <div className={cx("payments")}>
           <div className={cx("products-display")}>
             <h1>Products</h1>
+          </div>
+
+          <div className="checkout_products">
+            
           </div>
           {/* <div className={cx("subtotal-shipping")}>
             <div className={cx("subtotal")}>

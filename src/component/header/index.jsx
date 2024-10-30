@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./index.scss";
 import logo from "./../../assets/Espoir.png";
 import { Link, useNavigate } from "react-router-dom";
@@ -11,17 +11,23 @@ import "tippy.js/dist/tippy.css";
 import Wrapper from "../wrapper";
 import { Input } from "antd";
 import SearchItem from "../search-item";
+import axios from "axios";
+import { useCart } from "../../context/CartContext";
 const { Search } = Input;
 
 function Header() {
   const navigate = useNavigate();
   const cart = useSelector((store) => store.cart);
-  const user = useSelector((store) => store.user);
-  // const user = JSON.parse(localStorage.getItem('token'));
 
-  const onSearch = (value, e, info) => {
+  const { cartItems } = useCart();
+  console.log(cartItems);
+
+  const token = JSON.parse(localStorage.getItem("token"));
+
+  const onSearch = (value, _e, info) => {
     navigate("/search", { state: { search: value } });
   };
+
   return (
     <div className="header">
       <div className="header_col">
@@ -78,29 +84,31 @@ function Header() {
           <i className="bi bi-chat"></i>
         </Tippy> */}
         {/* <i className="bi bi-bell"></i> */}
-        <Link to="/cart">
-          <Badge count={cart.length}>
+        <button
+          className="cart_button"
+          disabled={!token}
+          onClick={() => navigate("/cart")}
+        >
+          <Badge count={cartItems.length}>
             <i className="bi bi-cart3"></i>
           </Badge>
-        </Link>
-        {/* <Link to={"/login"}>
-          <button className="header_col">Login</button>
-        </Link> */}
-        {user ? (
+        </button>
+        {token ? (
           <>
-            Welcome back! {user.fullname}{" "}
+            Welcome back!
             <button
               onClick={() => {
-                dispatch(logout());
+                localStorage.removeItem("token");
+                window.location.reload();
               }}
-              className="header_col"
+              className="login_button"
             >
               Log Out
             </button>
           </>
         ) : (
           <Link to={"/login"}>
-            <button className="header_col">Login</button>
+            <button className="login_button">Login</button>
           </Link>
         )}
       </div>

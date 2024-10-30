@@ -6,4 +6,5 @@ export const assets = {
   fieldPicture: require("./image/field-picture.png"),
   mastercard: require("./image/mastercard.png"),
   visa: require("./image/visa.png"),
+  emptyCart: require("./image/cartEmpty.png")
 };

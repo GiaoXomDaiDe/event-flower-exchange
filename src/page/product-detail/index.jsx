@@ -6,9 +6,14 @@ import TabsProduct from "../../component/product-description";
 import SuggestProduct from "../../component/suggest-product";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { useCart } from "../../context/CartContext";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ProductDetail = () => {
   const { flowerId } = useParams();
+  const { getCart } = useCart();
+
   const token = JSON.parse(localStorage.getItem("token"));
 
   const [flower, setFlower] = useState({});
@@ -42,14 +47,24 @@ const ProductDetail = () => {
       }
     );
 
-    console.log(response.data);
+    if (response.data.statusCode === 201) {
+      getCart();
+      toast.success("Your flower is added !", {
+        position: "top-right",
+        autoClose: 1500,
+      });
+    } else {
+      toast.error("Add flower failed !", {
+        position: "top-right",
+      });
+    }
   };
 
   useLayoutEffect(() => {
     fetchFlower();
   }, []);
 
-  const imageList = ["pink", "yellow", "green", "red"];
+  // const imageList = ["pink", "yellow", "green", "red"];
 
   const shopInfo = [
     {
@@ -90,7 +105,7 @@ const ProductDetail = () => {
               alt=""
             />
           </div>
-          <div className="images_list">
+          {/* <div className="images_list">
             {imageList.map((index) => {
               return (
                 <div key={index} className="images_img">
@@ -101,7 +116,7 @@ const ProductDetail = () => {
                 </div>
               );
             })}
-          </div>
+          </div> */}
         </div>
         <div className="info-detail">
           <div className="title">{flower.flowerName}</div>
@@ -113,7 +128,9 @@ const ProductDetail = () => {
           <div className="prices">
             <h1 className="new">${flower.price}</h1>
             <h4 className="prices_old">${flower.oldPrice}</h4>
-            <h6 className="prices_sale">Sale {flower.discount}</h6>
+            <h5 className="prices_sale">
+              Sale {Number(flower.discount).toFixed(1)}%
+            </h5>
           </div>
           {/* <div className="colors">
             {imageList.map((color, index) => {
@@ -149,10 +166,7 @@ const ProductDetail = () => {
             {flower.quantity} left
           </div>
           <div className="add-cart">
-            <button
-              className="cart-btn"
-              onClick={() => fetchAddCart(flower.flowerId, quantity)}
-            >
+            <button className="cart-btn" onClick={() => fetchAddCart(quantity)}>
               Add to Cart
             </button>
             <button className="wish-btn">Add to Wishlist</button>
@@ -212,6 +226,7 @@ const ProductDetail = () => {
         <h1 className="suggest-product_title">Other Product</h1>
         <SuggestProduct />
       </div> */}
+      
     </div>
   );
 };

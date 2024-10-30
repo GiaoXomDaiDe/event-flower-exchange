@@ -12,6 +12,7 @@ import CheckOut from "./page/checkout";
 import RegisterPage from "./page/register/index1";
 import Flower from "./page/product";
 import ProductDetail from "./page/product-detail";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   const router = createBrowserRouter([
@@ -78,7 +79,12 @@ function App() {
     },
   ]);
 
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <RouterProvider router={router} />;
+      <ToastContainer />
+    </>
+  ) 
 }
 
 export default App;

@@ -54,17 +54,9 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                     newFlower.TagIds = "Empty";
                 }
 
-                var attachmentUris = new List<string>();
+                //var attachmentUris = new List<string>();
                 // Upload each attachment file
-                if (newFlower.AttachmentFiles != null && newFlower.AttachmentFiles.Any())
-                {
-                    // Upload each file and collect its URI
-                    foreach (var file in newFlower.AttachmentFiles)
-                    {
-                        var attachment = await _imageService.UploadImageAsync(file);
-                        attachmentUris.Add(attachment.SecureUri.AbsoluteUri);
-                    }
-                }
+
                 var flower = new Flower
                 {
                     FlowerId = await AutoGenerateFlowerId(),
@@ -81,7 +73,7 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                     DateExpiration = newFlower.DateExpiration,
                     Status = 0,
                     TagIds = newFlower.TagIds,
-                    Attachment = string.Join(",", attachmentUris),//thêm blob storage sau
+                    Attachment = string.Join(",", newFlower.AttachmentUris),//thêm blob storage sau
                 };
 
                 var result = await _productRepository.CreateFlowerAsync(flower);

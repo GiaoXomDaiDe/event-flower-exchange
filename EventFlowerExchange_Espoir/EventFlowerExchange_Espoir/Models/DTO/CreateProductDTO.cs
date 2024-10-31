@@ -34,7 +34,6 @@ namespace EventFlowerExchange_Espoir.Models.DTO
 
         public string? TagIds { get; set; }
 
-        [DataType(DataType.Upload, ErrorMessage = "Invalid attachment format")]
-        public List<IFormFile> AttachmentFiles { get; set; }
+        public List<string> AttachmentUris { get; set; }
     }
 }

@@ -274,8 +274,7 @@
               "RelativeToolTip": "EventFlowerExchange_Espoir\\Models\\DTO\\ImageUploadResponse.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-31T23:01:05.447Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-31T23:01:05.447Z"
             },
             {
               "$type": "Document",
@@ -287,8 +286,7 @@
               "RelativeToolTip": "EventFlowerExchange_Espoir\\Services\\Impl\\ImageService.cs",
               "ViewState": "AgIAAA0AAAAAAAAAAAAQwB0AAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-31T16:44:35.916Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-31T16:44:35.916Z"
             },
             {
               "$type": "Document",
@@ -300,8 +298,7 @@
               "RelativeToolTip": "EventFlowerExchange_Espoir\\Controllers\\AccountController.cs",
               "ViewState": "AgIAAGQAAAAAAAAAAAAkwDgAAAA6AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-23T06:38:00.424Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-23T06:38:00.424Z"
             },
             {
               "$type": "Document",
@@ -313,8 +310,7 @@
               "RelativeToolTip": "EventFlowerExchange_Espoir\\Controllers\\ProductController.cs",
               "ViewState": "AgIAAP4AAAAAAAAAAAAjwAQBAADEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-30T16:53:44.272Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-30T16:53:44.272Z"
             },
             {
               "$type": "Document",
@@ -324,7 +320,7 @@
               "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Services\\Impl\\ProductService.cs",
               "ToolTip": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Services\\Impl\\ProductService.cs",
               "RelativeToolTip": "EventFlowerExchange_Espoir\\Services\\Impl\\ProductService.cs",
-              "ViewState": "AgIAAIsAAAAAAAAAAAAgwEIAAAARAAAAAAAAAA==",
+              "ViewState": "AgIAAGEAAAAAAAAAAAAgwJ0AAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-27T03:54:45.034Z",
               "EditorCaption": ""
@@ -335,12 +331,11 @@
               "Title": "CreateProductDTO.cs",
               "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Models\\DTO\\CreateProductDTO.cs",
               "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Models\\DTO\\CreateProductDTO.cs",
-              "ToolTip": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Models\\DTO\\CreateProductDTO.cs*",
-              "RelativeToolTip": "EventFlowerExchange_Espoir\\Models\\DTO\\CreateProductDTO.cs*",
+              "ToolTip": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Models\\DTO\\CreateProductDTO.cs",
+              "RelativeToolTip": "EventFlowerExchange_Espoir\\Models\\DTO\\CreateProductDTO.cs",
               "ViewState": "AgIAABoAAAAAAAAAAAAowCUAAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-31T22:55:39.338Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-31T22:55:39.338Z"
             },
             {
               "$type": "Document",
@@ -352,8 +347,7 @@
               "RelativeToolTip": "EventFlowerExchange_Espoir\\Controllers\\ImageController.cs",
               "ViewState": "AgIAABAAAAAAAAAAAAAQwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-30T16:53:27.678Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-30T16:53:27.678Z"
             },
             {
               "$type": "Document",
@@ -365,8 +359,7 @@
               "RelativeToolTip": "EventFlowerExchange_Espoir\\Repositories\\Impl\\ProductRepository.cs",
               "ViewState": "AgIAAK0AAAAAAAAAAAAuwLMAAACLAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-28T05:24:07.797Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-28T05:24:07.797Z"
             },
             {
               "$type": "Document",

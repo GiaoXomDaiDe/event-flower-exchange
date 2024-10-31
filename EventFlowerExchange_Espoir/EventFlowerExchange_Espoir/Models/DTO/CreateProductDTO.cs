@@ -34,6 +34,7 @@ namespace EventFlowerExchange_Espoir.Models.DTO
 
         public string? TagIds { get; set; }
 
-        public List<string> AttachmentUris { get; set; }
+        //public List<string> AttachmentUris { get; set; }
+        public List<IFormFile> AttachmentFiles { get; set; }
     }
 }

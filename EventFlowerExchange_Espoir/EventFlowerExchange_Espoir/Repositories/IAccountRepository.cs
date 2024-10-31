@@ -10,6 +10,7 @@ namespace EventFlowerExchange_Espoir.Repositories
         public Task<User> GetUserByAccountIdAsync(string accountId);
         public Task<User> GetSellerProfileByAccountIdAsync(string accountId);
         public Task<string> GetAccountIdByShopName(string shopName);
+        public Task<User> GetUserByShopName(string shopName);
         public Task<string> GetLatestAccountIdAsync();
 
         public Task<dynamic> CreateAccountAsync(Account acc);

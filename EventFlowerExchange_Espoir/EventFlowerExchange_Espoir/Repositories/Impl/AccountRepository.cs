@@ -28,6 +28,10 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
             return await _context.Accounts.FirstOrDefaultAsync(a => a.PhoneNumber == phone);
         }
 
+        public async Task<User> GetUserByShopName(string shopName)
+        {
+            return await _context.Users.FirstOrDefaultAsync(u => u.ShopName == shopName);
+        }
         public async Task<string> GetAccountIdByShopName(string shopName)
         {
             return await _context.Users.Where(u => u.ShopName == shopName).Select(u => u.AccountId).FirstOrDefaultAsync();

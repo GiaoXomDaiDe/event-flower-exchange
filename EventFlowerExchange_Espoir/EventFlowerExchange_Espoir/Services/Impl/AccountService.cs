@@ -325,7 +325,14 @@ namespace EventFlowerExchange_Espoir.Services.Impl
             {
                 return "Account cannot be found. Please try again";
             }
-
+            var existShop = await _accountReposiotry.GetUserByShopName(newSeller.ShopName);
+            if (existShop != null)
+            {
+                return new
+                {
+                    Message = "This shop name is already exist. Please try another"
+                };
+            }
             if (string.IsNullOrEmpty(newSeller.SellerAvatar))
             {
                 newSeller.SellerAvatar = "empty";

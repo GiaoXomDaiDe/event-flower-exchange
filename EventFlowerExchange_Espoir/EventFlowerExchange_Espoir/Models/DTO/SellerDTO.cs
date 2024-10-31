@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using EventFlowerExchange_Espoir.Services.Common;
+using System.ComponentModel.DataAnnotations;
 
 namespace EventFlowerExchange_Espoir.Models.DTO
 {
@@ -19,6 +20,7 @@ namespace EventFlowerExchange_Espoir.Models.DTO
         public string? SellerAvatar { get; set; }
         public string? SellerAddress { get; set; }
         [Required(ErrorMessage = "Name of shop is required")]
+        [UniqueShopName(ErrorMessage = "This shop name is already exist. Please try another.")]
         public string ShopName { get; set; }
     }
 }

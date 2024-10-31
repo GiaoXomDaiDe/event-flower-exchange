@@ -32,7 +32,9 @@ namespace EventFlowerExchange_Espoir.Models.DTO
         [Required(ErrorMessage = "Flower's Date Expiration is required")]
         public string DateExpiration { get; set; } 
 
-        public string? TagIds { get; set; } 
+        public string? TagIds { get; set; }
 
+        [DataType(DataType.Upload, ErrorMessage = "Invalid attachment format")]
+        public List<IFormFile> AttachmentFiles { get; set; }
     }
 }

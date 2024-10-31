@@ -11,11 +11,14 @@ namespace EventFlowerExchange_Espoir.Services.Impl
         private readonly IProductRepository _productRepository;
         private readonly IAccountRepository _accountRepository;
         private readonly IFlowerCategoryRepository _categoryRepository;
-        public ProductService(IProductRepository productRepository, IAccountRepository accountRepository, IFlowerCategoryRepository categoryRepository)
+        private readonly IImageService _imageService;
+
+        public ProductService(IProductRepository productRepository, IAccountRepository accountRepository, IFlowerCategoryRepository categoryRepository, IImageService imageService)
         {
             _productRepository = productRepository;
             _accountRepository = accountRepository;
             _categoryRepository = categoryRepository;
+            _imageService = imageService;
         }
 
         public async Task<string> AutoGenerateFlowerId()
@@ -50,6 +53,18 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                 {
                     newFlower.TagIds = "Empty";
                 }
+
+                var attachmentUris = new List<string>();
+                // Upload each attachment file
+                if (newFlower.AttachmentFiles != null && newFlower.AttachmentFiles.Any())
+                {
+                    // Upload each file and collect its URI
+                    foreach (var file in newFlower.AttachmentFiles)
+                    {
+                        var attachment = await _imageService.UploadImageAsync(file);
+                        attachmentUris.Add(attachment.SecureUri.AbsoluteUri);
+                    }
+                }
                 var flower = new Flower
                 {
                     FlowerId = await AutoGenerateFlowerId(),
@@ -66,7 +81,7 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                     DateExpiration = newFlower.DateExpiration,
                     Status = 0,
                     TagIds = newFlower.TagIds,
-                    Attachment = "Empty",//thêm blob storage sau
+                    Attachment = string.Join(",", attachmentUris),//thêm blob storage sau
                 };
 
                 var result = await _productRepository.CreateFlowerAsync(flower);
@@ -282,6 +297,5 @@ namespace EventFlowerExchange_Espoir.Services.Impl
         {
             return await _productRepository.GetListFlowerOfSellerAsync(pageIndex, pageSize, sortBy, sortDesc, search);
         }
-
     }
 }

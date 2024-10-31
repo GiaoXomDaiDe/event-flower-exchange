@@ -4,6 +4,8 @@ namespace EventFlowerExchange_Espoir.Models.DTO
 {
     public class FlowerListDTO
     {
+        public string FlowerId { get; set; }
+
         public string FlowerName { get; set; }
 
         public string Category { get; set; }

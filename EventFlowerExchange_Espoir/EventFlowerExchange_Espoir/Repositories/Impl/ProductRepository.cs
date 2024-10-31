@@ -24,9 +24,9 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
         {
             return await _context.Flowers.FirstOrDefaultAsync(f => f.FlowerId == flowerId);
         }
-        public async Task<Flower> GetFlowerByFlowerNameAsync(string flowerId)
+        public async Task<Flower> GetFlowerByFlowerNameAsync(string flowerName)
         {
-            return await _context.Flowers.FirstOrDefaultAsync(f => f.FlowerId.Equals(flowerId));
+            return await _context.Flowers.FirstOrDefaultAsync(f => f.FlowerId.Equals(flowerName));
         }
         public async Task<string> GetFlowerNameByFlowerId(string flowerId)
         {
@@ -204,6 +204,7 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
 
             var flowers = await query.Skip((pageIndex - 1) * pageSize).Take(pageSize).Select(c => new FlowerListDTO
             {
+                FlowerId = c.FlowerId,
                 FlowerName = c.FlowerName,
                 Category = c.Cate.FcateName,
                 Description = c.Description,

@@ -52,7 +52,6 @@ namespace EventFlowerExchange_Espoir.Services.Impl
             }
             var cartItems = await _cartRepository.GetListCartItemByIdsString(orderDTO.CartItemIds);
 
-
             double totalAmount = 0;
 
             foreach (var item in cartItems)

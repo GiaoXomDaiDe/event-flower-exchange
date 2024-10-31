@@ -5,13 +5,14 @@ const sellerApi = {
   registerToSeller(formData) {
     return http.post(url.URL_REGISTER_TO_SELLER, formData)
   },
-
   getSellerProfile() {
     return http.get(url.URL_GET_SELLER_PROFILE)
   },
-
   getCreditCardInfo() {
     return http.get(url.URL_GET_CREDIT_CARD_INFO)
+  },
+  sellerCancel() {
+    return http.post(url.URL_SELLER_CANCEL)
   }
 }
 

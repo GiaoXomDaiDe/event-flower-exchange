@@ -11,11 +11,13 @@ import {
 import { useQuery } from '@tanstack/react-query'
 import { Avatar, Badge, Breadcrumb, Col, Divider, Image, Layout, Popover, Row, Tooltip, Typography } from 'antd'
 import { Content, Header } from 'antd/es/layout/layout'
-import { useContext } from 'react'
-import { Link, Outlet, useLocation } from 'react-router-dom'
+import { useContext, useEffect } from 'react'
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
 
 import sellerApi from '../../apis/seller.api.js'
 import SungJinWo from '../../assets/images/profile_image.jpg'
+import BankAccountModal from '../../components/Seller/BankAccountModal/BankAccountModal.jsx'
+import SellerCancelButton from '../../components/Seller/SellerCancelButton/SellerCancelButton.jsx'
 import Sidebar from '../../components/Seller/Sidebar/Sidebar.jsx'
 import { LayoutProvider } from '../../contexts/layout.context.jsx'
 import { SellerContext } from '../../contexts/seller.context.jsx'
@@ -24,6 +26,7 @@ const { Title, Text } = Typography
 
 export default function SellerLayout() {
   const location = useLocation()
+  const navigate = useNavigate()
   const { pathname } = location
   const pathArray = pathname.split('/').filter((item) => item !== '')
   const breadcrumbItems = pathArray.map((path, index) => {
@@ -38,23 +41,23 @@ export default function SellerLayout() {
   })
   const title = breadcrumbItems.length > 0 ? breadcrumbItems[breadcrumbItems.length - 1].name : 'Dashboard'
 
-  const { setSellerInfo, sellerInfo } = useContext(SellerContext)
-
-  // Lấy thông tin người bán
-  const { data: sellerProfileData, isLoading: isSellerProfileLoading } = useQuery({
-    queryKey: ['sellerProfile'],
-    queryFn: () => sellerApi.getSellerProfile()
+  const { sellerProfile } = useContext(SellerContext)
+  useEffect(() => {
+    console.log(sellerProfile)
   })
+
+  const handleLogout = () => {
+    navigate('/')
+  }
 
   // Lấy thông tin thẻ tín dụng
   const { data: creditCardData, isLoading: isCreditCardLoading } = useQuery({
     queryKey: ['creditCardInfo'],
     queryFn: () => sellerApi.getCreditCardInfo()
   })
-  if (isSellerProfileLoading || isCreditCardLoading) {
+  if (!sellerProfile) {
     return <div>Loading...</div>
   }
-  console.log(sellerProfileData)
   const notificationItems = [
     {
       id: 1,
@@ -138,10 +141,12 @@ export default function SellerLayout() {
 
   const userContent = (
     <div className='p-3 font-beausite space-y-3'>
-      <div className='font-bold'>👋 Hello, {sellerProfileData?.data.shopName}</div>
+      <div className='font-bold'>👋 Hello, {sellerProfile?.account.username}</div>
       <Divider style={{ margin: '8px 0' }} />
       <div>Profile setting</div>
-      <div>Logout</div>
+      <BankAccountModal />
+      <SellerCancelButton />
+      <button onClick={handleLogout}>Logout</button>
     </div>
   )
   return (
@@ -197,7 +202,7 @@ export default function SellerLayout() {
                   placement='bottomRight'
                   overlayClassName='animate-fadeInDown'
                 >
-                  <Avatar size={40} src={sellerProfileData?.data.sellerAvatar} />
+                  <Avatar size={40} src={sellerProfile?.sellerAvatar} />
                 </Popover>
               </div>
             </div>

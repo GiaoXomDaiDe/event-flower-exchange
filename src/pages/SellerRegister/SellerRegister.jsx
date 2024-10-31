@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query'
-import { Button, Card, Col, Form, Input, Layout, Row, Select, Typography, Upload, message } from 'antd'
+import { Button, Card, Col, Form, Input, Layout, Row, Select, Typography, Upload } from 'antd'
 import ImgCrop from 'antd-img-crop'
 import { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -17,7 +17,8 @@ export default function SellerRegister() {
   const [fileList, setFileList] = useState([])
   const [uploadedImageUrl, setUploadedImageUrl] = useState('')
   const navigate = useNavigate()
-  const { setIsAuthenticated, setIsSellerMode } = useContext(SellerContext)
+  const { isAuthenticated, isSellerMode, sellerProfile, setIsAuthenticated, setIsSellerMode, setSellerProfile } =
+    useContext(SellerContext)
 
   const validateMessages = {
     required: '${label} is required!',
@@ -26,7 +27,6 @@ export default function SellerRegister() {
     }
   }
 
-  // Mutation để upload ảnh
   const uploadImageMutation = useMutation({
     mutationFn: (imageFile) => {
       const formData = new FormData()
@@ -34,34 +34,31 @@ export default function SellerRegister() {
       return utilsApi.uploadImage(formData)
     },
     onSuccess: (data) => {
-      const uploadedUrl = data.data.data.link // Đảm bảo rằng API trả về đúng định dạng
+      const uploadedUrl = data.data.data.link
       setUploadedImageUrl(uploadedUrl)
-      message.success('Image uploaded successfully')
+      toast.success('Image uploaded successfully')
     },
     onError: (error) => {
-      message.error('Failed to upload image')
+      toast.error('Failed to upload image')
       console.error(error)
     }
   })
 
-  // Xử lý khi người dùng chọn ảnh
   const handleUploadChange = ({ fileList }) => {
     const file = fileList[0]?.originFileObj
     if (file) {
       const isImage = file.type.startsWith('image/')
       const isLt2M = file.size / 1024 / 1024 < 2
       if (!isImage) {
-        message.error('You can only upload image files!')
+        toast.error('You can only upload image files!')
         return
       }
       if (!isLt2M) {
-        message.error('Image must be smaller than 2MB!')
+        toast.error('Image must be smaller than 2MB!')
         return
       }
       setFileList(fileList)
-      // Gọi mutation để upload ảnh
       uploadImageMutation.mutate(file)
-      console.log(uploadedImageUrl)
     } else {
       setFileList([])
       setUploadedImageUrl('')
@@ -74,11 +71,10 @@ export default function SellerRegister() {
       const accessToken = getAccessTokenFromLS()
 
       if (!uploadedImageUrl) {
-        message.error('Please upload an avatar image before registering.')
+        toast.error('Please upload an avatar image before registering.')
         return Promise.reject('No avatar image uploaded')
       }
 
-      // Tạo FormData để gửi dữ liệu
       const formData = new FormData()
 
       formData.append('AccessToken', accessToken)
@@ -88,29 +84,37 @@ export default function SellerRegister() {
       formData.append('TaxNumber', formValues.TaxNumber)
       formData.append('ShopName', formValues.ShopName)
       formData.append('SellerAddress', formValues.SellerAddress)
-      formData.append('SellerAvatar', uploadedImageUrl.toString())
+      formData.append('SellerAvatar', uploadedImageUrl)
 
       return sellerApi.registerToSeller(formData)
     },
     onSuccess: (response) => {
-      const { message: successMessage, shop } = response.data
-      const sellerData = {
-        userId: shop.userId,
-        accountId: shop.accountId,
-        shopName: shop.shopName,
-        sellerAvatar: shop.sellerAvatar,
-        sellerAddress: shop.sellerAddress
-      }
-      sessionStorage.setItem('sellerInfo', JSON.stringify(sellerData))
+      const { message: successMessage } = response.data
+      // queryClient.setQueryData(['sellerProfile'], shop)
+      // const sellerData = {
+      //   userId: shop.userId,
+      //   accountId: shop.accountId,
+      //   shopName: shop.shopName,
+      //   sellerAvatar: shop.sellerAvatar,
+      //   sellerAddress: shop.sellerAddress
+      // }
+      // sessionStorage.setItem('sellerInfo', JSON.stringify(sellerData))
       setIsAuthenticated(true)
       setIsSellerMode(true)
+      setSellerProfile(response.data.shop)
 
       toast.success(successMessage)
       navigate('/seller')
     },
     onError: (error) => {
-      const errorMsg = error.response?.data?.title || error.message
-      toast.error(errorMsg)
+      if (error.response && error.response.status === 409) {
+        // Nếu lỗi 409, thông báo cho người dùng và chuyển hướng đến dashboard
+        toast.error('You are already a seller.')
+        navigate('/seller/dashboard')
+      } else {
+        const errorMsg = error.response?.data?.title || error.message
+        toast.error(errorMsg)
+      }
     }
   })
 

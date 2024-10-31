@@ -1,13 +1,14 @@
 import PropTypes from 'prop-types'
 import { createContext, useState } from 'react'
+import { getAccessTokenFromLS, getIsSellerModeFromLS, getSellerProfileFromLS } from '../utils/utils'
 
 const getInitialUserContext = () => ({
-  isAuthenticated: false,
+  isAuthenticated: Boolean(getAccessTokenFromLS()),
   setIsAuthenticated: () => null,
-  isSellerMode: false,
+  isSellerMode: getIsSellerModeFromLS(),
   setIsSellerMode: () => null,
-  sellerInfo: null,
-  setSellerInfo: () => null,
+  sellerProfile: getSellerProfileFromLS(),
+  setSellerProfile: () => null,
   reset: () => null
 })
 
@@ -18,23 +19,23 @@ export const SellerContext = createContext(initialAppContext)
 export const SellerProvider = ({ children, defaultValue = initialAppContext }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(defaultValue.isAuthenticated)
   const [isSellerMode, setIsSellerMode] = useState(defaultValue.isSellerMode)
-  const [sellerInfo, setSellerInfo] = useState(defaultValue.sellerInfo)
+  const [sellerProfile, setSellerProfile] = useState(defaultValue.sellerProfile)
 
   const reset = () => {
     setIsAuthenticated(false)
     setIsSellerMode(false)
-    setSellerInfo(null)
+    setSellerProfile(null)
   }
 
   return (
     <SellerContext.Provider
       value={{
         isAuthenticated,
-        setIsAuthenticated,
         isSellerMode,
+        sellerProfile,
+        setIsAuthenticated,
         setIsSellerMode,
-        sellerInfo,
-        setSellerInfo,
+        setSellerProfile,
         reset
       }}
     >
@@ -48,6 +49,6 @@ SellerProvider.propTypes = {
   defaultValue: PropTypes.shape({
     isAuthenticated: PropTypes.bool,
     isSellerMode: PropTypes.bool,
-    sellerInfo: PropTypes.object
+    sellerProfile: PropTypes.object
   })
 }

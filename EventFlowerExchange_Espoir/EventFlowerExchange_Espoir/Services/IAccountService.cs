@@ -25,5 +25,6 @@ namespace EventFlowerExchange_Espoir.Services
         public Task<dynamic> GetPaymentInfoOfSellerAsync(string accessToken);
         public Task<dynamic> GetListOfBankAsync();
         public Task<dynamic> CheckSellerRole(string accessToken);
+        public Task<long> GetAccountBalance(string accountEmail);
     }
 }

@@ -152,5 +152,23 @@ namespace EventFlowerExchange_Espoir.Services.Impl
             order.Address = request.Address;
             await _orderRepository.UpdateOrder(order);
         }
+
+        public async Task FinishDeliveringStage(string orderId)
+        {
+            var order = await _orderRepository.GetOrderById(orderId);
+            order.Status = 5;
+            order.PaymentStatus = 1;
+            await _orderRepository.UpdateOrder(order);
+        }
+
+        public async Task<List<Order>> GetAllOrders() => await _orderRepository.GetAllOrders();
+        public async Task<int> GetNumberOfOrders() => await _orderRepository.GetNumberOfOrders();
+        public async Task<int> GetNumberOfOrderBasedOnStatus(int status) => await _orderRepository.GetNumberOfOrderBasedOnStatus(status);
+        public async Task<double> GetTotalEarnings(string accountEmail)
+        {
+            var account = await _accountRepository.GetAccountByEmailAsync(accountEmail);
+            return await _orderRepository.GetEarningOnAllOrders(account.AccountId);
+        }
+
     }
 }

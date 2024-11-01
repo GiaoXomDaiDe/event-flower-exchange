@@ -297,5 +297,10 @@ namespace EventFlowerExchange_Espoir.Services.Impl
         {
             return await _productRepository.GetListFlowerOfSellerAsync(pageIndex, pageSize, sortBy, sortDesc, search);
         }
+
+        public async Task<List<Flower>> GetAllFlowersActive()
+        {
+            return await _productRepository.GetAllActiveFlowers();
+        }
     }
 }

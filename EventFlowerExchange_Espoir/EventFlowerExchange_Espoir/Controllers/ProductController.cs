@@ -286,5 +286,15 @@ namespace EventFlowerExchange_Espoir.Controllers
             return Ok(result);
         }
 
+
+        public async Task<IActionResult> GetAllActiveFlowers()
+        {
+            var flowers = await _productService.GetAllFlowersActive();
+            return Ok(new ApiResponse()
+            {
+                StatusCode = 200,
+                Data = flowers
+            });
+        }
     }
 }

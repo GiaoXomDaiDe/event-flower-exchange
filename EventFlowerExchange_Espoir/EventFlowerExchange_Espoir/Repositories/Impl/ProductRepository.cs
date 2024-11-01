@@ -240,6 +240,11 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
                 .FirstOrDefaultAsync(item => item.AccountId.Equals(sellerId)) ?? new Account();
         }
 
-
+        public async Task<List<Flower>> GetAllActiveFlowers()
+        {
+            return await _context.Flowers
+                .Where(item => item.Quantity > 0)
+                .ToListAsync();
+        }
     }
 }

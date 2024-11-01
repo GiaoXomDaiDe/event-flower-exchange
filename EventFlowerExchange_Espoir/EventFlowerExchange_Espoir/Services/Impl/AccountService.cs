@@ -467,6 +467,14 @@ namespace EventFlowerExchange_Espoir.Services.Impl
             return await _accountReposiotry.GetListBankNameAsync();
         }
 
-
+        public async Task<long> GetAccountBalance(string accountEmail)
+        {
+            var account = await _accountReposiotry.GetAccountByEmailAsync(accountEmail);
+            if (account == null)
+            {
+                return 0;
+            }
+            return await _accountReposiotry.GetAccountBalance(account.AccountId);
+        }
     }
 }

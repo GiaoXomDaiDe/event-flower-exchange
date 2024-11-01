@@ -24,5 +24,6 @@ namespace EventFlowerExchange_Espoir.Repositories
         public Task<dynamic> DeleteUserAsync(User user);
         public  Task<dynamic> GetBankInfoOfSellerAsync(string accountId);
         public Task<dynamic> GetListBankNameAsync();
+        public Task<long> GetAccountBalance(string accountId);
     }
 }

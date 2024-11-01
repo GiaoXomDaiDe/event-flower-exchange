@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
 
 namespace EventFlowerExchange_Espoir.Controllers
 {
@@ -299,6 +300,18 @@ namespace EventFlowerExchange_Espoir.Controllers
             return Ok(result);
         }
 
+        [HttpGet("get-balance")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> GetAccountBalance()
+        {
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            var userEmail = identity.Claims.FirstOrDefault().Value;
+            return Ok(new ApiResponse()
+            {
+                StatusCode = 200,
+                Data = await _accountService.GetAccountBalance(userEmail)
+            });
+        }
     }
 
 }

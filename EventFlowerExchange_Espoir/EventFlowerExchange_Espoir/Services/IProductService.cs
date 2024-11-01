@@ -13,5 +13,7 @@ namespace EventFlowerExchange_Espoir.Services
         public Task<(List<FlowerListDTO> flowers, int totalCount, int totalPages)> GetListFlowerAsync(int pageIndex, int pageSize, string sortBy, bool sortDesc, string search);
         public Task<(List<FlowerListDTO> flowers, int totalCount, int totalPages)> GetListFlowerOfSellerAsync(int pageIndex, int pageSize, string sortBy, bool sortDesc, string search);
         public Task<dynamic> ViewFlowerDetailAsync(string flowerId);
+        public Task<List<Flower>> GetAllFlowersActive();
+
     }
 }

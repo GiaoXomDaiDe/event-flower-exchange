@@ -16,5 +16,11 @@ namespace EventFlowerExchange_Espoir.Repositories
 
         public Task<Order> GetOrderById(string orderId);
         public Task<Order> GetOrderBySellerIdAsync(string? sellerId);
+
+        public Task<List<Order>> GetAllOrders();
+        public Task<int> GetNumberOfOrders();
+        public Task<int> GetNumberOfOrderBasedOnStatus(int status);
+        public Task<double> GetEarningOnAllOrders(string accountId);
+
     }
 }

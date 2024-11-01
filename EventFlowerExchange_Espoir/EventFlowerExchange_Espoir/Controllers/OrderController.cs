@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Server.HttpSys;
 using System.Net;
+using System.Security.Claims;
 
 namespace EventFlowerExchange_Espoir.Controllers
 {
@@ -51,6 +52,63 @@ namespace EventFlowerExchange_Espoir.Controllers
             {
                 StatusCode = 200,
                 Message = "Checkout successful! Please call API Payment for the next steps!"
+            });
+        }
+
+        [HttpGet("finish-delivering-stage")]
+        public async Task<IActionResult> FinishDeliveringStage(string orderId)
+        {
+            await _orderService.FinishDeliveringStage(orderId);
+            return Ok(new ApiResponse()
+            {
+                StatusCode = 200,
+                Message = "Finish delivering stage!"
+            });
+        }
+        [HttpGet("get-all")]
+        public async Task<IActionResult> GetAllOrders()
+        {
+            var orders = await _orderService.GetAllOrders();
+            return Ok(new ApiResponse()
+            {
+                StatusCode = 200,
+                Data = orders
+            });
+        }
+
+        [HttpGet("get-number-of-orders")]
+        public async Task<IActionResult> GetNumberOfOrders()
+        {
+            var numberOfOrders = await _orderService.GetNumberOfOrders();
+            return Ok(new ApiResponse()
+            {
+                StatusCode = 200,
+                Data = numberOfOrders
+            });
+        }
+
+        [HttpGet("get-number-orders-by-status")]
+        public async Task<IActionResult> GetNumberOfOrderByStatus(int status)
+        {
+            var numberOfOrders = await _orderService.GetNumberOfOrderBasedOnStatus(status);
+            return Ok(new ApiResponse()
+            {
+                StatusCode = 200,
+                Data = numberOfOrders
+            });
+        }
+
+        [HttpGet("get-total-earnings")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> GetTotalEarnings()
+        {
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            var userEmail = identity.Claims.FirstOrDefault().Value;
+            var totalEarnings = await _orderService.GetTotalEarnings(userEmail);
+            return Ok(new ApiResponse()
+            {
+                StatusCode = 200,
+                Data = totalEarnings
             });
         }
     }

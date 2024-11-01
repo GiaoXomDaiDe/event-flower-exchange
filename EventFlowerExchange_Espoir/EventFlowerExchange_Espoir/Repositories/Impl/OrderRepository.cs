@@ -134,5 +134,34 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
         {
             return await _context.Orders.FirstOrDefaultAsync(o => o.SellerId == sellerId);
         }
+
+        public async Task<List<Order>> GetAllOrders()
+        {
+            return await _context.Orders.ToListAsync();
+        }
+
+        public async Task<int> GetNumberOfOrders()
+        {
+            return await _context.Orders.CountAsync();
+        }
+
+        public async Task<int> GetNumberOfOrderBasedOnStatus(int status)
+        {
+            return await _context.Orders.CountAsync(item => item.Status == status);
+        }
+
+        public async Task<double> GetEarningOnAllOrders(string accountId)
+        {
+            var orders = await _context.Orders
+                .Where(item => item.SellerId.Equals(accountId) &&
+                                item.Status >= 4)
+                .ToListAsync();
+            var totalEarnings = (double)0;
+            foreach (var order in orders)
+            {
+                totalEarnings += order.TotalMoney;
+            }
+            return totalEarnings;
+        }
     }
 }

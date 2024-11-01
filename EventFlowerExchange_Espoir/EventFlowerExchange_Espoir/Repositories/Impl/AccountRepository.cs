@@ -192,6 +192,12 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
             }).ToListAsync();
         }
 
-
+        public async Task<long> GetAccountBalance(string accountId)
+        {
+            var accountBalance = await _context.SellerWallets
+                .FirstOrDefaultAsync(wallet => wallet.AccountId.Equals(accountId));
+            if (accountBalance == null) return 0;
+            return accountBalance.Balance;
+        }
     }
 }

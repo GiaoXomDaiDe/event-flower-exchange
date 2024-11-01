@@ -73,12 +73,12 @@ builder.Services.AddScoped<IEventRepository, EventRepository>();
 builder.Services.AddScoped<IFeedbackRepository, FeedbackRepository>();
 builder.Services.AddScoped<IFlowerCategoryRepository, FlowerCategoryRepository>();
 builder.Services.AddScoped<ISellerPostRepository, SellerPostRepository>();
-builder.Services.AddScoped<ISellerRepository, SellerRepository>();
 builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IFlowerTagRepository, FlowerTagRepository>();
 builder.Services.AddScoped<ICartRepository, CartRepository>();
+builder.Services.AddScoped<ISellerRepository, SellerRepository>();
 
 builder.Services.AddHttpContextAccessor();
 

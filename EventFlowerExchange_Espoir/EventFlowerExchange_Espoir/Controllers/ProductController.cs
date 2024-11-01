@@ -286,7 +286,7 @@ namespace EventFlowerExchange_Espoir.Controllers
             return Ok(result);
         }
 
-
+        [HttpGet("list-flower-active")]
         public async Task<IActionResult> GetAllActiveFlowers()
         {
             var flowers = await _productService.GetAllFlowersActive();

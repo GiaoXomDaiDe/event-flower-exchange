@@ -7,9 +7,10 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
     public class SellerRepository : ISellerRepository
     {
         private readonly EspoirDbContext _context;
-        public SellerRepository()
+
+        public SellerRepository(EspoirDbContext context)
         {
-            _context = new EspoirDbContext();
+            _context = context;
         }
 
         public async Task<List<User>> GetAllUsers()

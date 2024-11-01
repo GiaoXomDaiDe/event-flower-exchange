@@ -58,13 +58,13 @@ namespace EventFlowerExchange_Espoir.Controllers
         [Authorize(Policy = "UserOnly")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPost("update-cart-item")]
-        public async Task<IActionResult> UpdateCartItemAsync(string cartItemId, double quantity)
+        public async Task<IActionResult> UpdateCartItemAsync(string orderDetailId, double quantity)
         {
-            if (cartItemId == null)
+            if (orderDetailId == null)
             {
                 return BadRequest("Cart Item Id is required");
             }
-            var result = await _cartService.UpdateCartAsync(cartItemId, quantity);
+            var result = await _cartService.UpdateCartAsync(orderDetailId, quantity);
             return Ok(result);
         }
 

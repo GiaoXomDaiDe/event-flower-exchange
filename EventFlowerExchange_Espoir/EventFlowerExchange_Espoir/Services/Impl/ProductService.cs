@@ -203,6 +203,57 @@ namespace EventFlowerExchange_Espoir.Services.Impl
         }
 
         // FOR INACTIVE/ACTIVE PRODUCT BY SELLER
+        //public async Task<dynamic> InactiveAndActiveFlowerBySeller(string accessToken, string flowerId)
+        //{
+        //    var accEmail = TokenDecoder.GetEmailFromToken(accessToken);
+        //    var acc = await _accountRepository.GetAccountByEmailAsync(accEmail);
+        //    if (acc == null)
+        //    {
+        //        return new
+        //        {
+        //            Message = "Cannot find this account",
+        //            Status = 404
+        //        };
+        //    }
+        //    if (acc.IsSeller == 0)
+        //    {
+        //        return new
+        //        {
+        //            Message = "You don't have permission to inactive flower",
+        //            StatusCode = 403,
+        //        };
+        //    }
+        //    var flower = await _productRepository.GetFlowerByFlowerIdAsync(flowerId);
+        //    if (flower == null)
+        //    {
+        //        return new
+        //        {
+        //            Message = "Flower cannot be found",
+        //            StatusCode = 404,
+        //        };
+        //    }
+        //    if (flower.Status == 0)
+        //    {
+        //        flower.Status = 1;
+        //        return new
+        //        {
+        //            Message = "Inactive Successful",
+        //            Product = flower,
+        //        };
+        //    }
+        //    else if (flower.Status == 1)
+        //    {
+        //        flower.Status = 0;
+        //        return new
+        //        {
+        //            Message = "Active Successful",
+        //            Product = flower,
+        //        };
+
+        //    }
+        //    return await _productRepository.UpdateFlowerAsync(flower);
+
+        //}
         public async Task<dynamic> InactiveAndActiveFlowerBySeller(string accessToken, string flowerId)
         {
             var accEmail = TokenDecoder.GetEmailFromToken(accessToken);
@@ -235,6 +286,7 @@ namespace EventFlowerExchange_Espoir.Services.Impl
             if (flower.Status == 0)
             {
                 flower.Status = 1;
+                await _productRepository.UpdateFlowerAsync(flower);
                 return new
                 {
                     Message = "Inactive Successful",
@@ -244,6 +296,7 @@ namespace EventFlowerExchange_Espoir.Services.Impl
             else if (flower.Status == 1)
             {
                 flower.Status = 0;
+                await _productRepository.UpdateFlowerAsync(flower);
                 return new
                 {
                     Message = "Active Successful",
@@ -251,10 +304,9 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                 };
 
             }
-            return await _productRepository.UpdateFlowerAsync(flower);
-            
-        }
+            return null;
 
+        }
 
         // FOR VIEW PRODUCT
         public async Task<dynamic> ViewFlowerDetailAsync(string flowerId)
@@ -302,5 +354,7 @@ namespace EventFlowerExchange_Espoir.Services.Impl
         {
             return await _productRepository.GetAllActiveFlowers();
         }
+
+
     }
 }

@@ -3,6 +3,50 @@
   "WorkspaceRootPath": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|d:\\fpt_study\\semester_5\\swp391\\swp391_project\\main_project\\eventflowerexchange_espoir\\eventflowerexchange_espoir\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|solutionrelative:eventflowerexchange_espoir\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|d:\\fpt_study\\semester_5\\swp391\\swp391_project\\main_project\\eventflowerexchange_espoir\\eventflowerexchange_espoir\\repositories\\impl\\sellerrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|solutionrelative:eventflowerexchange_espoir\\repositories\\impl\\sellerrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|d:\\fpt_study\\semester_5\\swp391\\swp391_project\\main_project\\eventflowerexchange_espoir\\eventflowerexchange_espoir\\repositories\\isellerrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|solutionrelative:eventflowerexchange_espoir\\repositories\\isellerrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|d:\\fpt_study\\semester_5\\swp391\\swp391_project\\main_project\\eventflowerexchange_espoir\\eventflowerexchange_espoir\\services\\impl\\cartservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|solutionrelative:eventflowerexchange_espoir\\services\\impl\\cartservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|d:\\fpt_study\\semester_5\\swp391\\swp391_project\\main_project\\eventflowerexchange_espoir\\eventflowerexchange_espoir\\controllers\\cartcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|solutionrelative:eventflowerexchange_espoir\\controllers\\cartcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|d:\\fpt_study\\semester_5\\swp391\\swp391_project\\main_project\\eventflowerexchange_espoir\\eventflowerexchange_espoir\\repositories\\impl\\productrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|solutionrelative:eventflowerexchange_espoir\\repositories\\impl\\productrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|d:\\fpt_study\\semester_5\\swp391\\swp391_project\\main_project\\eventflowerexchange_espoir\\eventflowerexchange_espoir\\models\\dto\\flowerlistdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|solutionrelative:eventflowerexchange_espoir\\models\\dto\\flowerlistdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|d:\\fpt_study\\semester_5\\swp391\\swp391_project\\main_project\\eventflowerexchange_espoir\\eventflowerexchange_espoir\\models\\dto\\cartitemviewdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|solutionrelative:eventflowerexchange_espoir\\models\\dto\\cartitemviewdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|d:\\fpt_study\\semester_5\\swp391\\swp391_project\\main_project\\eventflowerexchange_espoir\\eventflowerexchange_espoir\\models\\dto\\sellerincartdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|solutionrelative:eventflowerexchange_espoir\\models\\dto\\sellerincartdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|d:\\fpt_study\\semester_5\\swp391\\swp391_project\\main_project\\eventflowerexchange_espoir\\eventflowerexchange_espoir\\services\\impl\\productservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|solutionrelative:eventflowerexchange_espoir\\services\\impl\\productservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|d:\\fpt_study\\semester_5\\swp391\\swp391_project\\main_project\\eventflowerexchange_espoir\\eventflowerexchange_espoir\\models\\dto\\orderdetailresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|solutionrelative:eventflowerexchange_espoir\\models\\dto\\orderdetailresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|d:\\fpt_study\\semester_5\\swp391\\swp391_project\\main_project\\eventflowerexchange_espoir\\eventflowerexchange_espoir\\controllers\\ordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|solutionrelative:eventflowerexchange_espoir\\controllers\\ordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -27,16 +71,8 @@
       "RelativeMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|solutionrelative:eventflowerexchange_espoir\\controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|d:\\fpt_study\\semester_5\\swp391\\swp391_project\\main_project\\eventflowerexchange_espoir\\eventflowerexchange_espoir\\services\\impl\\productservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|solutionrelative:eventflowerexchange_espoir\\services\\impl\\productservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|d:\\fpt_study\\semester_5\\swp391\\swp391_project\\main_project\\eventflowerexchange_espoir\\eventflowerexchange_espoir\\services\\iproductservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|solutionrelative:eventflowerexchange_espoir\\services\\iproductservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|d:\\fpt_study\\semester_5\\swp391\\swp391_project\\main_project\\eventflowerexchange_espoir\\eventflowerexchange_espoir\\repositories\\impl\\productrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|solutionrelative:eventflowerexchange_espoir\\repositories\\impl\\productrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|d:\\fpt_study\\semester_5\\swp391\\swp391_project\\main_project\\eventflowerexchange_espoir\\eventflowerexchange_espoir\\repositories\\iproductrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -63,10 +99,6 @@
       "RelativeMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|solutionrelative:eventflowerexchange_espoir\\repositories\\iaccountrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|d:\\fpt_study\\semester_5\\swp391\\swp391_project\\main_project\\eventflowerexchange_espoir\\eventflowerexchange_espoir\\services\\impl\\cartservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|solutionrelative:eventflowerexchange_espoir\\services\\impl\\cartservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|d:\\fpt_study\\semester_5\\swp391\\swp391_project\\main_project\\eventflowerexchange_espoir\\eventflowerexchange_espoir\\repositories\\impl\\cartrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|solutionrelative:eventflowerexchange_espoir\\repositories\\impl\\cartrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -89,10 +121,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|d:\\fpt_study\\semester_5\\swp391\\swp391_project\\main_project\\eventflowerexchange_espoir\\eventflowerexchange_espoir\\services\\impl\\imageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|solutionrelative:eventflowerexchange_espoir\\services\\impl\\imageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|d:\\fpt_study\\semester_5\\swp391\\swp391_project\\main_project\\eventflowerexchange_espoir\\eventflowerexchange_espoir\\models\\dto\\flowerlistdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|solutionrelative:eventflowerexchange_espoir\\models\\dto\\flowerlistdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|d:\\fpt_study\\semester_5\\swp391\\swp391_project\\main_project\\eventflowerexchange_espoir\\eventflowerexchange_espoir\\repositories\\impl\\sellerpostrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -143,10 +171,6 @@
       "RelativeMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|solutionrelative:eventflowerexchange_espoir\\services\\common\\encryption.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|d:\\fpt_study\\semester_5\\swp391\\swp391_project\\main_project\\eventflowerexchange_espoir\\eventflowerexchange_espoir\\controllers\\cartcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|solutionrelative:eventflowerexchange_espoir\\controllers\\cartcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|d:\\fpt_study\\semester_5\\swp391\\swp391_project\\main_project\\eventflowerexchange_espoir\\eventflowerexchange_espoir\\models\\event.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|solutionrelative:eventflowerexchange_espoir\\models\\event.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -165,10 +189,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|d:\\fpt_study\\semester_5\\swp391\\swp391_project\\main_project\\eventflowerexchange_espoir\\eventflowerexchange_espoir\\models\\order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|solutionrelative:eventflowerexchange_espoir\\models\\order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|d:\\fpt_study\\semester_5\\swp391\\swp391_project\\main_project\\eventflowerexchange_espoir\\eventflowerexchange_espoir\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|solutionrelative:eventflowerexchange_espoir\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{1FD8958E-E4A3-4273-89EF-74319C4A4730}|EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir.csproj|d:\\fpt_study\\semester_5\\swp391\\swp391_project\\main_project\\eventflowerexchange_espoir\\eventflowerexchange_espoir\\services\\impl\\flowercategoryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -218,7 +238,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 10,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Bookmark",
@@ -238,33 +258,150 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 9,
               "Title": "ProductService.cs",
               "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Services\\Impl\\ProductService.cs",
               "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Services\\Impl\\ProductService.cs",
               "ToolTip": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Services\\Impl\\ProductService.cs",
               "RelativeToolTip": "EventFlowerExchange_Espoir\\Services\\Impl\\ProductService.cs",
-              "ViewState": "AgIAAB4BAAAAAAAAAAAIwC8BAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAACoBAAAAAAAAAAAAwAUBAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-27T03:54:45.034Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "ProductController.cs",
-              "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Controllers\\ProductController.cs",
-              "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Controllers\\ProductController.cs",
-              "ToolTip": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Controllers\\ProductController.cs",
-              "RelativeToolTip": "EventFlowerExchange_Espoir\\Controllers\\ProductController.cs",
-              "ViewState": "AgIAABYBAAAAAAAAAAAnwCEBAAAIAAAAAAAAAA==",
+              "DocumentIndex": 6,
+              "Title": "FlowerListDTO.cs",
+              "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Models\\DTO\\FlowerListDTO.cs",
+              "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Models\\DTO\\FlowerListDTO.cs",
+              "ToolTip": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Models\\DTO\\FlowerListDTO.cs",
+              "RelativeToolTip": "EventFlowerExchange_Espoir\\Models\\DTO\\FlowerListDTO.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAA8AAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-30T16:53:44.272Z",
+              "WhenOpened": "2024-10-31T22:34:20.324Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Program.cs",
+              "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Program.cs",
+              "ToolTip": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Program.cs",
+              "RelativeToolTip": "EventFlowerExchange_Espoir\\Program.cs",
+              "ViewState": "AgIAADMAAAAAAAAAAAAAAEsAAAA1AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-30T16:52:10.414Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ProductRepository.cs",
+              "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Repositories\\Impl\\ProductRepository.cs",
+              "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Repositories\\Impl\\ProductRepository.cs",
+              "ToolTip": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Repositories\\Impl\\ProductRepository.cs",
+              "RelativeToolTip": "EventFlowerExchange_Espoir\\Repositories\\Impl\\ProductRepository.cs",
+              "ViewState": "AgIAAKEAAAAAAAAAAAAgwK0AAABLAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-28T05:24:07.797Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "CartController.cs",
+              "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Controllers\\CartController.cs",
+              "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Controllers\\CartController.cs",
+              "ToolTip": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Controllers\\CartController.cs",
+              "RelativeToolTip": "EventFlowerExchange_Espoir\\Controllers\\CartController.cs",
+              "ViewState": "AgIAAC4AAAAAAAAAAADwv0QAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-30T16:53:17.768Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "SellerRepository.cs",
+              "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Repositories\\Impl\\SellerRepository.cs",
+              "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Repositories\\Impl\\SellerRepository.cs",
+              "ToolTip": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Repositories\\Impl\\SellerRepository.cs",
+              "RelativeToolTip": "EventFlowerExchange_Espoir\\Repositories\\Impl\\SellerRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAUAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-01T16:03:54.983Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ISellerRepository.cs",
+              "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Repositories\\ISellerRepository.cs",
+              "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Repositories\\ISellerRepository.cs",
+              "ToolTip": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Repositories\\ISellerRepository.cs",
+              "RelativeToolTip": "EventFlowerExchange_Espoir\\Repositories\\ISellerRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAQAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-01T16:04:26.586Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
+              "Title": "CartService.cs",
+              "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Services\\Impl\\CartService.cs",
+              "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Services\\Impl\\CartService.cs",
+              "ToolTip": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Services\\Impl\\CartService.cs",
+              "RelativeToolTip": "EventFlowerExchange_Espoir\\Services\\Impl\\CartService.cs",
+              "ViewState": "AgIAAGMBAAAAAAAAAAAUwGkBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-30T16:54:25.212Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "CartItemViewDTO.cs",
+              "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Models\\DTO\\CartItemViewDTO.cs",
+              "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Models\\DTO\\CartItemViewDTO.cs",
+              "ToolTip": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Models\\DTO\\CartItemViewDTO.cs",
+              "RelativeToolTip": "EventFlowerExchange_Espoir\\Models\\DTO\\CartItemViewDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-01T16:02:20.003Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "SellerInCartDTO.cs",
+              "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Models\\DTO\\SellerInCartDTO.cs",
+              "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Models\\DTO\\SellerInCartDTO.cs",
+              "ToolTip": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Models\\DTO\\SellerInCartDTO.cs",
+              "RelativeToolTip": "EventFlowerExchange_Espoir\\Models\\DTO\\SellerInCartDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAIAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-01T16:06:37.909Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "OrderDetailResponse.cs",
+              "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Models\\DTO\\OrderDetailResponse.cs",
+              "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Models\\DTO\\OrderDetailResponse.cs",
+              "ToolTip": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Models\\DTO\\OrderDetailResponse.cs",
+              "RelativeToolTip": "EventFlowerExchange_Espoir\\Models\\DTO\\OrderDetailResponse.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-01T16:02:51.595Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
               "Title": "OrderRepository.cs",
               "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Repositories\\Impl\\OrderRepository.cs",
               "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Repositories\\Impl\\OrderRepository.cs",
@@ -277,7 +414,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 16,
+              "Title": "ProductController.cs",
+              "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Controllers\\ProductController.cs",
+              "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Controllers\\ProductController.cs",
+              "ToolTip": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Controllers\\ProductController.cs",
+              "RelativeToolTip": "EventFlowerExchange_Espoir\\Controllers\\ProductController.cs",
+              "ViewState": "AgIAABYBAAAAAAAAAAAnwCEBAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-30T16:53:44.272Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
               "Title": "IOrderRepository.cs",
               "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Repositories\\IOrderRepository.cs",
               "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Repositories\\IOrderRepository.cs",
@@ -290,7 +440,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 13,
               "Title": "IOrderService.cs",
               "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Services\\IOrderService.cs",
               "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Services\\IOrderService.cs",
@@ -303,7 +453,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 12,
               "Title": "OrderService.cs",
               "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Services\\Impl\\OrderService.cs",
               "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Services\\Impl\\OrderService.cs",
@@ -316,7 +466,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 11,
               "Title": "OrderController.cs",
               "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Controllers\\OrderController.cs",
               "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Controllers\\OrderController.cs",
@@ -329,7 +479,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 17,
               "Title": "IProductService.cs",
               "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Services\\IProductService.cs",
               "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Services\\IProductService.cs",
@@ -342,20 +492,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "ProductRepository.cs",
-              "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Repositories\\Impl\\ProductRepository.cs",
-              "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Repositories\\Impl\\ProductRepository.cs",
-              "ToolTip": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Repositories\\Impl\\ProductRepository.cs",
-              "RelativeToolTip": "EventFlowerExchange_Espoir\\Repositories\\Impl\\ProductRepository.cs",
-              "ViewState": "AgIAAO0AAAAAAAAAAAAswPcAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-28T05:24:07.797Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 18,
               "Title": "IProductRepository.cs",
               "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Repositories\\IProductRepository.cs",
               "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Repositories\\IProductRepository.cs",
@@ -368,7 +505,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 20,
               "Title": "AccountService.cs",
               "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Services\\Impl\\AccountService.cs",
               "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Services\\Impl\\AccountService.cs",
@@ -381,7 +518,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 21,
               "Title": "AccountRepository.cs",
               "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Repositories\\Impl\\AccountRepository.cs",
               "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Repositories\\Impl\\AccountRepository.cs",
@@ -394,7 +531,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 22,
               "Title": "AccountController.cs",
               "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Controllers\\AccountController.cs",
               "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Controllers\\AccountController.cs",
@@ -407,7 +544,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 23,
               "Title": "IAccountRepository.cs",
               "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Repositories\\IAccountRepository.cs",
               "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Repositories\\IAccountRepository.cs",
@@ -420,7 +557,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 19,
               "Title": "IAccountService.cs",
               "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Services\\IAccountService.cs",
               "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Services\\IAccountService.cs",
@@ -433,20 +570,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "CartService.cs",
-              "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Services\\Impl\\CartService.cs",
-              "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Services\\Impl\\CartService.cs",
-              "ToolTip": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Services\\Impl\\CartService.cs",
-              "RelativeToolTip": "EventFlowerExchange_Espoir\\Services\\Impl\\CartService.cs",
-              "ViewState": "AgIAALYAAAAAAAAAAADwvygBAAA+AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-30T16:54:25.212Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 24,
               "Title": "CartRepository.cs",
               "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Repositories\\Impl\\CartRepository.cs",
               "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Repositories\\Impl\\CartRepository.cs",
@@ -459,7 +583,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 26,
               "Title": "OrderDetail.cs",
               "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Models\\OrderDetail.cs",
               "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Models\\OrderDetail.cs",
@@ -471,7 +595,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 27,
               "Title": "ImageUploadResponse.cs",
               "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Models\\DTO\\ImageUploadResponse.cs",
               "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Models\\DTO\\ImageUploadResponse.cs",
@@ -483,7 +607,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 25,
               "Title": "CardProviderConfiguration.cs",
               "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Repositories\\Configuration\\CardProviderConfiguration.cs",
               "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Repositories\\Configuration\\CardProviderConfiguration.cs",
@@ -495,7 +619,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 28,
               "Title": "CreateProductDTO.cs",
               "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Models\\DTO\\CreateProductDTO.cs",
               "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Models\\DTO\\CreateProductDTO.cs",
@@ -507,7 +631,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 29,
               "Title": "ImageService.cs",
               "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Services\\Impl\\ImageService.cs",
               "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Services\\Impl\\ImageService.cs",
@@ -519,7 +643,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 31,
               "Title": "FlowerCategoryRepository.cs",
               "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Repositories\\Impl\\FlowerCategoryRepository.cs",
               "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Repositories\\Impl\\FlowerCategoryRepository.cs",
@@ -531,7 +655,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 30,
               "Title": "SellerPostRepository.cs",
               "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Repositories\\Impl\\SellerPostRepository.cs",
               "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Repositories\\Impl\\SellerPostRepository.cs",
@@ -543,19 +667,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
-              "Title": "FlowerListDTO.cs",
-              "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Models\\DTO\\FlowerListDTO.cs",
-              "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Models\\DTO\\FlowerListDTO.cs",
-              "ToolTip": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Models\\DTO\\FlowerListDTO.cs",
-              "RelativeToolTip": "EventFlowerExchange_Espoir\\Models\\DTO\\FlowerListDTO.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-31T22:34:20.324Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 26,
+              "DocumentIndex": 33,
               "Title": "PaymentService.cs",
               "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Services\\Impl\\PaymentService.cs",
               "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Services\\Impl\\PaymentService.cs",
@@ -567,7 +679,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 32,
               "Title": "TransactionRepository.cs",
               "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Repositories\\Impl\\TransactionRepository.cs",
               "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Repositories\\Impl\\TransactionRepository.cs",
@@ -579,7 +691,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 27,
+              "DocumentIndex": 34,
               "Title": "CheckoutRequest.cs",
               "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Models\\DTO\\CheckoutRequest.cs",
               "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Models\\DTO\\CheckoutRequest.cs",
@@ -591,7 +703,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 28,
+              "DocumentIndex": 35,
               "Title": "TransactionController.cs",
               "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Controllers\\TransactionController.cs",
               "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Controllers\\TransactionController.cs",
@@ -603,7 +715,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 29,
+              "DocumentIndex": 36,
               "Title": "PaymentController.cs",
               "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Controllers\\PaymentController.cs",
               "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Controllers\\PaymentController.cs",
@@ -615,7 +727,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 30,
+              "DocumentIndex": 37,
               "Title": "TransactionService.cs",
               "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Services\\Impl\\TransactionService.cs",
               "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Services\\Impl\\TransactionService.cs",
@@ -627,7 +739,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 31,
+              "DocumentIndex": 38,
               "Title": "UniqueShopNameAttribute.cs",
               "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Services\\Common\\UniqueShopNameAttribute.cs",
               "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Services\\Common\\UniqueShopNameAttribute.cs",
@@ -639,19 +751,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 35,
-              "Title": "CartController.cs",
-              "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Controllers\\CartController.cs",
-              "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Controllers\\CartController.cs",
-              "ToolTip": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Controllers\\CartController.cs",
-              "RelativeToolTip": "EventFlowerExchange_Espoir\\Controllers\\CartController.cs",
-              "ViewState": "AgIAAEIAAAAAAAAAAAAIwE8AAAAsAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-30T16:53:17.768Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 34,
+              "DocumentIndex": 41,
               "Title": "Encryption.cs",
               "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Services\\Common\\Encryption.cs",
               "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Services\\Common\\Encryption.cs",
@@ -663,7 +763,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 33,
+              "DocumentIndex": 40,
               "Title": "TokenDecoder.cs",
               "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Services\\Common\\TokenDecoder.cs",
               "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Services\\Common\\TokenDecoder.cs",
@@ -675,7 +775,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 32,
+              "DocumentIndex": 39,
               "Title": "TokenHelper.cs",
               "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Services\\Common\\TokenHelper.cs",
               "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Services\\Common\\TokenHelper.cs",
@@ -687,7 +787,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 36,
+              "DocumentIndex": 42,
               "Title": "Event.cs",
               "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Models\\Event.cs",
               "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Models\\Event.cs",
@@ -699,7 +799,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 37,
+              "DocumentIndex": 43,
               "Title": "FlowerConfiguration.cs",
               "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Repositories\\Configuration\\FlowerConfiguration.cs",
               "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Repositories\\Configuration\\FlowerConfiguration.cs",
@@ -711,7 +811,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 38,
+              "DocumentIndex": 44,
               "Title": "AccountConfiguration.cs",
               "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Repositories\\Configuration\\AccountConfiguration.cs",
               "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Repositories\\Configuration\\AccountConfiguration.cs",
@@ -723,7 +823,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 39,
+              "DocumentIndex": 45,
               "Title": "SellerDTO.cs",
               "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Models\\DTO\\SellerDTO.cs",
               "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Models\\DTO\\SellerDTO.cs",
@@ -735,19 +835,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 41,
-              "Title": "Program.cs",
-              "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Program.cs",
-              "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Program.cs",
-              "ToolTip": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Program.cs",
-              "RelativeToolTip": "EventFlowerExchange_Espoir\\Program.cs",
-              "ViewState": "AgIAAHsAAAAAAAAAAIBJwEwAAABEAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-30T16:52:10.414Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 40,
+              "DocumentIndex": 46,
               "Title": "Order.cs",
               "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Models\\Order.cs",
               "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Models\\Order.cs",
@@ -759,7 +847,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 42,
+              "DocumentIndex": 47,
               "Title": "FlowerCategoryService.cs",
               "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Services\\Impl\\FlowerCategoryService.cs",
               "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Services\\Impl\\FlowerCategoryService.cs",
@@ -771,7 +859,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 43,
+              "DocumentIndex": 48,
               "Title": "SellerPostController.cs",
               "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Controllers\\SellerPostController.cs",
               "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Controllers\\SellerPostController.cs",
@@ -783,7 +871,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 44,
+              "DocumentIndex": 49,
               "Title": "SellerController.cs",
               "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Controllers\\SellerController.cs",
               "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Controllers\\SellerController.cs",
@@ -795,7 +883,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 45,
+              "DocumentIndex": 50,
               "Title": "FeedbackController.cs",
               "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Controllers\\FeedbackController.cs",
               "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Controllers\\FeedbackController.cs",
@@ -807,7 +895,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 46,
+              "DocumentIndex": 51,
               "Title": "EventController.cs",
               "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Controllers\\EventController.cs",
               "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Controllers\\EventController.cs",
@@ -819,7 +907,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 47,
+              "DocumentIndex": 52,
               "Title": "IPaymentService.cs",
               "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Services\\IPaymentService.cs",
               "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Services\\IPaymentService.cs",
@@ -831,7 +919,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 48,
+              "DocumentIndex": 53,
               "Title": "ITransactionRepository.cs",
               "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Repositories\\ITransactionRepository.cs",
               "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Repositories\\ITransactionRepository.cs",
@@ -843,7 +931,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 49,
+              "DocumentIndex": 54,
               "Title": "ITransactionService.cs",
               "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Services\\ITransactionService.cs",
               "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Services\\ITransactionService.cs",
@@ -855,7 +943,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 50,
+              "DocumentIndex": 55,
               "Title": "20241029104613_InitialCreate.cs",
               "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Migrations\\20241029104613_InitialCreate.cs",
               "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Migrations\\20241029104613_InitialCreate.cs",
@@ -866,7 +954,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 51,
+              "DocumentIndex": 56,
               "Title": "EventService.cs",
               "DocumentMoniker": "D:\\FPT_STUDY\\Semester_5\\SWP391\\SWP391_PROJECT\\Main_Project\\EventFlowerExchange_Espoir\\EventFlowerExchange_Espoir\\Services\\Impl\\EventService.cs",
               "RelativeDocumentMoniker": "EventFlowerExchange_Espoir\\Services\\Impl\\EventService.cs",

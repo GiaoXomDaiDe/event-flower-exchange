@@ -1,6 +1,7 @@
 ﻿using EventFlowerExchange_Espoir.Models;
 using EventFlowerExchange_Espoir.Models.DTO;
 using EventFlowerExchange_Espoir.Repositories;
+using EventFlowerExchange_Espoir.Repositories.Impl;
 using EventFlowerExchange_Espoir.Services.Common;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -13,12 +14,14 @@ namespace EventFlowerExchange_Espoir.Services.Impl
         private readonly IAccountRepository _accountRepository;
         private readonly IProductRepository _productRepository;
         private readonly IOrderRepository _orderRepository;
-        public CartService(ICartRepository cartRepository, IAccountRepository accountRepository, IProductRepository productRepository, IOrderRepository orderRepository)
+        private readonly ISellerRepository _sellerRepository;
+        public CartService(ICartRepository cartRepository, IAccountRepository accountRepository, IProductRepository productRepository, IOrderRepository orderRepository, ISellerRepository sellerRepository)
         {
             _cartRepository = cartRepository;
             _accountRepository = accountRepository;
             _productRepository = productRepository;
             _orderRepository = orderRepository;
+            _sellerRepository = sellerRepository;
         }
         public async Task<string> AutoGenerateOrderDetailId()
         {
@@ -245,7 +248,14 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                     StatusCode = 409
                 };
             }
-
+            else if (quantity > existCartItem.Quantity)
+            {
+                return new
+                {
+                    Message = $"Exceed the total number of flowers in stock",
+                    StatusCode = 409
+                };
+            }
             existCartItem.Quantity = existCartItem.Quantity + quantity;
             existCartItem.PaidPrice = flowerInCart.Price * existCartItem.Quantity;
             var result = await _cartRepository.UpdateCartAsync(existCartItem);
@@ -264,6 +274,7 @@ namespace EventFlowerExchange_Espoir.Services.Impl
             };
         }
 
+        // original
         //public async Task<dynamic> GetCartListAsync(string accessToken)
         //{
         //    string accEmail = TokenDecoder.GetEmailFromToken(accessToken);
@@ -272,43 +283,122 @@ namespace EventFlowerExchange_Espoir.Services.Impl
         //    return result;
         //}
 
+        // 1
+        //public async Task<dynamic> GetCartListAsync(string accessToken)
+        //{
+        //    string accEmail = TokenDecoder.GetEmailFromToken(accessToken);
+        //    var acc = await _accountRepository.GetAccountByEmailAsync(accEmail);
+        //    var listCart = await _cartRepository.GetListCartOfUser(acc.AccountId);
+        //    var orders = await _orderRepository.GetListOrderNotPaymentByAccountIdAsync(acc.AccountId);
+        //    //List<List<CartListDTO>> list = new()
+        //    //{
+
+        //    //};
+        //    var groupedOrders = new List<List<CartListDTO>>();
+        //    var shopOrderDetailsMap = new Dictionary<string, List<CartListDTO>>(); // Grouping by shop
+
+        //    foreach (var cartItem in orders)
+        //    {
+        //        var orderDetails = listCart.Where(cart => cart.OrderId == cartItem.OrderId).ToList();
+        //        foreach (var detail in orderDetails)
+        //        {
+        //            var flower = await _productRepository.GetFlowerByFlowerIdAsync(detail.FlowerId);
+        //            if (flower != null)
+        //            {
+        //                string accId = flower.AccountId;
+        //                detail.FlowerName = flower.FlowerName;
+        //                // Group order details by shop (implicitly using AccountId)
+        //                if (!shopOrderDetailsMap.ContainsKey(accId)) // Use AccountId as the key
+        //                {
+        //                    shopOrderDetailsMap[accId] = new List<CartListDTO>();
+        //                }
+        //                shopOrderDetailsMap[accId].Add(detail); // Add detail to the corresponding shop
+        //            }
+        //        }
+        //    }
+
+        //    // Convert the mapping to a list of lists for the response
+        //    groupedOrders = shopOrderDetailsMap.Values.ToList();
+
+        //    return groupedOrders;
+        //}
+
+
+        // 2
+        //public async Task<dynamic> GetCartListAsync(string accessToken)
+        //{
+        //    string accEmail = TokenDecoder.GetEmailFromToken(accessToken);
+        //    var acc = await _accountRepository.GetAccountByEmailAsync(accEmail);
+        //    var listCart = await _cartRepository.GetListCartOfUser(acc.AccountId);
+        //    var orders = await _orderRepository.GetListOrderNotPaymentByAccountIdAsync(acc.AccountId);
+        //    List<CartItemViewDTO> list = new()
+        //    {
+        //    };
+        //    foreach (var item in orders)
+        //    {
+        //        var cartItem = new CartItemViewDTO();
+        //        var listDetails = new List<OrderDetailResponse>();
+        //        var orderDetails = listCart
+        //                        .Where(cart => cart.OrderId == item.OrderId)
+        //                        .ToList();
+        //        foreach (var detail in orderDetails)
+        //        {
+        //            listDetails.Add(new OrderDetailResponse()
+        //            {
+        //                OrderDetailId = detail.OrderDetailId,
+        //                OrderId = item.OrderId,
+        //                OrderNumber = detail.OrderNumber,
+        //                PaidPrice = detail.PaidPrice,
+        //                Quantity = detail.Quantity,
+        //                Flower = await _productRepository.GetFlowerByFlowerIdAsync(detail.FlowerId)
+        //            });
+        //        }
+        //        cartItem.OrderDetails = listDetails;
+        //        cartItem.Seller = await _sellerRepository.GetShopDetailByAccountId(item.SellerId);
+        //        list.Add(cartItem);
+        //    }
+        //    return list;
+        //}
+
+        // 3
         public async Task<dynamic> GetCartListAsync(string accessToken)
         {
             string accEmail = TokenDecoder.GetEmailFromToken(accessToken);
             var acc = await _accountRepository.GetAccountByEmailAsync(accEmail);
             var listCart = await _cartRepository.GetListCartOfUser(acc.AccountId);
             var orders = await _orderRepository.GetListOrderNotPaymentByAccountIdAsync(acc.AccountId);
-            //List<List<CartListDTO>> list = new()
-            //{
-
-            //};
-            var groupedOrders = new List<List<CartListDTO>>();
-            var shopOrderDetailsMap = new Dictionary<string, List<CartListDTO>>(); // Grouping by shop
-
-            foreach (var cartItem in orders)
+            List<CartItemViewDTO> list = new()
             {
-                var orderDetails = listCart.Where(cart => cart.OrderId == cartItem.OrderId).ToList();
+            };
+            foreach (var item in orders)
+            {
+                var cartItem = new CartItemViewDTO();
+                var listDetails = new List<OrderDetailResponse>();
+                var orderDetails = listCart
+                                .Where(cart => cart.OrderId == item.OrderId)
+                                .ToList();
                 foreach (var detail in orderDetails)
                 {
-                    var flower = await _productRepository.GetFlowerByFlowerIdAsync(detail.FlowerId);
-                    if (flower != null)
+                    listDetails.Add(new OrderDetailResponse()
                     {
-                        string accId = flower.AccountId;
-                        detail.FlowerName = flower.FlowerName;
-                        // Group order details by shop (implicitly using AccountId)
-                        if (!shopOrderDetailsMap.ContainsKey(accId)) // Use AccountId as the key
-                        {
-                            shopOrderDetailsMap[accId] = new List<CartListDTO>();
-                        }
-                        shopOrderDetailsMap[accId].Add(detail); // Add detail to the corresponding shop
-                    }
+                        OrderDetailId = detail.OrderDetailId,
+                        OrderId = item.OrderId,
+                        OrderNumber = detail.OrderNumber,
+                        PaidPrice = detail.PaidPrice,
+                        Quantity = detail.Quantity,
+                        Flower = await _productRepository.GetFlowerByFlowerIdAsync(detail.FlowerId)
+                    });
                 }
+                cartItem.OrderDetails = listDetails;
+                var user = await _sellerRepository.GetShopDetailByAccountId(item.SellerId);
+                cartItem.Seller = new SellerInCartDTO()
+                {
+                    SellerAvatar = user.SellerAvatar,
+                    ShopName = user.ShopName
+                };
+                list.Add(cartItem);
             }
-
-            // Convert the mapping to a list of lists for the response
-            groupedOrders = shopOrderDetailsMap.Values.ToList();
-
-            return groupedOrders;
+            return list;
         }
     }
 }

@@ -169,7 +169,6 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
                 Price = c.Price,
                 OldPrice = c.OldPrice,
                 DateExpiration = c.DateExpiration,
-                //TagNames = GetTagNamesByIdsAsync(c.TagIds),
                 TagNames = GetTagNamesByIds(c.TagIds, _context),
                 Shop = _context.Users.Where(u => u.AccountId == c.AccountId)
                                   .Select(u => u.ShopName).FirstOrDefault()

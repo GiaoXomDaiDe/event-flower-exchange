@@ -40,6 +40,36 @@ namespace EventFlowerExchange_Espoir.Services.Impl
             return newOrderDetailId;
         }
 
+        //else
+        //{
+        //    var existOrder = await _orderRepository.GetOrderBySellerIdAsync(flower.AccountId);
+
+        //    if (existOrder != null)
+        //    {
+        //        var item = new OrderDetail
+        //        {
+        //            OrderDetailId = await AutoGenerateOrderDetailId(),
+        //            OrderId = existOrder.OrderId,
+        //            FlowerId = flowerId,
+        //            Quantity = cartDTO.Quantity,
+        //            PaidPrice = cartDTO.Quantity * flower.Price,
+        //            AccountId = buyer.AccountId,
+        //        };
+        //        await _cartRepository.AddToCartAsync(item);
+        //        return new
+        //        {
+        //            Message = "Add To Cart Successful",
+        //            StatusCode = 201,
+        //            Item = new
+        //            {
+        //                item.FlowerId,
+        //                flower.FlowerName,
+        //                item.Quantity,
+        //                item.PaidPrice,
+        //                UnitPrice = flower.Price,
+        //            }
+        //        };
+        //    }
         public async Task<dynamic> AddToCartAsync(AddToCartDTO cartDTO)
         {
             var buyerEmail = TokenDecoder.GetEmailFromToken(cartDTO.accessToken);
@@ -98,44 +128,14 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                     }
                 };
             }
-            //else
-            //{
-            //    var existOrder = await _orderRepository.GetOrderBySellerIdAsync(flower.AccountId);
-
-            //    if (existOrder != null)
-            //    {
-            //        var item = new OrderDetail
-            //        {
-            //            OrderDetailId = await AutoGenerateOrderDetailId(),
-            //            OrderId = existOrder.OrderId,
-            //            FlowerId = flowerId,
-            //            Quantity = cartDTO.Quantity,
-            //            PaidPrice = cartDTO.Quantity * flower.Price,
-            //            AccountId = buyer.AccountId,
-            //        };
-            //        await _cartRepository.AddToCartAsync(item);
-            //        return new
-            //        {
-            //            Message = "Add To Cart Successful",
-            //            StatusCode = 201,
-            //            Item = new
-            //            {
-            //                item.FlowerId,
-            //                flower.FlowerName,
-            //                item.Quantity,
-            //                item.PaidPrice,
-            //                UnitPrice = flower.Price,
-            //            }
-            //        };
-            //    }
             else
             {
-                var seller = await _productRepository.GetSellerByFlowerId(flowerId);
+                //var seller = await _accountRepository.GetUserByAccountIdAsync(flower.AccountId);
                 var ordersInCart = await _orderRepository.GetListOrderNotPaymentByAccountIdAsync(buyer.AccountId);
 
                 foreach (var item in ordersInCart)
                 {
-                    if (item.SellerId.Equals(seller.AccountId))
+                    if (item.SellerId.Equals(flower.AccountId))
                     {
                         var orderDetail = new OrderDetail
                         {
@@ -166,7 +166,7 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                 {
                     OrderId = await _orderRepository.AutoGenerateOrderId(),
                     AccountId = buyer.AccountId,
-                    SellerId = seller.AccountId,
+                    SellerId = flower.AccountId,
                     Date = DateOnly.FromDateTime(DateTime.Now),
                     Status = 1,
                     PaymentStatus = 0,
@@ -390,11 +390,11 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                     });
                 }
                 cartItem.OrderDetails = listDetails;
-                var user = await _sellerRepository.GetShopDetailByAccountId(item.SellerId);
+                var seller = await _sellerRepository.GetShopDetailByAccountId(accountId: item.SellerId);
                 cartItem.Seller = new SellerInCartDTO()
                 {
-                    SellerAvatar = user.SellerAvatar,
-                    ShopName = user.ShopName
+                    SellerAvatar = seller.SellerAvatar,
+                    ShopName = seller.ShopName
                 };
                 list.Add(cartItem);
             }

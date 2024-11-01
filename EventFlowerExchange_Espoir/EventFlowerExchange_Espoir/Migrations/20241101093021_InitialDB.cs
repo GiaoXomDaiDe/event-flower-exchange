@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace EventFlowerExchange_Espoir.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class InitialDB : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -38,8 +38,8 @@ namespace EventFlowerExchange_Espoir.Migrations
                 name: "CardProviders",
                 columns: table => new
                 {
-                    CardProviderName = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
-                    CPFullName = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false)
+                    CardProviderName = table.Column<string>(type: "varchar(450)", unicode: false, maxLength: 450, nullable: false),
+                    CPFullName = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -111,7 +111,10 @@ namespace EventFlowerExchange_Espoir.Migrations
                     SellerID = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
                     Status = table.Column<long>(type: "bigint", nullable: false),
                     TotalMoney = table.Column<double>(type: "float", nullable: false),
-                    PaymentStatus = table.Column<int>(type: "int", nullable: false)
+                    PaymentStatus = table.Column<int>(type: "int", nullable: false),
+                    FullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -154,7 +157,7 @@ namespace EventFlowerExchange_Espoir.Migrations
                     AccountID = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
                     CardName = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
                     CardNumber = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    CardProviderName = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
+                    CardProviderName = table.Column<string>(type: "varchar(450)", unicode: false, maxLength: 450, nullable: true),
                     TaxNumber = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
                     SellerAvatar = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
                     SellerAddress = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),

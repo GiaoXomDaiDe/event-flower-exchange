@@ -17,6 +17,5 @@ public partial class OrderDetail
     public string? OrderNumber { get; set; }
 
     public string AccountId { get; set; } = null!;
-
     public virtual Order Order { get; set; } = null!;
 }

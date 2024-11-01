@@ -159,6 +159,7 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
             // Paging
             var flowers = query.Skip((pageIndex - 1) * pageSize).Take(pageSize).Select(c => new FlowerListDTO
             {
+                FlowerId = c.FlowerId,
                 FlowerName = c.FlowerName,
                 Category = c.Cate.FcateName,
                 Description = c.Description,

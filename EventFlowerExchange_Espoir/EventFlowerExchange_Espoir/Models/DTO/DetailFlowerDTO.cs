@@ -15,7 +15,7 @@
 
         public double Quantity { get; set; }
 
-        public double OldPrice { get; set; }
+        public double Price { get; set; }
 
         public string Discount { get; set; }
 

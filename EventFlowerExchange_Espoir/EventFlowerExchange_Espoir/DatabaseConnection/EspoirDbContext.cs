@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using EventFlowerExchange_Espoir.Models;
 using Microsoft.EntityFrameworkCore;
@@ -106,10 +107,10 @@ public partial class EspoirDbContext : DbContext
             entity.HasKey(e => e.CardProviderName).HasName("PK__CardProv__3B8DEBCC39ECA32E");
 
             entity.Property(e => e.CardProviderName)
-                .HasMaxLength(255)
+                .HasMaxLength(450)
                 .IsUnicode(false);
             entity.Property(e => e.CpfullName)
-                .HasMaxLength(255)
+                .HasColumnType("nvarchar(max)")
                 .HasColumnName("CPFullName");
         });
 
@@ -540,7 +541,7 @@ public partial class EspoirDbContext : DbContext
                 .IsUnicode(false);
             entity.Property(e => e.CardNumber).HasMaxLength(255);
             entity.Property(e => e.CardProviderName)
-                .HasMaxLength(255)
+                .HasMaxLength(450)
                 .IsUnicode(false);
             entity.Property(e => e.SellerAddress)
                 .HasMaxLength(255)

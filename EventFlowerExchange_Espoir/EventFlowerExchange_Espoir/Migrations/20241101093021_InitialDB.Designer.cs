@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EventFlowerExchange_Espoir.Migrations
 {
     [DbContext(typeof(EspoirDbContext))]
-    [Migration("20241030232814_UpdateDBSetUp")]
-    partial class UpdateDBSetUp
+    [Migration("20241101093021_InitialDB")]
+    partial class InitialDB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -94,14 +94,13 @@ namespace EventFlowerExchange_Espoir.Migrations
             modelBuilder.Entity("EventFlowerExchange_Espoir.Models.CardProvider", b =>
                 {
                     b.Property<string>("CardProviderName")
-                        .HasMaxLength(255)
+                        .HasMaxLength(450)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("varchar(450)");
 
                     b.Property<string>("CpfullName")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)")
+                        .HasColumnType("nvarchar(max)")
                         .HasColumnName("CPFullName");
 
                     b.HasKey("CardProviderName")
@@ -829,9 +828,9 @@ namespace EventFlowerExchange_Espoir.Migrations
                         .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("CardProviderName")
-                        .HasMaxLength(255)
+                        .HasMaxLength(450)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("varchar(450)");
 
                     b.Property<string>("SellerAddress")
                         .HasMaxLength(255)

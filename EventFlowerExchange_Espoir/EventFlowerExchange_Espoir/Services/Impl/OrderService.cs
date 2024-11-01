@@ -125,6 +125,15 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                         newOrder.Status,
                         newOrder.TotalMoney,
                         newOrder.PaymentStatus,
+                        OrderDetails = orderDetails.Select(od => new
+                        {
+                            od.OrderDetailId,
+                            od.FlowerId,
+                            od.Quantity,
+                            od.PaidPrice,
+                            od.OrderNumber,
+                            od.AccountId,
+                        })
                     },
 
                 };

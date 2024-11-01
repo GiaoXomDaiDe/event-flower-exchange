@@ -72,11 +72,12 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
                       (od, f) => new CartListDTO
                       {
                           OrderDetailId = od.OrderDetailId,
+                          OrderId = od.OrderId,
+                          FlowerId = od.FlowerId,
                           Quantity = od.Quantity,
                           PaidPrice = od.PaidPrice,
-                          FlowerId = od.FlowerId,
-                          FlowerName = f.FlowerName,
-                          OrderId = od.OrderId,
+                          OrderNumber = od.OrderNumber,
+                          AccountId = od.AccountId
                       })
                 .ToListAsync();
 

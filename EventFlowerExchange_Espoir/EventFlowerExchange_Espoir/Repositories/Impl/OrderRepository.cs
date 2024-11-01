@@ -82,13 +82,13 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
             string latestOrderId = await GetLatestOrderIdAsync();
             if (string.IsNullOrEmpty(latestOrderId))
             {
-                newOrderId = "O00000001";
+                newOrderId = "O000000001";
             }
             else
             {
-                int numericpart = int.Parse(latestOrderId.Substring(2));
+                int numericpart = int.Parse(latestOrderId.Substring(1));
                 int newnumericpart = numericpart + 1;
-                newOrderId = $"O{newnumericpart:d8}";
+                newOrderId = $"O{newnumericpart:d9}";
             }
             return newOrderId;
         }       
@@ -128,6 +128,11 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
         {
             return await _context.Orders
                 .FirstOrDefaultAsync(item => item.OrderId.Equals(orderId)) ?? new Order();
+        }
+
+        public async Task<Order> GetOrderBySellerIdAsync(string? sellerId)
+        {
+            return await _context.Orders.FirstOrDefaultAsync(o => o.SellerId == sellerId);
         }
     }
 }

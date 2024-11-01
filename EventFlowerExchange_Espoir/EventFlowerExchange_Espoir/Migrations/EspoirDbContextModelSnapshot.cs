@@ -91,14 +91,13 @@ namespace EventFlowerExchange_Espoir.Migrations
             modelBuilder.Entity("EventFlowerExchange_Espoir.Models.CardProvider", b =>
                 {
                     b.Property<string>("CardProviderName")
-                        .HasMaxLength(255)
+                        .HasMaxLength(450)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("varchar(450)");
 
                     b.Property<string>("CpfullName")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)")
+                        .HasColumnType("nvarchar(max)")
                         .HasColumnName("CPFullName");
 
                     b.HasKey("CardProviderName")
@@ -826,9 +825,9 @@ namespace EventFlowerExchange_Espoir.Migrations
                         .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("CardProviderName")
-                        .HasMaxLength(255)
+                        .HasMaxLength(450)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("varchar(450)");
 
                     b.Property<string>("SellerAddress")
                         .HasMaxLength(255)

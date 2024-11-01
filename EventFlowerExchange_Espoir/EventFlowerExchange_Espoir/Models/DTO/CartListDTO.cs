@@ -8,5 +8,7 @@
         public string FlowerId { get; set; }
         public string FlowerName { get; set; }
         public string OrderId { get; set; }
+        public string OrderNumber { get; set; }
+        public string AccountId { get; set; }
     }
 }

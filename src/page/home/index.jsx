@@ -34,9 +34,6 @@ function Home() {
 
   console.log(searchResult);
 
-  
-  
-
   return (
     <div className="home">
       <img
@@ -49,38 +46,23 @@ function Home() {
       <SectionTitle title="HOA 20/10">
         <div className="product-list">
           {searchResult.map((flower, index) => (
-            <Link
-              style={{ textDecoration: "none", color: "#222222" }}
-              to={`/product/${flower.flowerName}`}
-            >
-              <ProductCard key={index} flower={flower} />
-            </Link>
+            <ProductCard key={index} flower={flower} />
           ))}
         </div>
       </SectionTitle>
 
       <SectionTitle title="HOA 20/10">
-      <div className="product-list">
+        <div className="product-list">
           {searchResult.map((flower, index) => (
-            <Link
-              style={{ textDecoration: "none", color: "#222222" }}
-              to={`/product/${flower.flowerName}`}
-            >
-              <ProductCard key={index} flower={flower} />
-            </Link>
+            <ProductCard key={index} flower={flower} />
           ))}
         </div>
       </SectionTitle>
 
       <SectionTitle title="HOA 20/10">
-      <div className="product-list">
+        <div className="product-list">
           {searchResult.map((flower, index) => (
-            <Link
-              style={{ textDecoration: "none", color: "#222222" }}
-              to={`/product/${flower.flowerName}`}
-            >
-              <ProductCard key={index} flower={flower} />
-            </Link>
+            <ProductCard key={index} flower={flower} />
           ))}
         </div>
       </SectionTitle>

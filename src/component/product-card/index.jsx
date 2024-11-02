@@ -7,6 +7,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
 import { Rating } from "react-simple-star-rating";
+import { addCart } from "../../services/cartService";
 
 function ProductCard({ flower }) {
   const token = JSON.parse(localStorage.getItem("token"));
@@ -14,44 +15,17 @@ function ProductCard({ flower }) {
   const { getCart } = useCart();
 
   const fetchAddCart = async (quantity) => {
-    const addCartForm = new FormData();
-    addCartForm.append("accessToken", token);
-    addCartForm.append("FlowerID", flower.flowerId);
-    addCartForm.append("Quantity", quantity);
-
-    try {
-      const response = await axios.post(
-        "https://localhost:7026/api/account/add-to-cart",
-        addCartForm,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      if (response.data.statusCode === 201) {
-        getCart();
-        toast.success("Your flower is added!", {
-          position: "top-right",
-        });
-      } else {
-        toast.error("Add flower failed!", {
-          position: "top-right",
-        });
-      }
-    } catch (error) {
-      toast.error("An error occurred while adding the flower!", {
-        position: "top-right",
-      });
-      console.error(error);
-    }
+    await addCart(token, quantity, flower.flowerId);
+    getCart();
   };
 
-  const handleAddToCart = useCallback((e) => {
-    e.stopPropagation();
-    fetchAddCart(1);
-  }, [flower.flowerId]);
+  const handleAddToCart = useCallback(
+    (e) => {
+      e.stopPropagation();
+      fetchAddCart(1);
+    },
+    [flower.flowerId]
+  );
 
   const tags = flower.tagNames.split(",");
 
@@ -75,7 +49,9 @@ function ProductCard({ flower }) {
 
         <div className="tags">
           {tags.map((tag, index) => (
-            <span key={index} className="tag">{tag}</span>
+            <span key={index} className="tag">
+              {tag}
+            </span>
           ))}
         </div>
 
@@ -105,7 +81,6 @@ function ProductCard({ flower }) {
       <div className="add-cart-icon" onClick={handleAddToCart}>
         <i className="bi bi-plus-lg"></i>
       </div>
-      
     </div>
   );
 }

@@ -13,6 +13,9 @@ import RegisterPage from "./page/register/index1";
 import Flower from "./page/product";
 import ProductDetail from "./page/product-detail";
 import { ToastContainer } from "react-toastify";
+import ProfilePage from "./page/user-profile";
+import PaymentSuccess from "./page/payment-status/success";
+import PaymentFail from "./page/payment-status/fail";
 
 function App() {
   const router = createBrowserRouter([
@@ -23,6 +26,10 @@ function App() {
         {
           path: "",
           element: <Home />,
+        },
+        {
+          path: "/profile",
+          element: <ProfilePage />,
         },
 
         {
@@ -40,10 +47,18 @@ function App() {
           element: <CheckOut />,
         },
         {
+          path: "/checkout/success",
+          element: <PaymentSuccess/>,
+        },
+        {
+          path: "/checkout/fail",
+          element: <PaymentFail />,
+        },
+        {
           path: "product/:flowerId",
-          element: <ProductDetail />
-        }
-      ], 
+          element: <ProductDetail />,
+        },
+      ],
     },
 
     {
@@ -84,7 +99,7 @@ function App() {
       <RouterProvider router={router} />;
       <ToastContainer />
     </>
-  ) 
+  );
 }
 
 export default App;

@@ -6,73 +6,40 @@ import { Link, useNavigate } from "react-router-dom";
 import { assets } from "../../assets";
 import axios from "axios";
 import { toast } from "react-toastify";
+import {
+  deleteCartItem,
+  getCartList,
+  updateCartItem,
+} from "../../services/cartService";
+
+import { useCart } from "../../context/CartContext";
+import CartShopItem from "../../component/cart-shop-item";
 
 function Cart() {
   const token = JSON.parse(localStorage.getItem("token"));
   const navigate = useNavigate();
+  const { getCart } = useCart();
 
   const [cart, setCart] = useState([]);
 
   const [radioOption, setRadioOption] = useState(null);
 
   const fetchCart = async () => {
-    const response = await axios.get(
-      `https://localhost:7026/api/account/list-cart-items`,
-      {
-        params: {
-          accessToken: token,
-        },
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    setCart(response.data);
+    const response = await getCartList(token);
+    console.log(response);
+
+    setCart(response);
   };
 
   const fetchDeleteCartItem = async (cartItemId) => {
-    const response = await axios.delete(
-      `https://localhost:7026/api/account/delete-cart-item`,
-      {
-        params: {
-          cartItemId,
-        },
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    fetchCart();
+    await deleteCartItem(token, cartItemId);
+    getCart();
+    fetchCart(token);
   };
 
   const fetchUpdateCart = async (cartItemId, quantity) => {
-    const response = await axios.post(
-      `https://localhost:7026/api/account/update-cart-item`,
-      {},
-      {
-        params: {
-          cartItemId,
-          quantity,
-        },
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    console.log(response.data, "updateCart");
-    if (response.data.statusCode === 201) {
-      toast.success("Update cart successfully", {
-        position: "top-right",
-        autoClose: 1500,
-      });
-    } else {
-      toast.warning(response.data.message, {
-        position: "top-right",
-        autoClose: 2000,
-      });
-    }
-
-    fetchCart();
+    await updateCartItem(token, cartItemId, quantity);
+    fetchCart(token);
   };
 
   useEffect(() => {
@@ -87,9 +54,7 @@ function Cart() {
     fetchDeleteCartItem(cartItemId);
   };
 
-  const totalPrice = cart.reduce((accumulator, item) => {
-    return accumulator + item.paidPrice;
-  }, 0);
+  const totalPrice = 0;
 
   const handleRadioOption = (item) => {
     setRadioOption(item);
@@ -97,9 +62,9 @@ function Cart() {
 
   const handleCheckout = (item) => {
     if (item && item !== null) {
-      console.log(radioOption);
+      console.log(item);
 
-      navigate("/checkout", { order: item });
+      navigate("/checkout", { state: { order: item } });
     } else {
       toast.warning("Choose at least 1 from your cart to continue", {
         position: "top-right",
@@ -172,34 +137,11 @@ function Cart() {
 
 const CartItem = ({
   item,
-  fetchCart,
   handleUpdateCart,
   handleDeleteCart,
   handleRadioOption,
-}) => {
-  const [quantity, setQuantity] = useState(item.quantity);
-
-  useEffect(() => {
-    setQuantity(item.quantity);
-  }, [item.quantity]);
-
-  const onChangeQuantity = (e) => {
-    const inputValue = Number(e.target.value);
-    if (inputValue < 1) {
-      setQuantity(1);
-      return;
-    }
-    console.log(inputValue, "inputValue");
-
-    let value = inputValue - item.quantity;
-    console.log(value, "value");
-    handleUpdateCart(item.flowerId, value);
-  };
-
-  console.log(quantity);
-
-  // console.log(item);
-
+}) => {  
+// console.log(item.orderDetails[0].orderId);
   return (
     <div className="cart-item" style={{ width: "900px" }}>
       <div className="cart-item_heading">
@@ -207,7 +149,7 @@ const CartItem = ({
           <input
             className="radio-option"
             type="radio"
-            value={item.flowerId}
+            // value={item.orderDetails[0].orderId}
             name="radio-option"
             onChange={() => {
               handleRadioOption(item);
@@ -215,66 +157,18 @@ const CartItem = ({
           />
           <Avatar size={60} src="https://i.redd.it/sxb95sif7ys81.png" />
           <div style={{ width: 100 }}>
-            <h3>shop name</h3>
-            {/* <p>Title</p> */}
+            <h3>{item.seller.shopName}</h3>
           </div>
         </div>
-
-        {/* <button>Select All</button> */}
       </div>
       <div className="cart-item_products">
-        <div className="item">
-          <img
-            src="https://plantsvszombies.wiki.gg/images/3/3e/Sunflower-Almanac.png?20200522063110"
-            alt=""
-          />
-          <h3>Product Name</h3>
-
-          <p>
-            ${item.paidPrice}
-            <del>${500}</del>
-          </p>
-          <div className="quantity">
-            <button
-              disabled={quantity === 1}
-              onClick={() => {
-                handleUpdateCart(item.flowerId, -1);
-                setQuantity(quantity - 1);
-              }}
-            >
-              --
-            </button>
-            <input
-              type="number"
-              inputMode="numeric"
-              value={quantity}
-              onChange={(e) => {
-                onChangeQuantity(e);
-                console.log(e);
-              }}
-            />
-            <button
-              onClick={() => {
-                handleUpdateCart(item.flowerId, 1);
-                setQuantity(quantity + 1);
-              }}
-            >
-              +
-            </button>
-          </div>
-
-          <span>${item.paidPrice}</span>
-
-          <button
-            onClick={() => {
-              handleDeleteCart(item.orderDetailId);
-            }}
-          >
-            <DeleteOutlined />
-          </button>
-        </div>
-      </div>{" "}
-      {/* </Radio> */}
+        {item.orderDetails.map((i, index) => {
+          return (
+            <CartShopItem key={index} info={i} handleUpdateCart={handleUpdateCart} handleDeleteCart={handleDeleteCart}/>
+          );
+        })}
+      </div>
+    
     </div>
   );
 };

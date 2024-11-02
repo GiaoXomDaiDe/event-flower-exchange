@@ -119,6 +119,11 @@
       border-radius: 15px;
     }
   }
+  &_name {
+    width: 300px;
+    text-align: left;
+    overflow-x: hidden;
+  }
 
   .item {
     display: flex;

@@ -4,6 +4,7 @@ import { Checkbox, Divider, Pagination, Select } from "antd";
 import ProductCard from "../../component/product-card";
 import axios from "axios";
 import { Link, useLocation } from "react-router-dom";
+import { getProductList } from "../../services/productService";
 
 function SearchPage() {
   const location = useLocation();
@@ -21,51 +22,53 @@ function SearchPage() {
   const defaultCheckedList = [];
   const [checkedList, setCheckedList] = useState(defaultCheckedList);
 
-
   const checkAll = plainOptions.length === checkedList.length;
   const indeterminate =
     checkedList.length > 0 && checkedList.length < plainOptions.length;
 
   const showTotal = (total) => `Total ${total} items`;
-  
 
-  const fetchFlower = async () => {
+  // const fetchFlower = async () => {
+  //   const response = await axios.get(
+  //     "https://localhost:7026/api/flower/list-flowers",
+  //     {
+  //       params: {
+  //         pageIndex: currentPage,
+  //         pageSize: pageSize,
+  //         sortBy: "FlowerName",
+  //         sortDesc: true,
+  //         search: searchValue,
+  //       },
+  //     }
+  //   );
 
-    const response = await axios.get(
-      "https://localhost:7026/api/flower/list-flowers",
-      {
-        params: {
-          pageIndex: currentPage,
-          pageSize: pageSize,
-          sortBy: "FlowerName",
-          sortDesc: true,
-          search: searchValue,
-        },
-      }
-    );    
+  //   setFlowers(response.data.data);
+  //   setSearchResult(response.data);
+  // };
 
-    setFlowers(response.data.data);
-    setSearchResult(response.data);
+  const fetchProductList = async () => {
+    const response = await getProductList(currentPage, pageSize, searchValue);    
+    setFlowers(response.data);
+    setSearchResult(response);
   };
 
   useEffect(() => {
-    fetchFlower();
+    fetchProductList();
   }, [currentPage, searchValue]);
+
 
   const onChange = (list) => {
     setCheckedList(list);
   };
 
   const handleCurrentPage = (pageNo) => {
-    setCurrentPage(pageNo)
-    console.log(pageNo);    
-  }
+    setCurrentPage(pageNo);
+    console.log(pageNo);
+  };
 
   const onCheckAllChange = (e) => {
     setCheckedList(e.target.checked ? plainOptions : []);
   };
-
-
 
   return (
     <div>
@@ -111,7 +114,7 @@ function SearchPage() {
           </div>
           <div className="search_content">
             {flowers.map((flower, index) => (
-                <ProductCard key={index} flower={flower} />
+              <ProductCard key={index} flower={flower} />
             ))}
 
             <div className="pageNo">

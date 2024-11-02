@@ -215,8 +215,23 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                     StatusCode = 404
                 };
             }
-            var result = await _cartRepository.DeleteCartAsync(cartItem);
-            return result;
+            var orderOfCart = await _orderRepository.GetOrderById(cartItem.OrderId);
+            var existCartOfShops = await _cartRepository.GetCartItemsByOrderId(orderOfCart.OrderId);
+            dynamic result = null;
+            if (existCartOfShops.Count() > 1)
+            {
+                result = await _cartRepository.DeleteCartAsync(cartItem);
+            }
+            else if (existCartOfShops.Count() == 1)
+            {
+                await _cartRepository.DeleteCartAsync(cartItem);
+                result = await _orderRepository.DeleteOrder(orderOfCart);
+            }
+                return result;
+
+            //var orderOfCart = await _orderRepository.GetOrderById(cartItem.OrderId);
+
+
         }
 
         public async Task<dynamic> UpdateCartAsync(string cartItemId, double quantity)

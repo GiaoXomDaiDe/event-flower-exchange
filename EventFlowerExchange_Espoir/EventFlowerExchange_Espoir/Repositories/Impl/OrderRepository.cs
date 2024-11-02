@@ -73,7 +73,7 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
         public async Task<dynamic> DeleteOrder(Order order)
         {
             _context.Orders.Remove(order);
-            return await _context.SaveChangesAsync();
+            return await _context.SaveChangesAsync() > 0;
         }
 
         public async Task<string> AutoGenerateOrderId()

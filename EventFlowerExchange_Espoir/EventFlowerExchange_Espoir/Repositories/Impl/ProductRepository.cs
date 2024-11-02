@@ -168,10 +168,13 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
                 Quantity = c.Quantity,
                 Price = c.Price,
                 OldPrice = c.OldPrice,
+                Attachment = c.Attachment,
                 DateExpiration = c.DateExpiration,
                 TagNames = GetTagNamesByIds(c.TagIds, _context),
+                Status = c.Status,
                 Shop = _context.Users.Where(u => u.AccountId == c.AccountId)
-                                  .Select(u => u.ShopName).FirstOrDefault()
+                                  .Select(u => u.ShopName).FirstOrDefault(),
+
             }).ToList();
 
             return (flowers, totalCount, totalPages);
@@ -214,7 +217,11 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
                 Price = c.Price,
                 OldPrice = c.OldPrice,
                 DateExpiration = c.DateExpiration,
+                Attachment = c.Attachment,
                 TagNames = GetTagNamesByIds(c.TagIds, _context),
+                Status = c.Status,
+                Shop = _context.Users.Where(u => u.AccountId == c.AccountId)
+                                  .Select(u => u.ShopName).FirstOrDefault(),
             }).ToListAsync();
             return (flowers, totalCount, totalPages);
         }

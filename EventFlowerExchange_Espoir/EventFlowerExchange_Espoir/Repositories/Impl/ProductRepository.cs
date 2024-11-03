@@ -231,7 +231,56 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
 
             return (flowers, totalCount, totalPages);
         }
+        public async Task<(List<FlowerListDTO> flowers, int totalCount, int totalPages)> GetListAllFlowerAsync(int pageIndex, int pageSize, string sortBy, bool sortDesc, string search)
+        {
+            var query = _context.Flowers.Include(f => f.Cate)
+                        .Include(f => f.Account)
+                        .Where(f => f.IsDeleted == 0).AsQueryable();
+            //Search
+            if (!string.IsNullOrEmpty(search))
+            {
+                int.TryParse(search, out int searchId);
+                query = query.Where(i => i.FlowerName.Contains(search));
+            }
 
+            if (!string.IsNullOrEmpty(sortBy))
+            {
+                var sortDirection = sortDesc ? "descending" : "ascending";
+                var sortExpression = $"{sortBy} {sortDirection}";
+                query = query.OrderBy(sortExpression);
+            }
+            if (!string.IsNullOrEmpty(sortBy))
+            {
+                query = ApplySorting(query, sortBy, sortDesc);
+            }
+
+            // Total count before paging
+            var totalCount = await query.CountAsync();
+            var totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
+
+            // Paging
+            var flowers = query.Skip((pageIndex - 1) * pageSize).Take(pageSize).Select(c => new FlowerListDTO
+            {
+                FlowerId = c.FlowerId,
+                FlowerName = c.FlowerName,
+                Category = c.Cate.FcateName,
+                Description = c.Description,
+                Size = c.Size,
+                Condition = c.Condition,
+                Quantity = c.Quantity,
+                Price = c.Price,
+                OldPrice = c.OldPrice,
+                Attachment = c.Attachment,
+                DateExpiration = c.DateExpiration,
+                TagNames = GetTagNamesByIds(c.TagIds, _context),
+                Status = c.Status,
+                Shop = _context.Users.Where(u => u.AccountId == c.AccountId)
+                                  .Select(u => u.ShopName).FirstOrDefault(),
+
+            }).ToList();
+
+            return (flowers, totalCount, totalPages);
+        }
         public async Task<(List<FlowerListDTO> flowers, int totalCount, int totalPages)> GetListFlowerOfSellerAsync(int pageIndex, int pageSize, string sortBy, bool sortDesc, string search)
         {
             string accountId = await _accountRepository.GetAccountIdByShopName(search);
@@ -278,6 +327,51 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
             return (flowers, totalCount, totalPages);
         }
 
+        public async Task<(List<FlowerListDTO> flowers, int totalCount, int totalPages)> GetListAllFlowerOfSellerAsync(int pageIndex, int pageSize, string sortBy, bool sortDesc, string search)
+        {
+            string accountId = await _accountRepository.GetAccountIdByShopName(search);
+            var query = _context.Flowers.AsQueryable().Include(f => f.Cate)
+                        .Include(f => f.Account).Where(f => f.IsDeleted == 0 && f.AccountId == accountId);
+            if (!string.IsNullOrEmpty(search))
+            {
+                int.TryParse(search, out int searchId);
+                query = query.Where(i => i.Account.Users.Select(u => u.ShopName).Contains(search));
+            }
+
+            if (!string.IsNullOrEmpty(sortBy))
+            {
+                var sortDirection = sortDesc ? "descending" : "ascending";
+                var sortExpression = $"{sortBy} {sortDirection}";
+                query = query.OrderBy(sortExpression);
+            }
+
+            if (!string.IsNullOrEmpty(sortBy))
+            {
+                query = ApplySorting(query, sortBy, sortDesc);
+            }
+            var totalCount = await query.CountAsync();
+            var totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
+
+            var flowers = await query.Skip((pageIndex - 1) * pageSize).Take(pageSize).Select(c => new FlowerListDTO
+            {
+                FlowerId = c.FlowerId,
+                FlowerName = c.FlowerName,
+                Category = c.Cate.FcateName,
+                Description = c.Description,
+                Size = c.Size,
+                Condition = c.Condition,
+                Quantity = c.Quantity,
+                Price = c.Price,
+                OldPrice = c.OldPrice,
+                DateExpiration = c.DateExpiration,
+                Attachment = c.Attachment,
+                TagNames = GetTagNamesByIds(c.TagIds, _context),
+                Status = c.Status,
+                Shop = _context.Users.Where(u => u.AccountId == c.AccountId)
+                                  .Select(u => u.ShopName).FirstOrDefault(),
+            }).ToListAsync();
+            return (flowers, totalCount, totalPages);
+        }
         public async Task<(List<FlowerListDTO> flowers, int totalCount, int totalPages)> GetListInactiveFlowerOfSellerAsync(int pageIndex, int pageSize, string sortBy, bool sortDesc, string search)
         {
             string accountId = await _accountRepository.GetAccountIdByShopName(search);
@@ -323,6 +417,8 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
             }).ToListAsync();
             return (flowers, totalCount, totalPages);
         }
+
+
 
         private IQueryable<Flower> ApplySorting(IQueryable<Flower> query, string sortBy, bool sortDesc)
         {

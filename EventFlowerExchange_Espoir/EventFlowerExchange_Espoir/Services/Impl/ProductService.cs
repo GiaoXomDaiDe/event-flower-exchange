@@ -345,12 +345,18 @@ namespace EventFlowerExchange_Espoir.Services.Impl
         {
             return await _productRepository.GetListFlowerAsync(pageIndex, pageSize, sortBy, sortDesc, search);
         }
-
+        public async Task<(List<FlowerListDTO> flowers, int totalCount, int totalPages)> GetListAllFlowerAsync(int pageIndex, int pageSize, string sortBy, bool sortDesc, string search)
+        {
+            return await _productRepository.GetListAllFlowerAsync(pageIndex, pageSize, sortBy, sortDesc, search);
+        }
         public async Task<(List<FlowerListDTO> flowers, int totalCount, int totalPages)> GetListFlowerOfSellerAsync(int pageIndex, int pageSize, string sortBy, bool sortDesc, string search)
         {
             return await _productRepository.GetListFlowerOfSellerAsync(pageIndex, pageSize, sortBy, sortDesc, search);
         }
-
+        public async Task<(List<FlowerListDTO> flowers, int totalCount, int totalPages)> GetListAllFlowerOfSellerAsync(int pageIndex, int pageSize, string sortBy, bool sortDesc, string search)
+        {
+            return await _productRepository.GetListAllFlowerOfSellerAsync(pageIndex, pageSize, sortBy, sortDesc, search);
+        }
 
         public async Task<(List<FlowerListDTO> flowers, int totalCount, int totalPages)> GetListInactiveFlowerAsync(int pageIndex, int pageSize, string sortBy, bool sortDesc, string search)
         {

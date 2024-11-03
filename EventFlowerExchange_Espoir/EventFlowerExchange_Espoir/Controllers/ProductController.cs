@@ -257,6 +257,28 @@ namespace EventFlowerExchange_Espoir.Controllers
             }
         }
 
+        [HttpGet("list-all-flowers")]
+        public async Task<IActionResult> GetListOfAllFlower([FromQuery] int pageIndex, [FromQuery] int pageSize, [FromQuery] string sortBy, [FromQuery] bool sortDesc, [FromQuery] string search = null)
+        {
+            try
+            {
+                var (flowers, totalCount, totalPages) = await _productService.GetListAllFlowerAsync(pageIndex, pageSize, sortBy, sortDesc, search);
+                var response = new
+                {
+                    TotalCount = totalCount,
+                    PageIndex = pageIndex,
+                    PageSize = pageSize,
+                    TotalPages = totalPages,
+                    Data = flowers
+                };
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred while processing your request: {ex.Message}");
+            }
+        }
+
         [HttpGet("list-flowers-of-seller")]
         public async Task<IActionResult> GetListFlowersOfSeller([FromQuery] int pageIndex, [FromQuery] int pageSize, [FromQuery] string sortBy, [FromQuery] bool sortDesc, [FromQuery] string search = null)
         {
@@ -279,6 +301,27 @@ namespace EventFlowerExchange_Espoir.Controllers
             }
         }
 
+        [HttpGet("list-all-flowers-of-seller")]
+        public async Task<IActionResult> GetListAllFlowersOfSeller([FromQuery] int pageIndex, [FromQuery] int pageSize, [FromQuery] string sortBy, [FromQuery] bool sortDesc, [FromQuery] string search = null)
+        {
+            try
+            {
+                var (flowers, totalCount, totalPages) = await _productService.GetListAllFlowerOfSellerAsync(pageIndex, pageSize, sortBy, sortDesc, search);
+                var response = new
+                {
+                    TotalCount = totalCount,
+                    PageIndex = pageIndex,
+                    PageSize = pageSize,
+                    TotalPages = totalPages,
+                    Data = flowers
+                };
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred while processing your request: {ex.Message}");
+            }
+        }
         [HttpGet("list-inactive-flowers")]
         public async Task<IActionResult> GetListInactiveOfFlower([FromQuery] int pageIndex, [FromQuery] int pageSize, [FromQuery] string sortBy, [FromQuery] bool sortDesc, [FromQuery] string search = null)
         {

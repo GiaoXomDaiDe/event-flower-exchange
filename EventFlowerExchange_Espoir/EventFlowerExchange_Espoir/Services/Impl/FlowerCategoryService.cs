@@ -1,7 +1,9 @@
-﻿using EventFlowerExchange_Espoir.Models;
+﻿using Azure.Core;
+using EventFlowerExchange_Espoir.Models;
 using EventFlowerExchange_Espoir.Models.DTO;
 using EventFlowerExchange_Espoir.Repositories;
 using EventFlowerExchange_Espoir.Repositories.Impl;
+using EventFlowerExchange_Espoir.Services.Common;
 
 namespace EventFlowerExchange_Espoir.Services.Impl
 {
@@ -33,8 +35,25 @@ namespace EventFlowerExchange_Espoir.Services.Impl
             return newuserid;
         }
 
-        public async Task<dynamic> CreateNewFCateAsync(NewFCateDTO newCate)
+        public async Task<dynamic> CreateNewFCateAsync(string accessToken, NewFCateDTO newCate)
         {
+            string email = TokenDecoder.GetEmailFromToken(accessToken);
+            var acc = await _accountRepository.GetAccountByEmailAsync(email);
+            if (acc == null)
+            {
+                return new
+                {
+                    StatusCode = 404,
+                    Message = "Your account is not exist"
+                };
+            }
+            if (acc.IsSeller == 0 || acc.Role == 1)
+            {
+                return new
+                {
+                    Message = "You are not a seller. Please register to be a seller"
+                };
+            }
             if (string.IsNullOrEmpty(newCate.FparentCateId))
             {
                 newCate.FparentCateId = "Empty";
@@ -54,10 +73,27 @@ namespace EventFlowerExchange_Espoir.Services.Impl
             };
         }
 
-        public async Task<dynamic> UpdateExistFCateAsync(UpdateFCateDTO updateCate)
+        public async Task<dynamic> UpdateExistFCateAsync(string accessToken, UpdateFCateDTO updateCate)
         {
             try
             {
+                string email = TokenDecoder.GetEmailFromToken(accessToken);
+                var acc = await _accountRepository.GetAccountByEmailAsync(email);
+                if (acc == null)
+                {
+                    return new
+                    {
+                        StatusCode = 404,
+                        Message = "Your account is not exist"
+                    };
+                }
+                if (acc.IsSeller == 0)
+                {
+                    return new
+                    {
+                        Message = "You are not a seller. Please register to be a seller"
+                    };
+                }
                 var cate = await _flowerCateRepository.GetFlowerCateByCateIdAsync(updateCate.FCateId);
                 if (cate == null)
                 {
@@ -87,10 +123,27 @@ namespace EventFlowerExchange_Espoir.Services.Impl
             }
         }
 
-        public async Task<dynamic> DeleteFCateAsync(string fCateId)
+        public async Task<dynamic> DeleteFCateAsync(string accessToken, string fCateId)
         {
             try
             {
+                string email = TokenDecoder.GetEmailFromToken(accessToken);
+                var acc = await _accountRepository.GetAccountByEmailAsync(email);
+                if (acc == null)
+                {
+                    return new
+                    {
+                        StatusCode = 404,
+                        Message = "Your account is not exist"
+                    };
+                }
+                if (acc.IsSeller == 0)
+                {
+                    return new
+                    {
+                        Message = "You are not a seller. Please register to be a seller"
+                    };
+                }
                 var cate = await _flowerCateRepository.GetFlowerCateByCateIdAsync(fCateId);
                 if (cate == null)
                 {

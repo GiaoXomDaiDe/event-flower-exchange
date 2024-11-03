@@ -135,7 +135,7 @@ namespace EventFlowerExchange_Espoir.Controllers
         }
 
         // for flower category
-        [Authorize(Policy = "AdminOnly")]
+        [Authorize(Policy = "UserOnly")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPost("create-flower-category")]
         public async Task<IActionResult> CreateCateAsync([FromForm] NewFCateDTO newCate)
@@ -145,12 +145,18 @@ namespace EventFlowerExchange_Espoir.Controllers
                 var errors = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
                 return BadRequest(new { Errors = errors });
             }
+            var accessToken = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+
+            if (string.IsNullOrEmpty(accessToken))
+            {
+                return BadRequest("Access token is missing or invalid");
+            }
 
             if (newCate == null)
             {
                 return BadRequest("All Fields must not be empty");
             }
-            var result = await _categoryService.CreateNewFCateAsync(newCate);
+            var result = await _categoryService.CreateNewFCateAsync(accessToken,newCate);
             if (result == null)
             {
                 return StatusCode(500, new { Message = "Failed to create the flower category." });
@@ -162,11 +168,17 @@ namespace EventFlowerExchange_Espoir.Controllers
             });
         }
 
-        [Authorize(Policy = "AdminOnly")]
+        [Authorize(Policy = "UserOnly")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPost("update-flower-category")]
         public async Task<IActionResult> UpdateFCateAsync([FromForm] UpdateFCateDTO updateFCate)
         {
+            var accessToken = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+
+            if (string.IsNullOrEmpty(accessToken))
+            {
+                return BadRequest("Access token is missing or invalid");
+            }
             if (!ModelState.IsValid)
             {
                 var errors = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
@@ -177,7 +189,7 @@ namespace EventFlowerExchange_Espoir.Controllers
             {
                 return BadRequest("All field must be required");
             }
-            var result = await _categoryService.UpdateExistFCateAsync(updateFCate);
+            var result = await _categoryService.UpdateExistFCateAsync(accessToken, updateFCate);
             if (result is string errorMessage) // Check if the result is an error message
             {
                 return BadRequest(new { Message = errorMessage });
@@ -199,6 +211,12 @@ namespace EventFlowerExchange_Espoir.Controllers
         [HttpPost("delete-flower-category")]
         public async Task<IActionResult> DeleteFCateAsync(string fCateId)
         {
+            var accessToken = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+
+            if (string.IsNullOrEmpty(accessToken))
+            {
+                return BadRequest("Access token is missing or invalid");
+            }
             if (!ModelState.IsValid)
             {
                 var errors = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
@@ -209,7 +227,7 @@ namespace EventFlowerExchange_Espoir.Controllers
             {
                 return BadRequest("All field must be required");
             }
-            var result = await _categoryService.DeleteFCateAsync(fCateId);
+            var result = await _categoryService.DeleteFCateAsync(accessToken, fCateId);
             return Ok(new
             {
                 Message = "Delete Flower Category Successful",

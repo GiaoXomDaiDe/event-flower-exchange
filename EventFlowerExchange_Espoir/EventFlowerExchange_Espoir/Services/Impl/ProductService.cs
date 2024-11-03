@@ -283,28 +283,29 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                     StatusCode = 404,
                 };
             }
-            if (flower.Status == 0)
-            {
-                flower.Status = 1;
-                await _productRepository.UpdateFlowerAsync(flower);
-                return new
-                {
-                    Message = "Inactive Successful",
-                    Product = flower,
-                };
-            }
-            else if (flower.Status == 1)
+            if (flower.Status == 1)
             {
                 flower.Status = 0;
                 await _productRepository.UpdateFlowerAsync(flower);
                 return new
                 {
+                    Message = "Inactive Successful",
+                };
+            }
+            else if (flower.Status == 0)
+            {
+                flower.Status = 1;
+                await _productRepository.UpdateFlowerAsync(flower);
+                return new
+                {
                     Message = "Active Successful",
-                    Product = flower,
                 };
 
             }
-            return null;
+            return new
+            {
+                Message = "Failure"
+            };
 
         }
 
@@ -350,6 +351,16 @@ namespace EventFlowerExchange_Espoir.Services.Impl
             return await _productRepository.GetListFlowerOfSellerAsync(pageIndex, pageSize, sortBy, sortDesc, search);
         }
 
+
+        public async Task<(List<FlowerListDTO> flowers, int totalCount, int totalPages)> GetListInactiveFlowerAsync(int pageIndex, int pageSize, string sortBy, bool sortDesc, string search)
+        {
+            return await _productRepository.GetListInactiveFlowerAsync(pageIndex, pageSize, sortBy, sortDesc, search);
+        }
+
+        public async Task<(List<FlowerListDTO> flowers, int totalCount, int totalPages)> GetListInactiveFlowerOfSellerAsync(int pageIndex, int pageSize, string sortBy, bool sortDesc, string search)
+        {
+            return await _productRepository.GetListInactiveFlowerOfSellerAsync(pageIndex, pageSize, sortBy, sortDesc, search);
+        }
         public async Task<List<Flower>> GetAllFlowersActive()
         {
             return await _productRepository.GetAllActiveFlowers();

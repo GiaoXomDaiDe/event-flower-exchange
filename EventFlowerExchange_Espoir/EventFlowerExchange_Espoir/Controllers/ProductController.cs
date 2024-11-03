@@ -279,6 +279,50 @@ namespace EventFlowerExchange_Espoir.Controllers
             }
         }
 
+        [HttpGet("list-inactive-flowers")]
+        public async Task<IActionResult> GetListInactiveOfFlower([FromQuery] int pageIndex, [FromQuery] int pageSize, [FromQuery] string sortBy, [FromQuery] bool sortDesc, [FromQuery] string search = null)
+        {
+            try
+            {
+                var (flowers, totalCount, totalPages) = await _productService.GetListInactiveFlowerAsync(pageIndex, pageSize, sortBy, sortDesc, search);
+                var response = new
+                {
+                    TotalCount = totalCount,
+                    PageIndex = pageIndex,
+                    PageSize = pageSize,
+                    TotalPages = totalPages,
+                    Data = flowers
+                };
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred while processing your request: {ex.Message}");
+            }
+        }
+
+        [HttpGet("list-inactive-flowers-of-seller")]
+        public async Task<IActionResult> GetListInactiveFlowersOfSeller([FromQuery] int pageIndex, [FromQuery] int pageSize, [FromQuery] string sortBy, [FromQuery] bool sortDesc, [FromQuery] string search = null)
+        {
+            try
+            {
+                var (flowers, totalCount, totalPages) = await _productService.GetListInactiveFlowerOfSellerAsync(pageIndex, pageSize, sortBy, sortDesc, search);
+                var response = new
+                {
+                    TotalCount = totalCount,
+                    PageIndex = pageIndex,
+                    PageSize = pageSize,
+                    TotalPages = totalPages,
+                    Data = flowers
+                };
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred while processing your request: {ex.Message}");
+            }
+        }
+
         [HttpGet("list-flowers-categories")]
         public async Task<IActionResult> GetListCategoryOfFlower()
         {

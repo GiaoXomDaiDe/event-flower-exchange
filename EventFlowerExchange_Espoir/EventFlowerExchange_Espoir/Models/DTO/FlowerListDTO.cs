@@ -17,13 +17,13 @@ namespace EventFlowerExchange_Espoir.Models.DTO
 
         public double Quantity { get; set; }
 
-
+        public string Attachment {  get; set; }
         public double Price { get; set; }
 
         public double OldPrice { get; set; } = 0;
         public string DateExpiration { get; set; }
-        public string Attachment {  get; set; }
         public string? TagNames { get; set; }
+        public int Status { get; set; }
         public object Shop { get; set; }
 
     }

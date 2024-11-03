@@ -47,7 +47,11 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                 FparentCateId = newCate.FparentCateId,
             };
             var result = await _flowerCateRepository.CreateFlowerCateAsync(fCategory);
-            return result;
+            return new
+            {
+                result,
+                Category = fCategory,
+            };
         }
 
         public async Task<dynamic> UpdateExistFCateAsync(UpdateFCateDTO updateCate)

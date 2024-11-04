@@ -64,6 +64,8 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                 FcateName = newCate.FcateName,
                 FcateDesc = newCate.FcateDesc,
                 FparentCateId = newCate.FparentCateId,
+                Status = 1,
+                IsDeleted = 0,
             };
             var result = await _flowerCateRepository.CreateFlowerCateAsync(fCategory);
             return new
@@ -111,9 +113,6 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                 }
 
                 cate.FcateDesc = updateCate.FcateDesc;
-                cate.Status = 0; // 0. active 1. inactive
-                cate.IsDeleted = 0; // 0. false 1. true
-                cate.FparentCateId = "null";
 
                 var result = await _flowerCateRepository.UpdateFlowerCategoryAsync(cate);
                 return result;

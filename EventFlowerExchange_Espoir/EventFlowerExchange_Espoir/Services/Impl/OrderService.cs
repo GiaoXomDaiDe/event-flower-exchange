@@ -93,6 +93,9 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                     PaymentStatus = 0, // 0. Paying 1.Paid
                     TotalMoney = totalAmount,
                     Date = DateOnly.FromDateTime(DateTime.Now),
+                    FullName = acc.FullName,
+                    Address = acc.Address,
+                    PhoneNumber = acc.PhoneNumber,
                     OrderDetails = cartItems
                 };
                 await _orderRepository.CreateOrder(newOrder);
@@ -120,11 +123,13 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                     NewOrder = new
                     {
                         newOrder.OrderId,
-                        newOrder.Account.FullName,
+                        newOrder.FullName,
                         newOrder.Date,
                         newOrder.Status,
                         newOrder.TotalMoney,
                         newOrder.PaymentStatus,
+                        newOrder.Address,
+                        newOrder.PhoneNumber,
                         OrderDetails = orderDetails.Select(od => new
                         {
                             od.OrderDetailId,

@@ -30,10 +30,13 @@ namespace EventFlowerExchange_Espoir.Models.DTO
         [Range(0, double.MaxValue, ErrorMessage = "Price cannot be negative.")]
         public double OldPrice { get; set; } = 0;
         [Required(ErrorMessage = "Flower's Date Expiration is required")]
+
         public string DateExpiration { get; set; } 
 
         public string? TagIds { get; set; }
+        [Required(ErrorMessage = "Flower's Status is required")]
 
+        public int Status { get; set; }
         //public List<string> AttachmentUris { get; set; }
         public List<IFormFile> AttachmentFiles { get; set; }
     }

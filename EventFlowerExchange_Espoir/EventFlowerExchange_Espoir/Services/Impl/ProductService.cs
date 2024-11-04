@@ -79,7 +79,7 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                     AccountId = seller.AccountId,
                     CreatedAt = DateOnly.FromDateTime(DateTime.Now),
                     DateExpiration = newFlower.DateExpiration,
-                    Status = 1,
+                    Status = newFlower.Status,
                     TagIds = newFlower.TagIds,
                     Attachment = string.Join(",", attachmentUris),//thêm blob storage sau
                 };

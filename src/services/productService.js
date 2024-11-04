@@ -1,6 +1,6 @@
-import * as httpRequest from "../util/httpRequest";
+import * as httpRequest from "../utils/httpRequest";
 
-export const getProductList = async (currentPage, pageSize, searchValue) => {
+export const getProductList = async (currentPage, pageSize, searchValue, sort = false) => {
   
   try {
     const response = await httpRequest.get(
@@ -10,7 +10,7 @@ export const getProductList = async (currentPage, pageSize, searchValue) => {
           pageIndex: currentPage,
           pageSize: pageSize,
           sortBy: "FlowerName",
-          sortDesc: true,
+          sortDesc: sort,
           search: searchValue,
         },
       }

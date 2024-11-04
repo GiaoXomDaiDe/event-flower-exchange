@@ -1,7 +1,8 @@
 import { toast } from "react-toastify";
-import * as httpRequest from "../util/httpRequest";
+import * as httpRequest from "../utils/httpRequest";
+import { useState } from "react";
 
-export const getCartList = async (token) => {
+export const getCartList = async (token, cart=[]) => {
   try {
     const response = await httpRequest.get("account/list-cart-items", {
       params: {
@@ -11,10 +12,17 @@ export const getCartList = async (token) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    return response;
+    for (let item of response) {
+      if (item.orderDetails.length !== 0) {
+        cart.push(item);
+      }
+      // if (response[item].orderDetails.length === 0) {
+      //   response.slice()
+      // }
+    }
+    return cart;
   } catch (error) {
     console.log(error);
-
   }
 };
 
@@ -70,7 +78,7 @@ export const deleteCartItem = async (token, cartItemId) => {
 export const updateCartItem = async (token, cartItemId, quantity) => {
   try {
     console.log(cartItemId, "cartItemId");
-    
+
     const response = await httpRequest.post(
       `account/update-cart-item`,
       {},
@@ -85,7 +93,6 @@ export const updateCartItem = async (token, cartItemId, quantity) => {
       }
     );
     console.log(response);
-    
 
     if (response.statusCode === 201) {
       toast.success("Update cart successfully", {

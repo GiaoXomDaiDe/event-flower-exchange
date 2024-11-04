@@ -1,4 +1,5 @@
-import * as httpRequest from "../util/httpRequest";
+import { toast } from "react-toastify";
+import * as httpRequest from "../utils/httpRequest";
 
 export const checkoutOrder = async (token, checkout) => {
   try {
@@ -28,7 +29,6 @@ export const paymentPayOS = async (token, orderId) => {
         },
       }
     );
-    console.log(response);
     return response;
   } catch (error) {
     console.log(error);
@@ -46,6 +46,7 @@ export const paymentSuccess = async (token, transactionId) => {
       }
     );
     return response;
+
   } catch (error) {
     console.log(error);
   }
@@ -61,7 +62,8 @@ export const paymentFail = async (token, transactionId) => {
         },
       }
     );
-    return response;
+    return response
+
   } catch (error) {
     console.log(error);
   }

@@ -101,13 +101,13 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                 {
                     return "Cannot find this category";
                 }
-                if (!string.IsNullOrEmpty(updateCate.FcateName))
+                if (string.IsNullOrEmpty(updateCate.FcateName))
                 {
                     updateCate.FcateName = cate.FcateName;
                 }
                 cate.FcateName = updateCate.FcateName;
 
-                if (!string.IsNullOrEmpty(updateCate.FcateDesc))
+                if (string.IsNullOrEmpty(updateCate.FcateDesc))
                 {
                     updateCate.FcateDesc = cate.FcateDesc;
                 }
@@ -115,7 +115,12 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                 cate.FcateDesc = updateCate.FcateDesc;
 
                 var result = await _flowerCateRepository.UpdateFlowerCategoryAsync(cate);
-                return result;
+                return new
+                {
+                    result,
+                    Message = "Update Category Successfull",
+                    FlowerCategory = cate
+                };
             } catch (Exception ex)
             {
                 throw new Exception($"Error at UpdateExistFCateAsync() in service: {ex.Message}");

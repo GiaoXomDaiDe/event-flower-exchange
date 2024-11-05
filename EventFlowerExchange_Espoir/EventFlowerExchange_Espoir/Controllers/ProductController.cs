@@ -156,7 +156,7 @@ namespace EventFlowerExchange_Espoir.Controllers
             {
                 return BadRequest("All Fields must not be empty");
             }
-            var result = await _categoryService.CreateNewFCateAsync(accessToken,newCate);
+            var result = await _categoryService.CreateNewFCateAsync(accessToken, newCate);
             if (result == null)
             {
                 return StatusCode(500, new { Message = "Failed to create the flower category." });
@@ -170,21 +170,21 @@ namespace EventFlowerExchange_Espoir.Controllers
 
         [Authorize(Policy = "UserOnly")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        [HttpPost("update-flower-category")]
+        [HttpPut("update-flower-category")]
         public async Task<IActionResult> UpdateFCateAsync([FromForm] UpdateFCateDTO updateFCate)
         {
-            var accessToken = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
-
-            if (string.IsNullOrEmpty(accessToken))
-            {
-                return BadRequest("Access token is missing or invalid");
-            }
             if (!ModelState.IsValid)
             {
                 var errors = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
                 return BadRequest(new { Errors = errors });
             }
 
+            var accessToken = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+
+            if (string.IsNullOrEmpty(accessToken))
+            {
+                return BadRequest("Access token is missing or invalid");
+            }
             if (updateFCate == null)
             {
                 return BadRequest("All field must be required");
@@ -195,20 +195,16 @@ namespace EventFlowerExchange_Espoir.Controllers
                 return BadRequest(new { Message = errorMessage });
             }
 
-            if (result is int successResult && successResult > 0) // Check if the update was successful
+            if (result is int successResult && successResult <= 0) // Check if the update was successful
             {
-                return Ok(new
-                {
-                    Message = "Flower updated successfully.",
-                    UpdateFCate = result.FCate
-                });
+                return StatusCode(500, new { Message = "Failed to update the flower." }); // Handle unexpected cases
             }
-            return StatusCode(500, new { Message = "Failed to update the flower." }); // Handle unexpected cases
+            return Ok(result);
         }
 
-        [Authorize(Policy = "AdminOnly")]
+        [Authorize(Policy = "UserOnly")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        [HttpPost("delete-flower-category")]
+        [HttpDelete("delete-flower-category")]
         public async Task<IActionResult> DeleteFCateAsync(string fCateId)
         {
             var accessToken = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");

@@ -6,7 +6,7 @@ namespace EventFlowerExchange_Espoir.Models.DTO
     {
         [Required(ErrorMessage = "Flower Category Id is required")]
         public string FCateId { get; set; }
-        public string FcateName { get; set; } = null!;
-        public string FcateDesc { get; set; } = null!;
+        public string FcateName { get; set; }
+        public string FcateDesc { get; set; }
     }
 }

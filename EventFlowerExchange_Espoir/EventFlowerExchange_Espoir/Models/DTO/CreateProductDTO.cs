@@ -35,9 +35,7 @@ namespace EventFlowerExchange_Espoir.Models.DTO
 
         public string? TagIds { get; set; }
         [Required(ErrorMessage = "Flower's Status is required")]
-
         public int Status { get; set; }
-        //public List<string> AttachmentUris { get; set; }
         public List<IFormFile> AttachmentFiles { get; set; }
     }
 }

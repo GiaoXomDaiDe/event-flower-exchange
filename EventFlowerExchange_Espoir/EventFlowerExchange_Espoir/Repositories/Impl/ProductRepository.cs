@@ -161,7 +161,7 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
             {
                 FlowerId = c.FlowerId,
                 FlowerName = c.FlowerName,
-                Category = c.Cate.FcateName,
+                Category = c.CateId,
                 Description = c.Description,
                 Size = c.Size,
                 Condition = c.Condition,
@@ -425,11 +425,11 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
             query = sortBy.ToLower() switch
             {
                 "flowername" => sortDesc ? query.OrderByDescending(f => f.FlowerName) : query.OrderBy(f => f.FlowerName),
-                "flowercategory" => sortDesc ? query.OrderByDescending(f => f.Cate.FcateName) : query.OrderBy(f => f.Cate.FcateName),
+                "cateId" => sortDesc ? query.OrderByDescending(f => f.CateId) : query.OrderBy(f => f.CateId),
                 _ => query // Default case if no valid sorting field is provided
+
             };
             return query;
-
         }
 
         public async Task<Account> GetSellerByFlowerId(string flowerId)

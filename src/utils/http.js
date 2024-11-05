@@ -13,7 +13,9 @@ export class Http {
     this.instance = axios.create({
       baseURL: config.baseUrl,
       timeout: 10000,
-      contentType: 'multipart/form-data'
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
     })
 
     this.instance.interceptors.request.use(
@@ -37,7 +39,7 @@ export class Http {
           if (response.status === 201) {
             const { shop } = response.data
 
-            // Mã hóa các thông tin nhạy cảm
+            // Mã hóa các thông tin nhạy cảm như thẻ ngân hàng
             const encryptedSellerProfile = { ...shop }
             encryptedSellerProfile.cardName = encryptData(shop.cardName)
             encryptedSellerProfile.cardNumber = encryptData(shop.cardNumber)

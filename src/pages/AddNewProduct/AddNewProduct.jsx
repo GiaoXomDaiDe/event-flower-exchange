@@ -1,12 +1,15 @@
+// Import các thư viện và component cần thiết
 import {
   CheckCircleOutlined,
   ClockCircleOutlined,
   CloseCircleOutlined,
+  DeleteOutlined,
+  EditOutlined,
   InfoCircleOutlined,
   PlusOutlined,
   UploadOutlined
 } from '@ant-design/icons'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import {
   Button,
   Card,
@@ -15,101 +18,60 @@ import {
   Input,
   InputNumber,
   Layout,
-  Menu,
   Modal,
   Row,
   Select,
   Space,
+  Spin,
   Timeline,
   TreeSelect,
   Typography,
-  Upload
+  Upload,
+  message
 } from 'antd'
+import ImgCrop from 'antd-img-crop'
 import React, { useEffect, useState } from 'react'
-import { categories } from '../../mock/categoryData'
+import categoryApi from '../../apis/category.api'
+import productApi from '../../apis/product.api'
+import sellerApi from '../../apis/seller.api'
+import utilsApi from '../../apis/utils.api'
 
 const { Content } = Layout
-const { Title } = Typography
+const { Title, Text } = Typography
 const { Option } = Select
 const { Dragger } = Upload
 
-const fetchCategories = async () => {
-  await new Promise((resolve) => setTimeout(resolve, 500))
-  return categories
-}
-
 export default function AddNewProduct() {
   const [form] = Form.useForm()
-  const [isCategoryModalVisible, setIsCategoryModalVisible] = useState(false)
-  const [categoryValue, setCategoryValue] = useState(null)
-
-  const { data: categoriesData, isLoading } = useQuery({ queryKey: ['categories'], queryFn: fetchCategories })
-
-  const convertToTreeData = (categories) => {
-    const treeData = []
-    const categoryMap = {}
-
-    categories.forEach((category) => {
-      categoryMap[category.FcateName] = {
-        title: category.FcateName,
-        value: category.FcateName,
-        children: []
-      }
-    })
-
-    categories.forEach((category) => {
-      if (category.FparentCateId) {
-        categoryMap[category.FparentCateId].children.push(categoryMap[category.FcateName])
-      } else {
-        treeData.push(categoryMap[category.FcateName])
-      }
-    })
-
-    return treeData
-  }
-
-  const treeData = categoriesData ? convertToTreeData(categoriesData) : []
-
-  const onCategoryChange = (value) => {
-    setCategoryValue(value)
-  }
-
-  const [fileList, setFileList] = useState([])
-
+  const [formCategory] = Form.useForm()
   const steps = [
     {
-      title: 'Fill in product information',
+      title: 'Điền thông tin sản phẩm',
       fields: ['flowerName', 'description', 'size', 'condition']
     },
     {
-      title: 'Set pricing and stock',
+      title: 'Thiết lập giá và kho',
       fields: ['basePrice', 'newPrice', 'stock']
     },
     {
-      title: 'Upload images and video',
+      title: 'Tải lên hình ảnh và video',
       fields: ['images', 'video']
     },
     {
-      title: 'Select category and tags',
+      title: 'Chọn danh mục và thẻ',
       fields: ['cateId', 'tagId']
     },
     {
-      title: 'Review and submit',
+      title: 'Xem lại và gửi',
       fields: []
     }
   ]
 
   const [stepStatuses, setStepStatuses] = useState(steps.map(() => 'wait'))
-
-  const handleChange = ({ fileList }) => {
-    setFileList(fileList)
-  }
-
   const updateStepStatuses = () => {
     const newStatuses = steps.map((step) => {
       const { fields } = step
       if (fields.length === 0) {
-        // No fields to validate in this step
         return 'process'
       }
 
@@ -133,79 +95,287 @@ export default function AddNewProduct() {
     updateStepStatuses()
   }, [])
 
+  // Quản lý hiển thị Modal cho danh mục
+  const [isCategoryModalVisible, setIsCategoryModalVisible] = useState(false)
+  const [editingCategory, setEditingCategory] = useState(null)
+
+  // Lấy danh sách danh mục từ API bằng react-query
+  const {
+    data: categoriesData,
+    isLoading: isCategoriesLoading,
+    isError: isCategoriesError,
+    refetch: refetchCategories
+  } = useQuery({
+    queryKey: ['categories'],
+    queryFn: () => sellerApi.getSellerFlowerCategories()
+  })
+
+  // Chuyển đổi dữ liệu danh mục thành dạng tree cho TreeSelect
+  const transformCategoriesToTreeData = (categories) => {
+    return categories.map((category) => {
+      const children = category.children ? transformCategoriesToTreeData(category.children) : []
+
+      // Tạo React Node cho title
+      const title = (
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <span>{category.fcateName}</span>
+          <Space size='small' className='mr-3'>
+            <Button
+              type='link'
+              size='small'
+              icon={<EditOutlined />}
+              onClick={(e) => {
+                e.stopPropagation() // Ngăn chặn việc chọn node khi nhấn nút
+                showCategoryModal(category)
+              }}
+            />
+            <Button
+              type='link'
+              size='small'
+              icon={<DeleteOutlined />}
+              onClick={(e) => {
+                e.stopPropagation() // Ngăn chặn việc chọn node khi nhấn nút
+                handleDeleteCategory(category.fcateId)
+              }}
+            />
+          </Space>
+        </div>
+      )
+
+      return {
+        title,
+        value: category.fcateId,
+        key: category.fcateId,
+        children
+      }
+    })
+  }
+
+  const categoriesTreeData = categoriesData ? transformCategoriesToTreeData(categoriesData.data) : []
+
+  // Các hàm CRUD cho danh mục
+  const handleAddCategory = (values) => {
+    const categoryData = {
+      FcateName: values.fcateName,
+      FcateDesc: values.fcateDesc,
+      FparentCateId: values.fparentCateId || null // Nếu không chọn danh mục cha, đặt là null
+    }
+
+    if (editingCategory) {
+      // Cập nhật danh mục hiện có
+      console.log(editingCategory)
+      categoryApi
+        .updateFlowerCategory({
+          FcateId: editingCategory.fcateId,
+          FcateName: editingCategory.fcateName,
+          FcateDesc: editingCategory.fcateDesc
+        })
+        .then(() => {
+          message.success('Danh mục đã được cập nhật thành công!')
+          refetchCategories()
+          setEditingCategory(null)
+          setIsCategoryModalVisible(false)
+          formCategory.resetFields()
+        })
+        .catch(() => message.error('Lỗi khi cập nhật danh mục!'))
+    } else {
+      // Thêm danh mục mới
+      categoryApi
+        .createFlowerCategory(categoryData)
+        .then(() => {
+          message.success('Danh mục mới đã được tạo thành công!')
+          refetchCategories()
+          setIsCategoryModalVisible(false)
+          formCategory.resetFields()
+        })
+        .catch(() => message.error('Lỗi khi thêm danh mục!'))
+    }
+  }
+
+  const handleDeleteCategory = (categoryId) => {
+    categoryApi
+      .deleteFlowerCategory(categoryId)
+      .then(() => {
+        message.success('Danh mục đã được xóa thành công!')
+        refetchCategories()
+      })
+      .catch(() => message.error('Lỗi khi xóa danh mục!'))
+  }
+
+  // Hiển thị Modal thêm/sửa danh mục
+  const showCategoryModal = (category = null) => {
+    setEditingCategory(category)
+    setIsCategoryModalVisible(true)
+    if (category) {
+      // Đặt giá trị ban đầu cho form khi chỉnh sửa
+      formCategory.setFieldsValue({
+        fcateName: category.fcateName,
+        fcateDesc: category.fcateDesc,
+        fparentCateId: category.fparentCateId || null
+      })
+    } else {
+      // Xóa giá trị khi thêm mới
+      formCategory.resetFields()
+    }
+  }
+
+  // Tạo các items cho Timeline
+  const timelineItems = steps.map((step, index) => {
+    const status = stepStatuses[index]
+    let color = 'blue'
+    let dot = <ClockCircleOutlined />
+
+    if (status === 'finish') {
+      color = 'green'
+      dot = <CheckCircleOutlined />
+    } else if (status === 'error') {
+      color = 'red'
+      dot = <CloseCircleOutlined />
+    }
+
+    return {
+      color,
+      dot,
+      children: step.title
+    }
+  })
+
+  // Quản lý danh sách file ảnh được tải lên
+  const [fileList, setFileList] = useState([])
+  const [uploadedImageUrl, setUploadedImageUrl] = useState('')
+  // Sử dụng mutation để tải lên hình ảnh
+  const uploadImagesMutation = useMutation({
+    mutationFn: (imageFile) => {
+      const formData = new FormData()
+      formData.append('file', imageFile)
+      return utilsApi.uploadImage(formData)
+    },
+    onSuccess: (data) => {
+      const uploadedUrl = data.data.data.link
+      setUploadedImageUrl(uploadedUrl)
+      message.success('Hình ảnh đã được tải lên thành công')
+    },
+    onError: (error) => {
+      message.error('Lỗi khi tải lên hình ảnh')
+      console.error(error)
+    }
+  })
+
+  const handleUploadChange = ({ fileList }) => {
+    const file = fileList[0]?.originFileObj
+    if (file) {
+      const isImage = file.type.startsWith('image/')
+      const isLt2M = file.size / 1024 / 1024 < 2
+      if (!isImage) {
+        toast.error('You can only upload image files!')
+        return
+      }
+      if (!isLt2M) {
+        toast.error('Image must be smaller than 2MB!')
+        return
+      }
+      setFileList(fileList)
+      uploadImagesMutation.mutate(file)
+    } else {
+      setFileList([])
+      setUploadedImageUrl('')
+    }
+  }
+
+  // Hàm xử lý khi submit form
+  const onFinish = (values) => {
+    // Chuẩn bị dữ liệu để tải lên hình ảnh
+    const formData = new FormData()
+    fileList.forEach((file) => {
+      formData.append('images', file.originFileObj)
+    })
+
+    // Tải lên hình ảnh trước
+    uploadImagesMutation.mutate(formData, {
+      onSuccess: (uploadResponse) => {
+        // Giả sử phản hồi chứa mảng các URL hình ảnh
+        const imageUrls = uploadResponse.data.data.imageUrls
+
+        // Chuẩn bị dữ liệu sản phẩm
+        const productData = {
+          ...values,
+          images: imageUrls
+        }
+
+        // Tạo sản phẩm
+        productApi
+          .createProduct(productData)
+          .then(() => {
+            message.success('Sản phẩm đã được thêm thành công!')
+            form.resetFields()
+            setFileList([])
+            setStepStatuses(steps.map(() => 'wait'))
+          })
+          .catch(() => {
+            message.error('Lỗi khi thêm sản phẩm')
+          })
+      }
+    })
+  }
+
   return (
-    <Layout>
+    <Layout style={{ padding: '24px' }}>
       <Content>
         <Row gutter={24}>
-          {/* Left Side */}
-          <Col span={16}>
+          {/* Phần bên trái */}
+          <Col xs={24} lg={16}>
             <Form
               form={form}
+              requiredMark={false}
               layout='vertical'
-              onFinish={(values) => console.log(values)}
+              onFinish={onFinish}
               onFieldsChange={updateStepStatuses}
             >
-              {/* General Information */}
-              <Card title='General Information' style={{ marginBottom: '24px' }}>
-                {/* Flower Name */}
+              {/* Thông tin chung */}
+              <Card title={<Title level={4}>Thông tin chung</Title>} style={{ marginBottom: '24px' }}>
+                {/* Tên sản phẩm */}
                 <Form.Item
                   hasFeedback
                   tooltip={{
-                    title: 'Brand Name + Product Type + Key Features (Material, Color, Size, Model).',
+                    title: 'Tên thương hiệu + Loại sản phẩm + Đặc điểm chính (Chất liệu, Màu sắc, Kích thước, Mẫu mã).',
                     icon: <InfoCircleOutlined />
                   }}
-                  validateDebounce={500}
-                  autoComplete='off'
-                  required
-                  label={
-                    <Title style={{ marginBottom: '0px' }} level={5}>
-                      Flower Name
-                    </Title>
-                  }
                   name='flowerName'
+                  label={<Text strong>Tên sản phẩm</Text>}
                   rules={[
                     {
                       required: true,
                       whitespace: true,
-                      message: 'This field cannot be empty'
+                      message: 'Trường này không được để trống'
                     },
-                    ({ getFieldValue }) => ({
+                    () => ({
                       validator(_, value) {
                         if (value && value.trim().length < 10 && value.trim().length > 0) {
-                          return Promise.reject('Your product title is too short. Please input at least 10 characters.')
+                          return Promise.reject('Tên sản phẩm quá ngắn. Vui lòng nhập ít nhất 10 ký tự.')
                         }
                         return Promise.resolve()
                       }
                     })
                   ]}
                 >
-                  <Input placeholder='Brand Name + Product Type + Key Features' maxLength={70} showCount />
+                  <Input placeholder='Tên thương hiệu + Loại sản phẩm + Đặc điểm chính' maxLength={70} showCount />
                 </Form.Item>
 
-                {/* Description */}
+                {/* Mô tả */}
                 <Form.Item
                   hasFeedback
-                  validateDebounce={500}
-                  autoComplete='off'
-                  required
-                  label={
-                    <Title style={{ marginBottom: '0px' }} level={5}>
-                      Description
-                    </Title>
-                  }
                   name='description'
+                  label={<Text strong>Mô tả</Text>}
                   rules={[
                     {
                       required: true,
                       whitespace: true,
-                      message: 'This field cannot be empty'
+                      message: 'Trường này không được để trống'
                     },
-                    ({ getFieldValue }) => ({
+                    () => ({
                       validator(_, value) {
                         if (value && value.trim().length < 100 && value.trim().length > 0) {
-                          return Promise.reject(
-                            'Your product title is too short. Please input at least 100 characters.'
-                          )
+                          return Promise.reject('Mô tả quá ngắn. Vui lòng nhập ít nhất 100 ký tự.')
                         }
                         return Promise.resolve()
                       }
@@ -215,84 +385,95 @@ export default function AddNewProduct() {
                   <Input.TextArea
                     maxLength={3000}
                     rows={5}
-                    placeholder='Add a short description about your product'
+                    placeholder='Thêm mô tả ngắn về sản phẩm của bạn'
                     showCount
                     style={{ padding: '10px' }}
                   />
                 </Form.Item>
 
-                {/* Size */}
-                <Form.Item
-                  required
-                  label='Size'
-                  name='size'
-                  rules={[{ required: true, message: 'Please select a size' }]}
-                >
-                  <Select placeholder='Select size'>
-                    <Option value='small'>Small</Option>
-                    <Option value='medium'>Medium</Option>
-                    <Option value='large'>Large</Option>
-                  </Select>
-                </Form.Item>
+                <Row gutter={16}>
+                  {/* Kích thước */}
+                  <Col xs={24} md={12}>
+                    <Form.Item
+                      name='size'
+                      label={<Text strong>Kích thước</Text>}
+                      rules={[{ required: true, message: 'Vui lòng chọn kích thước' }]}
+                    >
+                      <Select placeholder='Chọn kích thước'>
+                        <Option value='small'>Nhỏ</Option>
+                        <Option value='medium'>Trung bình</Option>
+                        <Option value='large'>Lớn</Option>
+                      </Select>
+                    </Form.Item>
+                  </Col>
 
-                {/* Condition */}
-                <Form.Item required label='Condition' name='condition'>
-                  <Select placeholder='Select condition'>
-                    <Option value='fresh'>Fresh Flower</Option>
-                    <Option value='fake'>Fake Flower</Option>
-                    <Option value='clearance'>Clearance Flower</Option>
-                  </Select>
-                </Form.Item>
+                  {/* Tình trạng */}
+                  <Col xs={24} md={12}>
+                    <Form.Item
+                      name='condition'
+                      label={<Text strong>Tình trạng</Text>}
+                      rules={[{ required: true, message: 'Vui lòng chọn tình trạng' }]}
+                    >
+                      <Select placeholder='Chọn tình trạng'>
+                        <Option value='fresh'>Hoa tươi</Option>
+                        <Option value='fake'>Hoa giả</Option>
+                        <Option value='clearance'>Hoa thanh lý</Option>
+                      </Select>
+                    </Form.Item>
+                  </Col>
+                </Row>
               </Card>
 
-              {/* Pricing and Stock */}
-              <Card title='Pricing and Stock' style={{ marginBottom: '24px' }}>
-                <Row gutter={24}>
-                  <Col span={8}>
-                    {/* Base Price */}
+              {/* Giá và kho */}
+              <Card title={<Title level={4}>Giá và kho</Title>} style={{ marginBottom: '24px' }}>
+                <Row gutter={16}>
+                  <Col xs={24} md={8}>
+                    {/* Giá gốc */}
                     <Form.Item
-                      label='Base Price'
+                      label={<Text strong>Giá gốc</Text>}
                       name='basePrice'
-                      required
                       rules={[
-                        { required: true, message: 'Please enter the price' },
-                        { type: 'number', message: 'Please enter a valid price' }
+                        { required: true, message: 'Vui lòng nhập giá gốc' },
+                        { type: 'number', min: 0, message: 'Giá phải là số dương' }
                       ]}
                     >
                       <InputNumber
                         min={0}
                         style={{ width: '100%' }}
                         formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                        parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
                       />
                     </Form.Item>
                   </Col>
 
-                  <Col span={8}>
-                    {/* New Price */}
+                  <Col xs={24} md={8}>
+                    {/* Giá mới */}
                     <Form.Item
-                      label='New Price'
+                      label={<Text strong>Giá mới</Text>}
                       name='newPrice'
-                      required
                       rules={[
-                        { required: true, message: 'Please enter the price' },
-                        { type: 'number', message: 'Please enter a valid price' }
+                        { required: true, message: 'Vui lòng nhập giá mới' },
+                        { type: 'number', min: 0, message: 'Giá phải là số dương' }
                       ]}
                     >
                       <InputNumber
                         min={0}
                         style={{ width: '100%' }}
                         formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                        parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
                       />
                     </Form.Item>
                   </Col>
 
-                  <Col span={8}>
-                    {/* Stock */}
+                  <Col xs={24} md={8}>
+                    {/* Số lượng */}
                     <Form.Item
-                      label='Stock'
+                      label={<Text strong>Số lượng</Text>}
                       name='stock'
-                      required
-                      rules={[{ required: true, message: 'Please enter the stock' }]}
+                      rules={[
+                        { required: true, message: 'Vui lòng nhập số lượng' },
+                        { type: 'number', min: 0, message: 'Số lượng phải là số dương' }
+                      ]}
                     >
                       <InputNumber min={0} style={{ width: '100%' }} />
                     </Form.Item>
@@ -300,79 +481,69 @@ export default function AddNewProduct() {
                 </Row>
               </Card>
 
-              {/* Upload Image and Video */}
-              <Card title='Upload Images and Video' style={{ marginBottom: '24px' }}>
-                {/* Images */}
+              {/* Tải lên hình ảnh và video */}
+              <Card title={<Title level={4}>Tải lên hình ảnh và video</Title>} style={{ marginBottom: '24px' }}>
+                {/* Hình ảnh */}
                 <Form.Item
-                  label='Images'
+                  label={<Text strong>Hình ảnh</Text>}
                   name='images'
+                  valuePropName='fileList'
+                  getValueFromEvent={(e) => e.fileList}
                   rules={[
                     {
                       required: true,
-                      message: 'Please upload at least 1 image'
+                      message: 'Vui lòng tải lên ít nhất một hình ảnh'
                     },
-                    ({ getFieldValue }) => ({
+                    () => ({
                       validator(_, value) {
-                        if (!value || value.fileList.length === 0) {
-                          return Promise.reject(new Error('You need to upload at least 1 image'))
-                        }
-                        if (value.fileList.length > 5) {
-                          return Promise.reject(new Error('You can only upload up to 5 images'))
+                        if (value && value.length > 5) {
+                          return Promise.reject(new Error('Bạn có thể tải lên tối đa 5 hình ảnh'))
                         }
                         return Promise.resolve()
                       }
                     })
                   ]}
                 >
-                  <Upload
-                    listType='picture-card'
-                    beforeUpload={() => false}
-                    multiple
-                    maxCount={5}
-                    fileList={fileList}
-                    onChange={handleChange}
-                  >
-                    {fileList.length >= 5 ? null : (
-                      <div>
-                        <PlusOutlined />
-                        <div style={{ marginTop: 8 }}>Upload</div>
-                      </div>
-                    )}
-                  </Upload>
+                  <ImgCrop rotate>
+                    <Upload
+                      accept='image/*'
+                      listType='picture-card'
+                      beforeUpload={() => false}
+                      multiple
+                      maxCount={5}
+                      fileList={fileList}
+                      onChange={handleUploadChange}
+                    >
+                      {fileList.length >= 5 ? null : (
+                        <div>
+                          <PlusOutlined />
+                          <div style={{ marginTop: 8 }}>Tải lên</div>
+                        </div>
+                      )}
+                    </Upload>
+                  </ImgCrop>
                 </Form.Item>
 
                 {/* Video */}
                 <Form.Item
-                  label='Video'
+                  label={<Text strong>Video</Text>}
                   name='video'
+                  valuePropName='fileList'
+                  getValueFromEvent={(e) => e.fileList}
                   rules={[
-                    ({ getFieldValue }) => ({
+                    () => ({
                       validator(_, value) {
-                        if (value && value.file) {
-                          const isMP4 = value.file.type === 'video/mp4'
-                          const isSizeValid = value.file.size / 1024 / 1024 < 30 // Size <= 30MB
-                          const isResolutionValid = new Promise((resolve, reject) => {
-                            const video = document.createElement('video')
-                            video.src = URL.createObjectURL(value.file)
-                            video.onloadedmetadata = () => {
-                              const { videoWidth, videoHeight, duration } = video
-                              if (videoWidth > 1280 || videoHeight > 1280) {
-                                reject('Resolution should not exceed 1280x1280px')
-                              } else if (duration < 10 || duration > 60) {
-                                reject('Video duration must be between 10 and 60 seconds')
-                              } else {
-                                resolve()
-                              }
-                            }
-                          })
+                        if (value && value.length > 0) {
+                          const file = value[0]
+                          const isMP4 = file.type === 'video/mp4'
+                          const isSizeValid = file.size / 1024 / 1024 < 30
 
                           if (!isMP4) {
-                            return Promise.reject(new Error('Video format must be MP4'))
+                            return Promise.reject(new Error('Định dạng video phải là MP4'))
                           }
                           if (!isSizeValid) {
-                            return Promise.reject(new Error('Video size must be less than 30MB'))
+                            return Promise.reject(new Error('Kích thước video phải nhỏ hơn 30MB'))
                           }
-                          return isResolutionValid
                         }
                         return Promise.resolve()
                       }
@@ -383,108 +554,124 @@ export default function AddNewProduct() {
                     <p className='ant-upload-drag-icon'>
                       <UploadOutlined />
                     </p>
-                    <p className='ant-upload-text'>Click or drag file to this area to upload</p>
+                    <p className='ant-upload-text'>Nhấp hoặc kéo tệp vào khu vực này để tải lên</p>
                     <p className='ant-upload-hint'>
-                      You can publish this listing while the video is being processed. Video will be shown in listing
-                      once successfully processed.
+                      Bạn có thể đăng sản phẩm này trong khi video đang được xử lý. Video sẽ được hiển thị khi xử lý
+                      xong.
                     </p>
                   </Dragger>
                 </Form.Item>
               </Card>
 
-              <Card title='Category' style={{ marginBottom: '24px' }}>
-                {/* Category ID */}
+              {/* Danh mục và thẻ */}
+              <Card title={<Title level={4}>Danh mục và thẻ</Title>} style={{ marginBottom: '24px' }}>
+                {/* Danh mục */}
+
                 <Form.Item
-                  label='Category'
+                  label={<Text strong>Danh mục</Text>}
                   name='cateId'
-                  rules={[{ required: true, message: 'Please select a category' }]}
+                  rules={[{ required: true, message: 'Vui lòng chọn danh mục' }]}
                 >
-                  {isLoading ? (
-                    <p>Loading...</p>
+                  {isCategoriesLoading ? (
+                    <Spin size='small' />
+                  ) : isCategoriesError ? (
+                    <Text type='danger'>Đã xảy ra lỗi khi tải danh mục.</Text>
                   ) : (
                     <TreeSelect
-                      value={categoryValue}
                       dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-                      placeholder='Select category'
+                      placeholder='Chọn danh mục'
                       allowClear
                       treeDefaultExpandAll
-                      onChange={onCategoryChange}
-                      treeData={treeData}
+                      treeData={categoriesTreeData}
+                      // Thêm thuộc tính này để cho phép chọn cả node cha
+                      treeCheckable={false}
+                      showCheckedStrategy={TreeSelect.SHOW_ALL}
                     />
                   )}
                 </Form.Item>
+                <Button type='dashed' onClick={() => showCategoryModal()}>
+                  Thêm danh mục mới
+                </Button>
 
-                {/* Tag ID */}
+                {/* Thẻ */}
                 <Form.Item
-                  label='Tag'
+                  label={<Text strong>Thẻ</Text>}
                   name='tagId'
-                  rules={[{ required: true, message: 'Please select at least one tag' }]}
+                  rules={[{ required: true, message: 'Vui lòng chọn ít nhất một thẻ' }]}
                 >
-                  <Select placeholder='Select tag' mode='multiple'>
-                    {/* Dữ liệu tag */}
-                    <Option value='tag1'>Popular</Option>
-                    <Option value='tag2'>Sale</Option>
-                    <Option value='tag3'>New Arrival</Option>
-                    <Option value='tag4'>Limited Edition</Option>
+                  <Select placeholder='Chọn thẻ' mode='multiple'>
+                    {/* Dữ liệu thẻ */}
+                    <Option value='FT00000001'>Màu sắc rực rỡ</Option>
+                    <Option value='FT00000002'>Thơm</Option>
+                    <Option value='FT00000003'>Dễ chăm sóc</Option>
                   </Select>
                 </Form.Item>
               </Card>
 
-              {/* Save Draft and Add Product Buttons */}
+              {/* Nút hành động */}
               <Form.Item>
                 <Space>
-                  <Button type='default'>Save Draft</Button>
+                  <Button type='default'>Lưu nháp</Button>
                   <Button type='primary' htmlType='submit'>
-                    Add Product
+                    Thêm sản phẩm
                   </Button>
                 </Space>
               </Form.Item>
             </Form>
           </Col>
 
-          {/* Right Side */}
-          <Col span={8}>
+          {/* Phần bên phải */}
+          <Col xs={24} lg={8}>
             {/* Timeline */}
-            <Card title='Steps'>
-              <Timeline>
-                {steps.map((step, index) => (
-                  <Timeline.Item
-                    key={index}
-                    color={
-                      stepStatuses[index] === 'finish' ? 'green' : stepStatuses[index] === 'error' ? 'red' : 'blue'
-                    }
-                    dot={
-                      stepStatuses[index] === 'finish' ? (
-                        <CheckCircleOutlined />
-                      ) : stepStatuses[index] === 'error' ? (
-                        <CloseCircleOutlined />
-                      ) : (
-                        <ClockCircleOutlined />
-                      )
-                    }
-                  >
-                    {step.title}
-                  </Timeline.Item>
-                ))}
-              </Timeline>
+            <Card title={<Title level={4}>Các bước</Title>}>
+              <Timeline items={timelineItems} />
             </Card>
           </Col>
         </Row>
 
-        {/* Category Selection Modal */}
+        {/* Modal quản lý danh mục */}
         <Modal
-          title='Select Category'
+          title={editingCategory ? 'Chỉnh sửa danh mục' : 'Thêm danh mục mới'}
           open={isCategoryModalVisible}
-          onOk={() => setIsCategoryModalVisible(false)}
-          onCancel={() => setIsCategoryModalVisible(false)}
+          onCancel={() => {
+            setIsCategoryModalVisible(false)
+            formCategory.resetFields()
+            setEditingCategory(null)
+          }}
+          footer={null}
         >
-          {/* Vertical Menu */}
-          <Menu mode='vertical'>
-            <Menu.Item key='1'>Category 1</Menu.Item>
-            <Menu.Item key='2'>Category 2</Menu.Item>
-            <Menu.Item key='3'>Category 3</Menu.Item>
-            {/* Add more categories */}
-          </Menu>
+          <Form form={formCategory} layout='vertical' onFinish={handleAddCategory}>
+            <Form.Item
+              label='Tên danh mục'
+              name='fcateName'
+              rules={[{ required: true, message: 'Vui lòng nhập tên danh mục' }]}
+            >
+              <Input />
+            </Form.Item>
+
+            <Form.Item
+              label='Mô tả danh mục'
+              name='fcateDesc'
+              rules={[{ required: true, message: 'Vui lòng nhập mô tả danh mục' }]}
+            >
+              <Input />
+            </Form.Item>
+
+            <Form.Item label='Danh mục cha' name='fparentCateId'>
+              <TreeSelect
+                placeholder='Chọn danh mục cha'
+                allowClear
+                treeDefaultExpandAll
+                treeData={categoriesTreeData}
+              />
+            </Form.Item>
+
+            <Space>
+              <Button type='primary' htmlType='submit'>
+                {editingCategory ? 'Cập nhật' : 'Thêm'}
+              </Button>
+            </Space>
+          </Form>
         </Modal>
       </Content>
     </Layout>

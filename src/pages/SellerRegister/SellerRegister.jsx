@@ -1,12 +1,11 @@
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { Button, Card, Col, Form, Input, Layout, Row, Select, Typography, Upload } from 'antd'
 import ImgCrop from 'antd-img-crop'
-import { useContext, useState } from 'react'
+import { useCallback, useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import sellerApi from '../../apis/seller.api'
 import utilsApi from '../../apis/utils.api'
-import { cardProviderData } from '../../constants/cardProvider'
 import { SellerContext } from '../../contexts/seller.context.jsx'
 import { getAccessTokenFromLS } from '../../utils/utils'
 
@@ -122,6 +121,22 @@ export default function SellerRegister() {
     registerToSellerMutation.mutate()
   }
 
+  const selectCardProvider = useCallback(
+    (data) =>
+      data?.data.map((item) => ({
+        value: item.cardProviderName,
+        label: `${item.cardProviderName} - ${item.cpfullName}`
+      })),
+    []
+  )
+
+  const { data: cardProviderNames } = useQuery({
+    queryKey: ['banks'],
+    queryFn: () => sellerApi.getBanks(),
+    select: selectCardProvider,
+    keepPreviousData: true
+  })
+  console.log(cardProviderNames)
   return (
     <Layout className='h-screen w-full bg-gray-200 flex items-center justify-center p-8 '>
       <Form
@@ -130,7 +145,7 @@ export default function SellerRegister() {
         layout='vertical'
         onFinish={handleSubmit}
         validateMessages={validateMessages}
-        className='w-full max-w-3xl bg-white p-6 rounded-lg shadow-2xl border-t-8 border-primary-500 '
+        className='w-full max-w-3xl bg-white p-6 rounded-lg shadow-2xl border-t-8 border-primary-500'
       >
         <Card hoverable title='Credit Card Information' className='shadow-lg rounded-lg mb-5 text-center font-bold'>
           <Title level={5} className='text-gray-600 font-beausite'>
@@ -239,8 +254,13 @@ export default function SellerRegister() {
             </Col>
 
             <Col span={12} className='animate-fadeIn'>
-              <Form.Item name='CardProviderName' label='Card Provider Name' rules={[{ required: true, max: 50 }]}>
-                <Select showSearch placeholder='Select a provider' options={cardProviderData} />
+              <Form.Item
+                hasFeedback
+                name='CardProviderName'
+                label='Card Provider Name'
+                rules={[{ required: true, max: 50 }]}
+              >
+                <Select showSearch placeholder='Select a provider' options={cardProviderNames} />
               </Form.Item>
               <Form.Item name='SellerAddress' label='Seller Address' rules={[{ required: true, max: 50 }]}>
                 <Input

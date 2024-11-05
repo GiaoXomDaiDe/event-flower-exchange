@@ -41,7 +41,7 @@ export default function BankAccountModal() {
         className='rounded-lg'
       >
         <div className='p-6 bg-gray-100 rounded-lg shadow-lg'>
-          <div className='bg-gradient-to-r from-blue-500 to-purple-600 p-4 rounded-lg text-white'>
+          <div className='bg-gradient-to-r from-primary-100 to-primary-500 p-4 rounded-lg text-white'>
             <div className='flex justify-between items-center mb-4'>
               <BankOutlined className='text-4xl' />
               <Text className='text-lg'>{sellerProfile?.cardProviderName || 'Bank Name'}</Text>

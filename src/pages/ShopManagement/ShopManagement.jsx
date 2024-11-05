@@ -348,23 +348,23 @@ export default function ShopManagement() {
             {activeProductList && activeProductList.length > 0 ? (
               activeProductList.map((product) => (
                 <Col span={8} key={product.CateId}>
-                  <div className='bg-white rounded-xl shadow-lg p-4 font-beausite mt-4'>
+                  <div className='bg-white rounded-xl shadow-lg p-3 font-beausite mt-4 h-[450px]'>
                     <div className='p-4'>
                       <div className='relative'>
                         <div className='flex justify-between w-20 align-middle absolute top-3 left-3'>
-                          <div className='px-6 py-1 bg-primary-600 z-10 rounded-3xl font-extrabold text-white'>
+                          <div className='px-4 py-1 bg-primary-600 z-10 rounded-3xl font-extrabold text-sm text-white'>
                             SALE
                           </div>
-                          <div className='px-4 py-1 pl-10 text-sm rounded-3xl font-extrabold bg-white -translate-x-5'>
+                          <div className='px-4 py-1 pl-10 text-[11px] rounded-3xl font-extrabold bg-white -translate-x-5'>
                             1D:08:32:59
                           </div>
                         </div>
-                        <div className='absolute top-3 right-3 bg-white rounded-full w-8 aspect-square flex items-center justify-center'>
+                        <div className='absolute top-2 right-3 bg-white rounded-full w-8 aspect-square flex items-center justify-center'>
                           <HeartFilled />
                         </div>
                         <div className=''>
                           <img
-                            className='absolute border-8 border-gray-400 -bottom-6 right-6 rounded-full object-cover w-14 aspect-square'
+                            className='absolute border-gray-400 -bottom-3 right-6 rounded-full object-cover w-10 aspect-square'
                             src={SungJinWoo}
                             alt=''
                           />
@@ -398,11 +398,11 @@ export default function ShopManagement() {
                       </div>
                       <div className='flex my-4 justify-between items-center'>
                         <div className='flex items-center'>
-                          <div className='text-[40px] font-extrabold'>50.00$</div>
-                          <div className='line-through italic text-gray-400 ml-2 text-xl'>50.00$</div>
+                          <div className='text-[30px] font-extrabold'>50.00$</div>
+                          <div className='line-through italic text-gray-400 ml-2 text-base'>50.00$</div>
                         </div>
                         <div className='bg-text1 flex justify-center items-center w-10 aspect-square rounded-full'>
-                          <ShoppingCartOutlined className='text-2xl text-white' />
+                          <ShoppingCartOutlined className='text-xl text-white' />
                         </div>
                       </div>
                     </div>
@@ -421,42 +421,48 @@ export default function ShopManagement() {
         <Card className=' bg-white rounded-lg shadow-md mt-6'>
           {activeEventList && activeEventList.length > 0 ? (
             activeEventList.map((event) => (
-              <Col span={12} key={event.eventID}>
-                <div className='bg-white rounded-xl shadow-md mt-6 p-6 font-beausite'>
-                  <div className='relative'>
-                    <div>
-                      <img className='object-cover w-full h-64 aspect-square rounded-xl' src={event.imageUrl} alt='' />
+              <Row key={event.eventID} wrap>
+                <Col span={24} key={event.eventID}>
+                  <div className='bg-white rounded-xl shadow-md mt-6 p-6 font-beausite'>
+                    <div className='relative'>
+                      <div>
+                        <img
+                          className='object-cover w-full h-64 aspect-square rounded-xl'
+                          src={event.imageUrl}
+                          alt=''
+                        />
+                      </div>
+                      <div className='flex justify-center absolute bottom-3 left-3'>
+                        <div className='px-3 py-2 bg-white z-10 rounded-s-xl flex flex-col items-center'>
+                          <div className='text-[12px]'>Address</div>
+                          <div className='font-extrabold text-[10px]'>12A Thu Duc</div>
+                        </div>
+                        <div className='px-3 py-2 bg-white z-10 flex flex-col items-center'>
+                          <div className='text-[12px]'>From</div>
+                          <div className='font-extrabold text-[10px]'>28 May 2003</div>
+                        </div>
+                        <div className='px-3 py-2 bg-white z-10 rounded-e-xl flex flex-col items-center'>
+                          <div className='text-[12px]'>To</div>
+                          <div className='font-extrabold text-[10px]'>28 May 2003</div>
+                        </div>
+                      </div>
                     </div>
-                    <div className='flex justify-center absolute bottom-3 left-3'>
-                      <div className='px-3 py-2 bg-white z-10 rounded-s-xl flex flex-col items-center'>
-                        <div className='text-[12px]'>Address</div>
-                        <div className='font-extrabold text-[10px]'>12A Thu Duc</div>
+                    <div className='flex items-center justify-between'>
+                      <div>
+                        <div className='flex justify-start mt-4 '>
+                          <div className='py-1 text-[8px] px-3 text-white bg-primary-800 rounded-2xl'>FRESH</div>
+                          <div className='ml-2 text-[8px] py-1 px-3 text-white bg-primary-500 rounded-2xl'>WEDDING</div>
+                        </div>
+                        <div className='line-clamp-1 text-2xl font-extrabold'>{event.title}</div>
+                        <div className='line-clamp-2 text-[12px]'>{event.description}</div>
                       </div>
-                      <div className='px-3 py-2 bg-white z-10 flex flex-col items-center'>
-                        <div className='text-[12px]'>From</div>
-                        <div className='font-extrabold text-[10px]'>28 May 2003</div>
-                      </div>
-                      <div className='px-3 py-2 bg-white z-10 rounded-e-xl flex flex-col items-center'>
-                        <div className='text-[12px]'>To</div>
-                        <div className='font-extrabold text-[10px]'>28 May 2003</div>
+                      <div>
+                        <img className='object-cover w-14 aspect-square rounded-full' src={SungJinWoo} alt='' />
                       </div>
                     </div>
                   </div>
-                  <div className='flex items-center justify-between'>
-                    <div>
-                      <div className='flex justify-start mt-4 '>
-                        <div className='py-1 text-[8px] px-3 text-white bg-primary-800 rounded-2xl'>FRESH</div>
-                        <div className='ml-2 text-[8px] py-1 px-3 text-white bg-primary-500 rounded-2xl'>WEDDING</div>
-                      </div>
-                      <div className='line-clamp-1 text-2xl font-extrabold'>{event.title}</div>
-                      <div className='line-clamp-2 text-[12px]'>{event.description}</div>
-                    </div>
-                    <div>
-                      <img className='object-cover w-14 aspect-square rounded-full' src={SungJinWoo} alt='' />
-                    </div>
-                  </div>
-                </div>
-              </Col>
+                </Col>
+              </Row>
             ))
           ) : (
             <Text>No selected events</Text>

@@ -14,7 +14,6 @@ const { Search } = Input;
 
 function Header() {
   const navigate = useNavigate();
-  // const cartItems = useSelector((store) => store.cart.items);
   const { cartItems, getCart } = useCart();
 
   const cartLength = cartItems?.flatMap((item) => {
@@ -68,6 +67,7 @@ function Header() {
       </div>
       <div className="header_col">
         <HeadlessTippy
+          trigger="click"
           interactive
           placement="bottom"
           appendTo={document.body}

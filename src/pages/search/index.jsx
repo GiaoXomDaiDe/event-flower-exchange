@@ -15,17 +15,18 @@ function SearchPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [sortDesc, setSortDesc] = useState(false);
   const pageSize = 20;
+  const [sortBy, setSortBy] = useState("FlowerName");
 
   const CheckboxGroup = Checkbox.Group;
 
-  const plainOptions = ["Apple", "Pear", "Orange"];
+  // const plainOptions = ["Apple", "Pear", "Orange"];
 
-  const defaultCheckedList = [];
-  const [checkedList, setCheckedList] = useState(defaultCheckedList);
+  // const defaultCheckedList = [];
+  // const [checkedList, setCheckedList] = useState(defaultCheckedList);
 
-  const checkAll = plainOptions.length === checkedList.length;
-  const indeterminate =
-    checkedList.length > 0 && checkedList.length < plainOptions.length;
+  // const checkAll = plainOptions.length === checkedList.length;
+  // const indeterminate =
+  //   checkedList.length > 0 && checkedList.length < plainOptions.length;
 
   const showTotal = (total) => `Total ${total} items`;
 
@@ -52,7 +53,8 @@ function SearchPage() {
       currentPage,
       pageSize,
       searchValue,
-      sortDesc
+      sortDesc,
+      sortBy
     );
     setFlowers(response.data);
     setSearchResult(response);
@@ -60,7 +62,7 @@ function SearchPage() {
 
   useEffect(() => {
     fetchProductList();
-  }, [currentPage, searchValue, sortDesc]);
+  }, [currentPage, searchValue, sortDesc, sortBy]);
 
   const onChange = (list) => {
     setCheckedList(list);
@@ -71,44 +73,33 @@ function SearchPage() {
     console.log(pageNo);
   };
 
-  const onCheckAllChange = (e) => {
-    setCheckedList(e.target.checked ? plainOptions : []);
-  };
-
   return (
     <div>
       <div className="search">
-        {/* <div className="search_option">
-          <div>
-            <Dropdown title="Category">
-              <Checkbox
-                indeterminate={indeterminate}
-                onChange={onCheckAllChange}
-                checked={checkAll}
-              >
-                Check all
-              </Checkbox>
-              <CheckboxGroup
-                options={plainOptions}
-                value={checkedList}
-                onChange={onChange}
-              />
-            </Dropdown>
-          </div>
-        </div> */}
         <div className="search_product">
           <div className="search_header">
             <h4>Search results</h4>
             <div>
               <span>Sort by: </span>
+
+              <Select
+                defaultValue={"FlowerName"}
+                style={{ width: "13  0px" }}
+                onChange={(value) => {
+                  setSortBy(value);
+                }}
+              >
+                <Select.Option value={"FlowerName"}>Flower Name</Select.Option>
+                <Select.Option value={"price"}>Price</Select.Option>
+              </Select>
               <Select
                 defaultValue={false}
                 onChange={(value) => {
                   setSortDesc(value);
                 }}
               >
-                <Select.Option value={false}>Name: A -&gt; Z</Select.Option>
-                <Select.Option value={true}>Name: Z -&gt; A</Select.Option>
+                <Select.Option value={false}>Asc</Select.Option>
+                <Select.Option value={true}>Desc</Select.Option>
               </Select>
             </div>
           </div>

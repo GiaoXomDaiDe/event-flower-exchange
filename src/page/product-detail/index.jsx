@@ -9,9 +9,6 @@ import axios from "axios";
 import { useCart } from "../../context/CartContext";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { getProductDetail } from "../../services/productService";
-import { addCart } from "../../services/cartService";
-
 
 const ProductDetail = () => {
   const { flowerId } = useParams();
@@ -23,14 +20,44 @@ const ProductDetail = () => {
   const [quantity, setQuantity] = useState(1);
 
   const fetchFlower = async () => {
-    const response = await getProductDetail(flowerId);
-    setFlower(response);
+    const response = await axios.get(
+      "https://localhost:7026/api/flower/flower-detail",
+      {
+        params: {
+          flowerId,
+        },
+      }
+    );
+    setFlower(response.data);
   };
 
-
   const fetchAddCart = async (quantity) => {
-    await addCart(token, quantity, flowerId);
-    getCart();
+    const addCartForm = new FormData();
+    addCartForm.append("accessToken", token);
+    addCartForm.append("FlowerID", flowerId);
+    addCartForm.append("Quantity", quantity);
+
+    const response = await axios.post(
+      "https://localhost:7026/api/account/add-to-cart",
+      addCartForm,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    if (response.data.statusCode === 201) {
+      getCart();
+      toast.success("Your flower is added !", {
+        position: "top-right",
+        autoClose: 1500,
+      });
+    } else {
+      toast.error("Add flower failed !", {
+        position: "top-right",
+      });
+    }
   };
 
   useLayoutEffect(() => {

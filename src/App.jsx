@@ -82,10 +82,6 @@ function App() {
           path: "even",
           element: <Category />,
         },
-        {
-          path: "flower",
-          element: <Flower />,
-        },
       ],
     },
     {
@@ -96,7 +92,7 @@ function App() {
 
   return (
     <>
-      <RouterProvider router={router} />;
+      <RouterProvider router={router} />
       <ToastContainer />
     </>
   );

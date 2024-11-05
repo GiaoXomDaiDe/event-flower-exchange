@@ -37,7 +37,6 @@ const ProductDetail = () => {
     fetchFlower();
   }, []);
 
-  // const imageList = ["pink", "yellow", "green", "red"];
 
   const shopInfo = [
     {
@@ -63,7 +62,6 @@ const ProductDetail = () => {
     } else {
       setQuantity(quantity + 1);
     }
-    // setQuantity(e.target.value);
   };
 
   const handleAddCart = () => {};
@@ -74,8 +72,8 @@ const ProductDetail = () => {
         <div className="images">
           <div className="images_main">
             <img
-              src="https://ih1.redbubble.net/image.3113464535.1401/flat,750x,075,f-pad,750x1000,f8f8f8.u2.jpg"
-              alt=""
+              src={flower.attachment}
+              alt={`Image of ${flower.flowerName}`}
             />
           </div>
           {/* <div className="images_list">
@@ -199,7 +197,6 @@ const ProductDetail = () => {
         <h1 className="suggest-product_title">Other Product</h1>
         <SuggestProduct />
       </div> */}
-      
     </div>
   );
 };

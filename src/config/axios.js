@@ -5,7 +5,6 @@ const config = {
   baseUrl: baseUrl
 }
 const api = axios.create(config)
-
 api.defaults.baseURL = baseUrl
 const handleBefore = (config) => {
   const token = localStorage.getItem('token')?.replaceAll('"', '')

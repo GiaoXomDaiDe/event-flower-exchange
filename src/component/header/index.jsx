@@ -1,68 +1,46 @@
-import { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./index.scss";
-import { toast } from "react-toastify";
 import logo from "./../../assets/Espoir.png";
 import { Link, useNavigate } from "react-router-dom";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import { Badge, Button, ConfigProvider, Dropdown } from "antd";
+import { Badge, ConfigProvider } from "antd";
+import { useSelector } from "react-redux";
 import HeadlessTippy from "@tippyjs/react/headless";
-import { Input } from "antd";
+import Tippy from "@tippyjs/react/";
+import "tippy.js/dist/tippy.css";
 import Wrapper from "../wrapper";
+import { Input } from "antd";
+import SearchItem from "../search-item";
+import axios from "axios";
 import { useCart } from "../../context/CartContext";
-
 const { Search } = Input;
 
 function Header() {
   const navigate = useNavigate();
+  const cart = useSelector((store) => store.cart);
 
-  const { cartItems, getCart } = useCart();
-
-  const dropdownItems = [
-    {
-      key: "1",
-      label: <Link to="/profile">My Profile</Link>,
-    },
-    {
-      key: "2",
-      label: <Link to="/seller">Become seller</Link>,
-    },
-    {
-      key: "3",
-      label: (
-        <Link
-          onClick={() => {
-            localStorage.removeItem("token");
-          }}
-          to="/login"
-        >
-          Logout
-        </Link>
-      ),
-    },
-  ];
-
-  useEffect(() => {
-    getCart();
-  }, []); 
+  const { cartItems } = useCart();
+  console.log(cartItems);
 
   const token = JSON.parse(localStorage.getItem("token"));
 
-  const onSearch = (value) => {
+  const onSearch = (value, _e, info) => {
     navigate("/search", { state: { search: value } });
   };
 
   return (
     <div className="header">
       <div className="header_col">
+        <Link to="/">Menu</Link>
         <Link to="/">Flowers</Link>
         <Link to="/">Our Story</Link>
       </div>
       <div className="header_logo">
-        <img src={logo} alt="Espoir Logo" />
+        {/* <h1>Espoir</h1> */}
+        <img src={logo} alt="" />
       </div>
       <div className="header_col">
         <HeadlessTippy
-          trigger="click"
           interactive
           placement="bottom"
           render={(attrs) => (
@@ -90,6 +68,11 @@ function Header() {
                     size="large"
                     onSearch={onSearch}
                   />
+                  {/* <div className="search-result">
+                    <SearchItem />
+                    <SearchItem />
+                    <SearchItem />
+                  </div> */}
                 </ConfigProvider>
               </Wrapper>
             </div>
@@ -97,26 +80,22 @@ function Header() {
         >
           <i className="bi bi-search"></i>
         </HeadlessTippy>
-
+        {/* <Tippy content="Chat">
+          <i className="bi bi-chat"></i>
+        </Tippy> */}
+        {/* <i className="bi bi-bell"></i> */}
         <button
           className="cart_button"
           disabled={!token}
           onClick={() => navigate("/cart")}
         >
-          <Badge count={cartItems?.length}>
+          <Badge count={cartItems.length}>
             <i className="bi bi-cart3"></i>
           </Badge>
         </button>
-
         {token ? (
           <>
-            <Dropdown
-              menu={{ items: dropdownItems }}
-              placement="bottomRight"
-              arrow
-            >
-              <Button>Welcome back!</Button>
-            </Dropdown>
+            Welcome back!
             <button
               onClick={() => {
                 localStorage.removeItem("token");
@@ -128,7 +107,7 @@ function Header() {
             </button>
           </>
         ) : (
-          <Link to="/login">
+          <Link to={"/login"}>
             <button className="login_button">Login</button>
           </Link>
         )}

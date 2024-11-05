@@ -5,6 +5,8 @@ import SectionTitle from "../../components/section-title";
 import ProductCard from "../../components/product-card";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { LoginOutlined } from "@ant-design/icons";
+import EventCate from "../../components/event-cate";
 
 function Home() {
   const [searchResult, setSearchResult] = useState([]);
@@ -15,7 +17,7 @@ function Home() {
       {
         params: {
           pageIndex: 1,
-          pageSize: 5,
+          pageSize: 4,
           sortBy: "FlowerName",
           sortDesc: true,
           search: "a",
@@ -23,16 +25,11 @@ function Home() {
       }
     );
     setSearchResult(response.data.data);
-    // console.log(searchResult);
   };
-
-  // console.log(searchResult);
 
   useEffect(() => {
     fetchFlower();
   }, []);
-
-  // console.log(searchResult);
 
   return (
     <div className="home">
@@ -41,31 +38,19 @@ function Home() {
         alt=""
       />
 
-      <Benefits />
+      <div className="onScreenBenefits">
+        <Benefits />
+      </div>
 
-      <SectionTitle title="HOA 20/10">
-        <div className="product-list">
-          {searchResult.map((flower, index) => (
-            <ProductCard key={index} flower={flower} />
-          ))}
-        </div>
-      </SectionTitle>
-
-      <SectionTitle title="HOA 20/10">
-        <div className="product-list">
-          {searchResult.map((flower, index) => (
-            <ProductCard key={index} flower={flower} />
-          ))}
-        </div>
-      </SectionTitle>
-
-      <SectionTitle title="HOA 20/10">
-        <div className="product-list">
-          {searchResult.map((flower, index) => (
-            <ProductCard key={index} flower={flower} />
-          ))}
-        </div>
-      </SectionTitle>
+      <div className="home-title">
+        <EventCate />
+      </div>
+      <div className="home-title">
+        <SectionTitle title="SPECIAL OFFERS" searchResult={searchResult} />
+      </div>
+      <div className="home-title">
+        <SectionTitle title="OUR PRODUCT" searchResult={searchResult} />
+      </div>
     </div>
   );
 }

@@ -25,7 +25,8 @@ function ProductCard({ flower }) {
     [flower.flowerId]
   );
 
-  const tags = flower.tagNames.split(",");
+  const tags = [];
+    // flower.tagNames.split(",") || "";
 
   return (
     <div className="product-cards">
@@ -35,7 +36,7 @@ function ProductCard({ flower }) {
       >
         <div className="product-img">
           <img
-            src="https://plantsvszombies.wiki.gg/images/3/3e/Sunflower-Almanac.png?20200522063110"
+            src={`${flower.attachment}`}
             alt={`Image of ${flower.flowerName}`}
           />
           <Avatar

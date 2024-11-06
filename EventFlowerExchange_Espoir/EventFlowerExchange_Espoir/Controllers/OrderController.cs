@@ -43,6 +43,7 @@ namespace EventFlowerExchange_Espoir.Controllers
             return Ok(result);
         }
 
+        [Authorize(Policy = "UserOnly")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPost("checkout-order")]
         public async Task<IActionResult> CreateOrderForCheckout(CheckoutRequest request)
@@ -55,6 +56,8 @@ namespace EventFlowerExchange_Espoir.Controllers
             });
         }
 
+        [Authorize(Policy = "UserOnly")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet("finish-delivering-stage")]
         public async Task<IActionResult> FinishDeliveringStage(string orderId)
         {
@@ -65,6 +68,11 @@ namespace EventFlowerExchange_Espoir.Controllers
                 Message = "Finish delivering stage!"
             });
         }
+
+
+
+        [Authorize(Policy = "UserOnly")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet("get-all")]
         public async Task<IActionResult> GetAllOrders()
         {
@@ -76,6 +84,8 @@ namespace EventFlowerExchange_Espoir.Controllers
             });
         }
 
+        [Authorize(Policy = "UserOnly")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet("get-number-of-orders")]
         public async Task<IActionResult> GetNumberOfOrders()
         {
@@ -87,6 +97,8 @@ namespace EventFlowerExchange_Espoir.Controllers
             });
         }
 
+        [Authorize(Policy = "UserOnly")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet("get-number-orders-by-status")]
         public async Task<IActionResult> GetNumberOfOrderByStatus(int status)
         {
@@ -98,6 +110,8 @@ namespace EventFlowerExchange_Espoir.Controllers
             });
         }
 
+        [Authorize(Policy = "UserOnly")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet("get-total-earnings")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> GetTotalEarnings()

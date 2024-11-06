@@ -57,7 +57,7 @@ namespace EventFlowerExchange_Espoir.Controllers
 
         [Authorize(Policy = "UserOnly")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        [HttpPost("update-flower")]
+        [HttpPut("update-flower")]
         public async Task<IActionResult> UpdateFlowerAsync(string accessToken, [FromForm] UpdateFlowerDTO updateFlower)
         {
             if (!ModelState.IsValid)
@@ -88,7 +88,7 @@ namespace EventFlowerExchange_Espoir.Controllers
 
         [Authorize(Policy = "UserOnly")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        [HttpPost("delete-flower")]
+        [HttpDelete("delete-flower")]
         public async Task<IActionResult> DeleteFlower(string accessToken, string flowerId)
         {
             if (!ModelState.IsValid)

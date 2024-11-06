@@ -17,10 +17,12 @@ namespace EventFlowerExchange_Espoir.Models.DTO
         [Required(ErrorMessage = "Tax Number is required")]
         [RegularExpression(@"^\d{10}$", ErrorMessage = "Tax Number must be exactly 10 digits")]
         public string TaxNumber { get; set; }
-        public string? SellerAvatar { get; set; }
+        public IFormFile AttachmentFiles { get; set; }
+
         public string? SellerAddress { get; set; }
         [Required(ErrorMessage = "Name of shop is required")]
         [UniqueShopName(ErrorMessage = "This shop name is already exist. Please try another.")]
         public string ShopName { get; set; }
+
     }
 }

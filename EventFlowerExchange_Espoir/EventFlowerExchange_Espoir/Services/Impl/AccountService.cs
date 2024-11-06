@@ -17,11 +17,13 @@ namespace EventFlowerExchange_Espoir.Services.Impl
         private readonly IAccountRepository _accountReposiotry;
         private readonly IConfiguration _configuration;
         private readonly IProductRepository _productReposiotry;
-        public AccountService(IAccountRepository accountReposiotry, IConfiguration configuration, IProductRepository productRepository)
+        private readonly IImageService _imageService;
+        public AccountService(IAccountRepository accountReposiotry, IConfiguration configuration, IProductRepository productRepository, IImageService imageService)
         {
             _accountReposiotry = accountReposiotry;
             _configuration = configuration;
             _productReposiotry = productRepository;
+            _imageService = imageService;
         }
 
         public async Task<Account> GetAccountByEmailAsync(string email)
@@ -333,10 +335,8 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                     Message = "This shop name is already exist. Please try another"
                 };
             }
-            if (string.IsNullOrEmpty(newSeller.SellerAvatar))
-            {
-                newSeller.SellerAvatar = "empty";
-            }
+
+            var attachment = await _imageService.UploadImageAsync(newSeller.AttachmentFiles);
             if (string.IsNullOrEmpty(newSeller.SellerAddress))
             {
                 newSeller.SellerAddress = acc.Address;
@@ -352,13 +352,16 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                 CardProviderName = newSeller.CardProviderName,
                 TaxNumber = newSeller.TaxNumber,
                 SellerAddress = newSeller.SellerAddress,
-                SellerAvatar = newSeller.SellerAvatar,
+                SellerAvatar = attachment.SecureUri.AbsoluteUri,
                 ShopName = newSeller.ShopName,
             };
-
+            if (newSeller.AttachmentFiles == null)
+            {
+                seller.SellerAvatar = "Empty";
+            }
             var result = await _accountReposiotry.CreateUserAsync(seller);
 
-            return new 
+            return new
             {
                 Result = result,
                 Shop = seller,
@@ -366,7 +369,7 @@ namespace EventFlowerExchange_Espoir.Services.Impl
             };
 
         }
-        public async Task<object>  CheckSellerRole(string accessToken)
+        public async Task<object> CheckSellerRole(string accessToken)
         {
             string email = TokenDecoder.GetEmailFromToken(accessToken);
             var acc = await _accountReposiotry.GetAccountByEmailAsync(email);

@@ -1,1 +1,21 @@
 node_modules
+=======
+#Visual Studio-specific files
+.vs/
+*.suo
+/dist/
+#Build Configuration
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+build
+bin
+#Build results
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/ 
+>>>>>>> dev-lam

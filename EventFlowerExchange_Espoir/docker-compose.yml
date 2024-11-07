@@ -1,0 +1,27 @@
+services:
+  eventflowerexchange_espoir:
+    image: ${DOCKER_REGISTRY-}eventflowerexchangeespoir
+    build:
+      context: .
+      dockerfile: EventFlowerExchange_Espoir/Dockerfile
+    ports:
+      - "5000:80"
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=LAPTOP-GFP4TUFC\HALAM_SE170579;Database=EspoirDB;User=sa;Password=12345;
+    depends_on:
+      - db
+  db:
+    image: mcr.microsoft.com/mssql/server:135
+    environment:
+      MYSQL_ROOT_PASSWORD: esefew@110208
+      MYSQL_DATABASE: EspoirDB
+      MYSQL_USER: sa
+      MYSQL_PASSWORD: sa@12345
+    ports:
+      - "1400:1433"
+    volumes:
+      - db-data:/var/lib/mysql
+
+volumes:
+  db-data:
+

@@ -1,4 +1,5 @@
-﻿using EventFlowerExchange_Espoir.Models;
+﻿using CloudinaryDotNet.Actions;
+using EventFlowerExchange_Espoir.Models;
 using EventFlowerExchange_Espoir.Models.DTO;
 using EventFlowerExchange_Espoir.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -89,7 +90,7 @@ namespace EventFlowerExchange_Espoir.Controllers
         [Authorize(Policy = "UserOnly")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpDelete("delete-flower")]
-        public async Task<IActionResult> DeleteFlower(string accessToken, string flowerId)
+        public async Task<IActionResult> DeleteFlower(string accessToken, [FromForm] List<string> flowerIds)
         {
             if (!ModelState.IsValid)
             {
@@ -100,19 +101,20 @@ namespace EventFlowerExchange_Espoir.Controllers
             {
                 return BadRequest("Token must be required");
             }
-            if (!string.IsNullOrEmpty(flowerId))
+
+            if (flowerIds == null && flowerIds.Any())
             {
                 return BadRequest("Flower Id must be required");
             }
 
-            var result = await _productService.DeleteAFlowerAsync(accessToken, flowerId);
-            if (result == null)
+            var result = await _productService.DeleteAFlowerAsync(accessToken, flowerIds);
+            if (result == false)
             {
                 return StatusCode(500, new { Message = "Failed to delete the flower." });
             }
             return Ok(new
             {
-                Message = "Delete this flower successful"
+                Message = "Delete this flower successful",
             });
         }
         // FOR INACTIVE AND ACTIVE FLOWER

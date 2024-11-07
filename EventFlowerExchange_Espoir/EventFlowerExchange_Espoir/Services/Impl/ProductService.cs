@@ -199,23 +199,39 @@ namespace EventFlowerExchange_Espoir.Services.Impl
             }
         }
 
-        public async Task<dynamic> DeleteAFlowerAsync(string accessToken, string flowerId)
+        public async Task<dynamic> DeleteAFlowerAsync(string accessToken, List<string> flowerIds)
         {
-            var flower = await _productRepository.GetFlowerByFlowerIdAsync(flowerId);
-            if (flower != null)
-            {
-                return "Cannot find this flower";
-            }
+            bool isSuccess = true;
+
             string ownerEmail = TokenDecoder.GetEmailFromToken(accessToken);
             var owner = await _accountRepository.GetAccountByEmailAsync(ownerEmail);
-
-            if (flower.AccountId != owner.AccountId)
+            foreach (var flowerId in flowerIds)
             {
-                return "You have no permission to delete this flower";
+                var flower = await _productRepository.GetFlowerByFlowerIdAsync(flowerId);
+
+                if (flower == null)
+                {
+                    
+                    isSuccess = false;
+                    continue; // Move to the next flower ID
+                }
+
+                if (flower.AccountId != owner.AccountId)
+                {
+                    isSuccess = false;
+                    continue; // Move to the next flower ID
+                }
+
+                flower.IsDeleted = 1;
+                var result = await _productRepository.UpdateFlowerAsync(flower);
+
+                if (!result)
+                {
+                    isSuccess = false;
+                }
             }
-            flower.IsDeleted = 1;
-            int result = await _productRepository.UpdateFlowerAsync(flower);
-            return result;
+
+            return isSuccess;
         }
 
         // FOR INACTIVE/ACTIVE PRODUCT BY SELLER

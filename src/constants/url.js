@@ -12,7 +12,10 @@ const URL = {
   URL_CREATE_FLOWER_CATEGORY: 'flower/create-flower-category',
   URL_UPDATE_FLOWER_CATEGORY: 'flower/update-flower-category',
   URL_DELETE_FLOWER_CATEGORY: 'flower/delete-flower-category',
-  URL_CREATE_FLOWER: 'flower/create-flower'
+  URL_CREATE_FLOWER: 'flower/create-flower',
+  URL_UPDATE_FLOWER: 'flower/update-flower',
+  URL_DELETE_FLOWER: 'flower/delete-flower',
+  URL_GET_FLOWER_DETAIL: 'flower/flower-detail'
 }
 
 export default URL

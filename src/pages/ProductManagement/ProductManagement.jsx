@@ -8,16 +8,32 @@ import {
   TableOutlined
 } from '@ant-design/icons'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { Button, Card, Col, Image, Input, Row, Segmented, Space, Switch, Table, Tag, Tooltip, Typography } from 'antd'
+import {
+  Button,
+  Card,
+  Carousel,
+  Col,
+  Image,
+  Input,
+  Modal,
+  Row,
+  Segmented,
+  Space,
+  Switch,
+  Table,
+  Tag,
+  Tooltip,
+  Typography
+} from 'antd'
 import React, { useState } from 'react'
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import * as XLSX from 'xlsx'
+import productApi from '../../apis/product.api'
 import sellerApi from '../../apis/seller.api'
-import { productData } from '../../mock/productData'
 
 const { Text, Paragraph } = Typography
-
+const { confirm } = Modal
 const ProductManagement = () => {
   const location = useLocation()
   const navigate = useNavigate()
@@ -26,9 +42,11 @@ const ProductManagement = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
   const [searchText, setSearchText] = useState('')
   const [viewMode, setViewMode] = useState('table')
+  const defaultPageSize = 10 // or any default value you prefer
+  const gridPageSize = 1000 // set to a large number to fetch all products
 
+  const pageSize = viewMode === 'grid' ? gridPageSize : defaultPageSize
   const [pageIndex, setPageIndex] = useState(1)
-  const [pageSize, setPageSize] = useState(3)
   const [sortBy, setSortBy] = useState('flowerId')
   const [sortDesc, setSortDesc] = useState(false)
   const [searchTerm, setSearchTerm] = useState('Espoir1')
@@ -38,7 +56,8 @@ const ProductManagement = () => {
     queryFn: () => {
       return sellerApi.getSellerProductList({ pageIndex, pageSize, sortBy, sortDesc, search: searchTerm })
     },
-    keepPreviousData: true
+    keepPreviousData: true,
+    enabled: !!viewMode
   })
 
   const changeStatusFlowerMutation = useMutation({
@@ -58,13 +77,38 @@ const ProductManagement = () => {
       toast.error(errorMessage)
     }
   })
+  const deleteFlowerMutation = useMutation({
+    mutationFn: (idsToDelete) => {
+      console.log(idsToDelete)
+      const formData = new FormData()
+      idsToDelete.forEach((id) => {
+        console.log(id)
+        formData.append('flowerIds', id)
+        console.log('mutationFn called with flowerIds:', formData.getAll('flowerIds'))
+      })
+      console.log('mutationFn called with flowerIds:', formData.getAll('flowerIds'))
+      return productApi.deleteFlower(formData)
+    },
+    onSuccess: (response) => {
+      const { message } = response.data
+      queryClient.invalidateQueries(['sellerProducts'])
+      console.log('Mutation success:', response)
+      toast.success(message || 'Xóa thành công')
+      setSelectedRowKeys([]) // Xóa các lựa chọn sau khi xóa thành công
+    },
+    onError: (error) => {
+      console.log('Mutation error:', error)
+      const errorMessage = error.response?.data?.message || 'Xóa thất bại'
+      toast.error(errorMessage)
+    }
+  })
 
   const handleSearch = (e) => {
     setSearchText(e.target.value)
   }
 
   const handleExport = () => {
-    const dataToExport = productData.filter((item) => selectedRowKeys.includes(item.CateId))
+    const dataToExport = queryData?.data.data.filter((item) => selectedRowKeys.includes(item.CateId))
     const worksheet = XLSX.utils.json_to_sheet(dataToExport)
     const workbook = XLSX.utils.book_new()
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Products')
@@ -73,17 +117,32 @@ const ProductManagement = () => {
 
   const handleTableChange = (pagination, filters, sorter) => {
     setPageIndex(pagination.current)
-    setPageSize(pagination.pageSize)
     setSortBy(sorter.field || 'flowerId')
     setSortDesc(sorter.order === 'descend')
   }
 
-  const handleDelete = () => {
-    console.log('Deleted:', selectedRowKeys)
-    setSelectedRowKeys([])
+  const handleDelete = (productIds) => {
+    const idsToDelete = Array.isArray(productIds) ? productIds : [productIds]
+
+    console.log(idsToDelete)
+
+    confirm({
+      title: `Bạn có chắc chắn muốn xóa ${idsToDelete.length > 1 ? 'những sản phẩm này' : 'sản phẩm này'}?`,
+      content: 'Hành động này không thể hoàn tác.',
+      okText: 'Xóa',
+      okType: 'danger',
+      cancelText: 'Hủy',
+      onOk() {
+        deleteFlowerMutation.mutate(idsToDelete)
+      },
+      onCancel() {
+        console.log('Hủy xóa')
+      }
+    })
   }
   const handleEdit = (productId) => {
-    navigate(`/seller/product-management/product-details/${productId}`)
+    console.log(productId)
+    navigate(`/seller/product-management/update-product/${productId}`)
   }
 
   const columns = [
@@ -266,14 +325,18 @@ const ProductManagement = () => {
             />
           </Tooltip>
           <Tooltip title='Delete' placement='bottom'>
-            <Button shape='circle' icon={<DeleteOutlined />} size='large' danger />
+            <Button
+              onClick={() => handleDelete(record.flowerId)}
+              shape='circle'
+              icon={<DeleteOutlined />}
+              size='large'
+              danger
+            />
           </Tooltip>
         </Space>
       )
     }
   ]
-
-  const filteredData = productData.filter((item) => item.flowerName.toLowerCase().includes(searchText.toLowerCase()))
 
   const rowSelection = {
     selectedRowKeys,
@@ -295,7 +358,15 @@ const ProductManagement = () => {
               </Link>
               {selectedRowKeys.length > 0 && (
                 <>
-                  <Button icon={<DeleteOutlined />} size='middle' danger onClick={handleDelete}>
+                  <Button
+                    icon={<DeleteOutlined />}
+                    size='middle'
+                    danger
+                    onClick={() => {
+                      console.log(selectedRowKeys)
+                      handleDelete(selectedRowKeys)
+                    }}
+                  >
                     Delete
                   </Button>
                   <Button type='default' icon={<ExportOutlined />} size='middle' onClick={handleExport}>
@@ -335,49 +406,102 @@ const ProductManagement = () => {
               rowSelection={rowSelection}
               loading={isLoading}
               onChange={handleTableChange}
-              scroll={{ x: 'max-content' }} // Thêm thuộc tính scroll
+              scroll={{ x: 'max-content' }}
             />
           ) : (
             <Row gutter={[16, 16]}>
-              {filteredData.map((item) => (
-                <Col key={item.CateId} xs={24} sm={12} md={8} lg={6}>
-                  <Card
-                    hoverable
-                    cover={
-                      <Image alt={item.FlowerName} src={item.productUrl} style={{ height: 200, objectFit: 'cover' }} />
-                    }
-                    actions={[
-                      <Tooltip title='Live Preview' key='view'>
-                        <EyeOutlined />
-                      </Tooltip>,
-                      <Tooltip title='Edit' key='edit'>
-                        <EditOutlined />
-                      </Tooltip>,
-                      <Tooltip title='Delete' key='delete'>
-                        <DeleteOutlined />
-                      </Tooltip>
-                    ]}
-                  >
-                    <Card.Meta
-                      title={
-                        <Paragraph ellipsis={{ rows: 2 }} style={{ marginBottom: 0 }}>
-                          {item.FlowerName}
-                        </Paragraph>
+              {queryData?.data.data.map((item) => {
+                const images = item.attachment ? item.attachment.split(',') : []
+                return (
+                  <Col key={item.flowerId} xs={24} sm={12} md={8}>
+                    <Card
+                      className='h-[700px]'
+                      hoverable
+                      cover={
+                        images.length > 1 ? (
+                          <Carousel arrows lazyLoad='progressive' draggable>
+                            {images.map((img, index) => (
+                              <Image
+                                key={index}
+                                alt={`${item.flowerName} ${index + 1}`}
+                                src={img}
+                                height={400}
+                                width='100%'
+                                style={{ objectFit: 'cover' }}
+                                preview={false}
+                              />
+                            ))}
+                          </Carousel>
+                        ) : (
+                          <Image
+                            alt={item.flowerName}
+                            src={images[0]}
+                            height={400}
+                            width='100%'
+                            style={{ objectFit: 'cover' }}
+                            preview={false}
+                          />
+                        )
                       }
-                      description={
-                        <div>
-                          <Text className='font-beausite font-bold text-base'>${item.Price}</Text>
-                          {item.OldPrice !== 0 && (
-                            <Text className='font-beausite italic line-through' type='secondary'>
-                              ${item.OldPrice}
-                            </Text>
-                          )}
-                        </div>
-                      }
-                    />
-                  </Card>
-                </Col>
-              ))}
+                      actions={[
+                        <Tooltip title='Live Preview' key='view'>
+                          <EyeOutlined />
+                        </Tooltip>,
+                        <Tooltip title='Edit' key='edit'>
+                          <EditOutlined onClick={() => handleEdit(item.flowerId)} />
+                        </Tooltip>,
+                        <Tooltip title='Delete' key='delete'>
+                          <DeleteOutlined />
+                        </Tooltip>
+                      ]}
+                    >
+                      <Card.Meta
+                        title={
+                          <Paragraph ellipsis={{ rows: 2 }} style={{ marginBottom: 0 }}>
+                            {item.flowerName}
+                          </Paragraph>
+                        }
+                        description={
+                          <div>
+                            {/* Price */}
+                            <div>
+                              <Text strong style={{ fontSize: '0.875rem', color: '#3f8600' }}>
+                                ${item.price.toFixed(2)}
+                              </Text>
+                              {item.oldPrice && (
+                                <Text type='secondary' delete style={{ fontSize: '0.75rem', marginLeft: 8 }}>
+                                  ${item.oldPrice.toFixed(2)}
+                                </Text>
+                              )}
+                            </div>
+                            {/* Description */}
+                            {item.description && (
+                              <Paragraph ellipsis={{ rows: 2 }} style={{ marginTop: 8, color: '#8c8c8c' }}>
+                                {item.description}
+                              </Paragraph>
+                            )}
+                            {/* Size and Condition */}
+                            <div style={{ marginTop: 8, display: 'flex', gap: 8 }}>
+                              <Tag color='blue'>{`Size: ${item.size}`}</Tag>
+                              <Tag color={item.condition === 'Fresh' ? 'green' : 'orange'}>{item.condition}</Tag>
+                            </div>
+                            {/* Tags */}
+                            {item.tagNames && (
+                              <div style={{ marginTop: 8 }}>
+                                {item.tagNames.split(',').map((tag, index) => (
+                                  <Tag color='geekblue' key={index}>
+                                    {tag}
+                                  </Tag>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        }
+                      />
+                    </Card>
+                  </Col>
+                )
+              })}
             </Row>
           )}
         </>

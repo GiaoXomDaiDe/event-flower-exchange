@@ -9,9 +9,7 @@ import DashBoard from './pages/DashBoard'
 import OrderManagement from './pages/OrderManagement/OrderManagement.jsx'
 import PostManagement from './pages/PostManagement'
 import ProductManagement from './pages/ProductManagement/index.js'
-import SellerProductDetails from './pages/SellerProductDetails/SellerProductDetails.jsx'
 import SellerRegister from './pages/SellerRegister/SellerRegister.jsx'
-import ShopManagement from './pages/ShopManagement'
 
 function SellerProtectedRoute() {
   const { isAuthenticated, isSellerMode } = useContext(SellerContext)
@@ -46,8 +44,8 @@ export default function useRouteElements() {
                   element: <AddNewProduct />
                 },
                 {
-                  path: 'product-details/:productId',
-                  element: <SellerProductDetails />
+                  path: 'update-product/:productId',
+                  element: <AddNewProduct />
                 }
               ]
             },
@@ -58,10 +56,6 @@ export default function useRouteElements() {
             {
               path: 'order-management',
               element: <OrderManagement />
-            },
-            {
-              path: 'shop-management',
-              element: <ShopManagement />
             },
             {
               path: '',

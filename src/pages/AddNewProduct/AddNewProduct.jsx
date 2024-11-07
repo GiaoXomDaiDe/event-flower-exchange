@@ -1,4 +1,4 @@
-// Import các thư viện và component cần thiết
+// Import necessary libraries and components
 import {
   CheckCircleOutlined,
   ClockCircleOutlined,
@@ -6,10 +6,9 @@ import {
   DeleteOutlined,
   EditOutlined,
   InfoCircleOutlined,
-  PlusOutlined,
-  UploadOutlined
+  PlusOutlined
 } from '@ant-design/icons'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import {
   Button,
   Card,
@@ -31,43 +30,53 @@ import {
 } from 'antd'
 import ImgCrop from 'antd-img-crop'
 import React, { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { toast } from 'react-toastify'
 import categoryApi from '../../apis/category.api'
 import productApi from '../../apis/product.api'
 import sellerApi from '../../apis/seller.api'
-import utilsApi from '../../apis/utils.api'
 
 const { Content } = Layout
 const { Title, Text } = Typography
 const { Option } = Select
-const { Dragger } = Upload
 
 export default function AddNewProduct() {
   const [form] = Form.useForm()
+  console.log(form)
   const [formCategory] = Form.useForm()
+  const navigate = useNavigate()
+  //Chuyển sang edit
+  const { productId } = useParams()
+  const isEditMode = !!productId
+  const queryClient = useQueryClient()
+
+  // Define the steps for the timeline
   const steps = [
     {
-      title: 'Điền thông tin sản phẩm',
-      fields: ['flowerName', 'description', 'size', 'condition']
+      title: 'Enter product information',
+      fields: ['FlowerName', 'Description', 'Size', 'Condition', 'DateExpiration']
     },
     {
-      title: 'Thiết lập giá và kho',
-      fields: ['basePrice', 'newPrice', 'stock']
+      title: 'Set pricing and stock',
+      fields: ['OldPrice', 'Price', 'Quantity']
     },
     {
-      title: 'Tải lên hình ảnh và video',
-      fields: ['images', 'video']
+      title: 'Upload images',
+      fields: ['AttachmentFiles']
     },
     {
-      title: 'Chọn danh mục và thẻ',
-      fields: ['cateId', 'tagId']
+      title: 'Select category and tags',
+      fields: ['CateId', 'TagIds']
     },
     {
-      title: 'Xem lại và gửi',
+      title: 'Review and submit',
       fields: []
     }
   ]
-
+  // State for step statuses in the timeline
   const [stepStatuses, setStepStatuses] = useState(steps.map(() => 'wait'))
+
+  // Update step statuses based on form validation
   const updateStepStatuses = () => {
     const newStatuses = steps.map((step) => {
       const { fields } = step
@@ -95,11 +104,11 @@ export default function AddNewProduct() {
     updateStepStatuses()
   }, [])
 
-  // Quản lý hiển thị Modal cho danh mục
+  // Manage the visibility of the category modal
   const [isCategoryModalVisible, setIsCategoryModalVisible] = useState(false)
   const [editingCategory, setEditingCategory] = useState(null)
 
-  // Lấy danh sách danh mục từ API bằng react-query
+  // Fetch categories using react-query
   const {
     data: categoriesData,
     isLoading: isCategoriesLoading,
@@ -110,22 +119,22 @@ export default function AddNewProduct() {
     queryFn: () => sellerApi.getSellerFlowerCategories()
   })
 
-  // Chuyển đổi dữ liệu danh mục thành dạng tree cho TreeSelect
+  // Transform category data into tree format for TreeSelect
   const transformCategoriesToTreeData = (categories) => {
     return categories.map((category) => {
       const children = category.children ? transformCategoriesToTreeData(category.children) : []
 
-      // Tạo React Node cho title
+      // Create React Node for title
       const title = (
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <span>{category.fcateName}</span>
-          <Space size='small' className='mr-3'>
+          <Space size='small'>
             <Button
               type='link'
               size='small'
               icon={<EditOutlined />}
               onClick={(e) => {
-                e.stopPropagation() // Ngăn chặn việc chọn node khi nhấn nút
+                e.stopPropagation() // Prevent node selection when clicking the button
                 showCategoryModal(category)
               }}
             />
@@ -134,7 +143,7 @@ export default function AddNewProduct() {
               size='small'
               icon={<DeleteOutlined />}
               onClick={(e) => {
-                e.stopPropagation() // Ngăn chặn việc chọn node khi nhấn nút
+                e.stopPropagation() // Prevent node selection when clicking the button
                 handleDeleteCategory(category.fcateId)
               }}
             />
@@ -152,74 +161,133 @@ export default function AddNewProduct() {
   }
 
   const categoriesTreeData = categoriesData ? transformCategoriesToTreeData(categoriesData.data) : []
+  const {
+    data: productData,
+    isLoading: isProductLoading,
+    isError: isProductError
+  } = useQuery({
+    queryKey: ['product', productId],
+    queryFn: () => productApi.getFlowerDetail(productId),
+    enabled: isEditMode
+  })
+  useEffect(() => {
+    if (isEditMode && productData) {
+      const product = productData.data
+      console.log(product)
+      form.setFieldsValue({
+        FlowerName: product.flowerName,
+        Description: product.description,
+        Size: product.size,
+        Condition: product.condition,
+        OldPrice: product.price,
+        Quantity: product.quantity,
+        CateId: product.cateId,
+        TagIds: product.tagIds ? product.tagIds.split(',') : [],
+        DateExpiration: product.dateExpiration
+      })
+      // Process images
+      const AttachmentFiles = product.attachment ? product.attachment.split(',') : []
+      const imageFiles = AttachmentFiles.map((url, index) => ({
+        uid: index.toString(),
+        name: `image-${index}.jpg`,
+        status: 'done',
+        url: url,
+        thumbUrl: url,
+        originFileObj: null // Important for existing files
+      }))
+      setFileList(imageFiles)
+    }
+  }, [isEditMode, productData, form])
 
-  // Các hàm CRUD cho danh mục
+  const createCategoryMutation = useMutation({
+    mutationFn: ({ FcateName, FcateDesc, FparentCateId }) => {
+      return categoryApi.createFlowerCategory({ FcateName, FcateDesc, FparentCateId })
+    },
+    onSuccess: () => {
+      toast.success('New category created successfully!')
+      refetchCategories()
+      setIsCategoryModalVisible(false)
+      formCategory.resetFields()
+    },
+    onError: () => {
+      toast.error('Error adding category!')
+    }
+  })
+  const updateCategoryMutation = useMutation({
+    mutationFn: ({ fcateId, fcateDesc, fcateName }) => {
+      console.log({ fcateId, fcateDesc, fcateName })
+      return categoryApi.updateFlowerCategory({
+        FcateId: fcateId,
+        FcateName: fcateName,
+        FcateDesc: fcateDesc
+      })
+    },
+    onSuccess: () => {
+      toast.success('Category updated successfully!')
+      refetchCategories()
+      setEditingCategory(null)
+      setIsCategoryModalVisible(false)
+      formCategory.resetFields()
+    },
+    onError: () => {
+      toast.error('Error updating category!')
+    }
+  })
+  const deleteCategoryMutation = useMutation({
+    mutationFn: (fcateId) => {
+      return categoryApi.deleteFlowerCategory(fcateId)
+    },
+    onSuccess: () => {
+      toast.success('Category deleted successfully!')
+      refetchCategories()
+    },
+    onError: () => {
+      toast.error('Error deleting category!')
+    }
+  })
+
+  // CRUD functions for categories
   const handleAddCategory = (values) => {
     const categoryData = {
       FcateName: values.fcateName,
       FcateDesc: values.fcateDesc,
-      FparentCateId: values.fparentCateId || null // Nếu không chọn danh mục cha, đặt là null
+      FparentCateId: values.fparentCateId || null // Set to null if no parent category is selected
     }
 
     if (editingCategory) {
-      // Cập nhật danh mục hiện có
-      console.log(editingCategory)
-      categoryApi
-        .updateFlowerCategory({
-          FcateId: editingCategory.fcateId,
-          FcateName: editingCategory.fcateName,
-          FcateDesc: editingCategory.fcateDesc
-        })
-        .then(() => {
-          message.success('Danh mục đã được cập nhật thành công!')
-          refetchCategories()
-          setEditingCategory(null)
-          setIsCategoryModalVisible(false)
-          formCategory.resetFields()
-        })
-        .catch(() => message.error('Lỗi khi cập nhật danh mục!'))
+      updateCategoryMutation.mutate({
+        fcateId: editingCategory.fcateId,
+        fcateName: categoryData.FcateName,
+        fcateDesc: categoryData.FcateDesc
+      })
     } else {
-      // Thêm danh mục mới
-      categoryApi
-        .createFlowerCategory(categoryData)
-        .then(() => {
-          message.success('Danh mục mới đã được tạo thành công!')
-          refetchCategories()
-          setIsCategoryModalVisible(false)
-          formCategory.resetFields()
-        })
-        .catch(() => message.error('Lỗi khi thêm danh mục!'))
+      // Add new category
+      createCategoryMutation.mutate(categoryData)
     }
   }
 
-  const handleDeleteCategory = (categoryId) => {
-    categoryApi
-      .deleteFlowerCategory(categoryId)
-      .then(() => {
-        message.success('Danh mục đã được xóa thành công!')
-        refetchCategories()
-      })
-      .catch(() => message.error('Lỗi khi xóa danh mục!'))
+  const handleDeleteCategory = (fcateId) => {
+    deleteCategoryMutation.mutate(fcateId)
   }
 
-  // Hiển thị Modal thêm/sửa danh mục
+  // Show the category modal for adding or editing
   const showCategoryModal = (category = null) => {
     setEditingCategory(category)
     setIsCategoryModalVisible(true)
     if (category) {
-      // Đặt giá trị ban đầu cho form khi chỉnh sửa
+      // Set initial values in the form when editing
       formCategory.setFieldsValue({
         fcateName: category.fcateName,
         fcateDesc: category.fcateDesc,
         fparentCateId: category.fparentCateId || null
       })
     } else {
-      // Xóa giá trị khi thêm mới
+      // Reset form when adding new category
       formCategory.resetFields()
     }
   }
 
-  // Tạo các items cho Timeline
+  // Create items for the timeline
   const timelineItems = steps.map((step, index) => {
     const status = stepStatuses[index]
     let color = 'blue'
@@ -240,89 +308,93 @@ export default function AddNewProduct() {
     }
   })
 
-  // Quản lý danh sách file ảnh được tải lên
-  const [fileList, setFileList] = useState([])
-  const [uploadedImageUrl, setUploadedImageUrl] = useState('')
-  // Sử dụng mutation để tải lên hình ảnh
-  const uploadImagesMutation = useMutation({
-    mutationFn: (imageFile) => {
-      const formData = new FormData()
-      formData.append('file', imageFile)
-      return utilsApi.uploadImage(formData)
-    },
-    onSuccess: (data) => {
-      const uploadedUrl = data.data.data.link
-      setUploadedImageUrl(uploadedUrl)
-      message.success('Hình ảnh đã được tải lên thành công')
-    },
-    onError: (error) => {
-      message.error('Lỗi khi tải lên hình ảnh')
-      console.error(error)
-    }
-  })
+  // Manage the list of uploaded image files
 
-  const handleUploadChange = ({ fileList }) => {
-    const file = fileList[0]?.originFileObj
-    if (file) {
-      const isImage = file.type.startsWith('image/')
-      const isLt2M = file.size / 1024 / 1024 < 2
-      if (!isImage) {
-        toast.error('You can only upload image files!')
-        return
-      }
-      if (!isLt2M) {
-        toast.error('Image must be smaller than 2MB!')
-        return
-      }
-      setFileList(fileList)
-      uploadImagesMutation.mutate(file)
-    } else {
-      setFileList([])
-      setUploadedImageUrl('')
-    }
+  // State to track the status value
+  const [statusValue, setStatusValue] = useState(1) // Default to 1 (Add Product)
+  // Handle 'Add Product' button click
+  const handleAddProduct = () => {
+    setStatusValue(1) // Set status to 1
+    form.submit() // Submit the form
   }
 
-  // Hàm xử lý khi submit form
-  const onFinish = (values) => {
-    // Chuẩn bị dữ liệu để tải lên hình ảnh
-    const formData = new FormData()
-    fileList.forEach((file) => {
-      formData.append('images', file.originFileObj)
-    })
+  // Handle 'Save Draft' button click
+  const handleSaveDraft = () => {
+    setStatusValue(0) // Set status to 0
+    form.submit() // Submit the form
+  }
+  // Handle changes in the image upload
+  const [fileList, setFileList] = useState([])
+  const handleUploadChange = (info) => {
+    let newFileList = [...info.fileList]
 
-    // Tải lên hình ảnh trước
-    uploadImagesMutation.mutate(formData, {
-      onSuccess: (uploadResponse) => {
-        // Giả sử phản hồi chứa mảng các URL hình ảnh
-        const imageUrls = uploadResponse.data.data.imageUrls
+    // Limit the number of uploaded files
+    newFileList = newFileList.slice(0, 5)
 
-        // Chuẩn bị dữ liệu sản phẩm
-        const productData = {
-          ...values,
-          images: imageUrls
+    setFileList(newFileList)
+    console.log(fileList)
+
+    // Manually update the form field
+    form.setFieldsValue({ AttachmentFiles: newFileList })
+  }
+
+  const createOrUpdateFlowerMutation = useMutation({
+    mutationFn: () => {
+      const formValues = form.getFieldsValue()
+      const formData = new FormData()
+      formData.append('FlowerName', formValues.FlowerName) //
+      formData.append('Description', formValues.Description) //
+      formData.append('Size', formValues.Size) //
+      formData.append('Condition', formValues.Condition) //
+      !isEditMode && formData.append('Price', formValues.Price)
+      formData.append('OldPrice', formValues.OldPrice)
+      formData.append('Quantity', formValues.Quantity)
+      formData.append('CateId', formValues.CateId)
+      console.log(formValues.CateId)
+      formData.append('Status', statusValue)
+      formData.append('DateExpiration', formValues.DateExpiration)
+      formData.append('TagIds', formValues.TagIds.join(','))
+      fileList.forEach((file) => {
+        if (file.originFileObj) {
+          // Nếu là file mới được upload
+          formData.append('AttachmentFiles', file.originFileObj)
         }
-
-        // Tạo sản phẩm
-        productApi
-          .createProduct(productData)
-          .then(() => {
-            message.success('Sản phẩm đã được thêm thành công!')
-            form.resetFields()
-            setFileList([])
-            setStepStatuses(steps.map(() => 'wait'))
-          })
-          .catch(() => {
-            message.error('Lỗi khi thêm sản phẩm')
-          })
+      })
+      if (isEditMode) {
+        console.log(isEditMode)
+        console.log(formValues)
+        // Cập nhật sản phẩm
+        formData.append('FlowerId', productId) //
+        return productApi.updateFlower(formData)
+      } else {
+        // Tạo sản phẩm mới
+        return productApi.createFlower(formData)
       }
-    })
+    },
+    onSuccess: () => {
+      message.success(`Sản phẩm đã được ${isEditMode ? 'cập nhật' : 'thêm mới'} thành công!`)
+      form.resetFields()
+      setFileList([])
+      setStepStatuses(steps.map(() => 'wait'))
+      queryClient.invalidateQueries('sellerProducts')
+      navigate('/seller/product-management')
+    },
+    onError: () => message.error(`Lỗi khi ${isEditMode ? 'cập nhật' : 'thêm mới'} sản phẩm!`)
+  })
+  const handleUpdate = () => {
+    form.submit()
+  }
+
+  // Handle form submission
+  const onFinish = () => {
+    createOrUpdateFlowerMutation.mutate()
   }
 
   return (
     <Layout style={{ padding: '24px' }}>
       <Content>
         <Row gutter={24}>
-          {/* Phần bên trái */}
+          {/* Left Side */}
           <Col xs={24} lg={16}>
             <Form
               form={form}
@@ -331,51 +403,54 @@ export default function AddNewProduct() {
               onFinish={onFinish}
               onFieldsChange={updateStepStatuses}
             >
-              {/* Thông tin chung */}
-              <Card title={<Title level={4}>Thông tin chung</Title>} style={{ marginBottom: '24px' }}>
-                {/* Tên sản phẩm */}
+              {/* General Information */}
+              <Card
+                title={<Title level={4}>{isEditMode ? 'Edit Product' : 'General Information'}</Title>}
+                style={{ marginBottom: '24px' }}
+              >
+                {/* Product Name */}
                 <Form.Item
                   hasFeedback
                   tooltip={{
-                    title: 'Tên thương hiệu + Loại sản phẩm + Đặc điểm chính (Chất liệu, Màu sắc, Kích thước, Mẫu mã).',
+                    title: 'Brand Name + Product Type + Key Features (Material, Color, Size, Model).',
                     icon: <InfoCircleOutlined />
                   }}
-                  name='flowerName'
-                  label={<Text strong>Tên sản phẩm</Text>}
+                  name='FlowerName'
+                  label={<Text strong>Product Name</Text>}
                   rules={[
                     {
                       required: true,
                       whitespace: true,
-                      message: 'Trường này không được để trống'
+                      message: 'This field cannot be empty'
                     },
                     () => ({
                       validator(_, value) {
                         if (value && value.trim().length < 10 && value.trim().length > 0) {
-                          return Promise.reject('Tên sản phẩm quá ngắn. Vui lòng nhập ít nhất 10 ký tự.')
+                          return Promise.reject('Product name is too short. Please enter at least 10 characters.')
                         }
                         return Promise.resolve()
                       }
                     })
                   ]}
                 >
-                  <Input placeholder='Tên thương hiệu + Loại sản phẩm + Đặc điểm chính' maxLength={70} showCount />
+                  <Input placeholder='Brand Name + Product Type + Key Features' maxLength={70} showCount />
                 </Form.Item>
 
-                {/* Mô tả */}
+                {/* Description */}
                 <Form.Item
                   hasFeedback
-                  name='description'
-                  label={<Text strong>Mô tả</Text>}
+                  name='Description'
+                  label={<Text strong>Description</Text>}
                   rules={[
                     {
                       required: true,
                       whitespace: true,
-                      message: 'Trường này không được để trống'
+                      message: 'This field cannot be empty'
                     },
                     () => ({
                       validator(_, value) {
                         if (value && value.trim().length < 100 && value.trim().length > 0) {
-                          return Promise.reject('Mô tả quá ngắn. Vui lòng nhập ít nhất 100 ký tự.')
+                          return Promise.reject('Description is too short. Please enter at least 100 characters.')
                         }
                         return Promise.resolve()
                       }
@@ -385,126 +460,188 @@ export default function AddNewProduct() {
                   <Input.TextArea
                     maxLength={3000}
                     rows={5}
-                    placeholder='Thêm mô tả ngắn về sản phẩm của bạn'
+                    placeholder='Add a short description about your product'
                     showCount
                     style={{ padding: '10px' }}
                   />
                 </Form.Item>
 
                 <Row gutter={16}>
-                  {/* Kích thước */}
-                  <Col xs={24} md={12}>
+                  {/* Size */}
+                  <Col xs={24} md={8}>
                     <Form.Item
-                      name='size'
-                      label={<Text strong>Kích thước</Text>}
-                      rules={[{ required: true, message: 'Vui lòng chọn kích thước' }]}
+                      name='Size'
+                      label={<Text strong>Size</Text>}
+                      rules={[{ required: true, message: 'Please select a size' }]}
                     >
-                      <Select placeholder='Chọn kích thước'>
-                        <Option value='small'>Nhỏ</Option>
-                        <Option value='medium'>Trung bình</Option>
-                        <Option value='large'>Lớn</Option>
+                      <Select placeholder='Select size'>
+                        <Option value='small'>Small</Option>
+                        <Option value='medium'>Medium</Option>
+                        <Option value='large'>Large</Option>
                       </Select>
                     </Form.Item>
                   </Col>
 
-                  {/* Tình trạng */}
-                  <Col xs={24} md={12}>
+                  {/* Condition */}
+                  <Col xs={24} md={8}>
                     <Form.Item
-                      name='condition'
-                      label={<Text strong>Tình trạng</Text>}
-                      rules={[{ required: true, message: 'Vui lòng chọn tình trạng' }]}
+                      name='Condition'
+                      label={<Text strong>Condition</Text>}
+                      rules={[{ required: true, message: 'Please select a condition' }]}
                     >
-                      <Select placeholder='Chọn tình trạng'>
-                        <Option value='fresh'>Hoa tươi</Option>
-                        <Option value='fake'>Hoa giả</Option>
-                        <Option value='clearance'>Hoa thanh lý</Option>
+                      <Select placeholder='Select condition'>
+                        <Option value='new'>New</Option>
+                        <Option value='used'>Used</Option>
+                        <Option value='refurbished'>Refurbished</Option>
                       </Select>
+                    </Form.Item>
+                  </Col>
+                  <Col xs={24} md={8}>
+                    <Form.Item
+                      name='DateExpiration'
+                      label={<Text strong>Expiration Date</Text>}
+                      rules={[{ required: true, message: 'Please select a expiration date' }]}
+                    >
+                      <Input placeholder='Select expiration date' />
                     </Form.Item>
                   </Col>
                 </Row>
               </Card>
 
-              {/* Giá và kho */}
-              <Card title={<Title level={4}>Giá và kho</Title>} style={{ marginBottom: '24px' }}>
-                <Row gutter={16}>
-                  <Col xs={24} md={8}>
-                    {/* Giá gốc */}
-                    <Form.Item
-                      label={<Text strong>Giá gốc</Text>}
-                      name='basePrice'
-                      rules={[
-                        { required: true, message: 'Vui lòng nhập giá gốc' },
-                        { type: 'number', min: 0, message: 'Giá phải là số dương' }
-                      ]}
-                    >
-                      <InputNumber
-                        min={0}
-                        style={{ width: '100%' }}
-                        formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                        parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
-                      />
-                    </Form.Item>
-                  </Col>
+              {/* Pricing and Stock */}
+              <Card title={<Title level={4}>Pricing and Stock</Title>} style={{ marginBottom: '24px' }}>
+                {isEditMode ? (
+                  <Form.Item>
+                    <Row gutter={16}>
+                      <Col xs={24} md={8}>
+                        <Form.Item
+                          label={<Text strong>Base Price</Text>}
+                          name='OldPrice'
+                          rules={[
+                            { required: true, message: 'Please enter the base price' },
+                            { type: 'number', min: 0, message: 'Price must be a positive number' }
+                          ]}
+                        >
+                          <InputNumber
+                            min={0}
+                            style={{ width: '100%' }}
+                            formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                            parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+                          />
+                        </Form.Item>
+                      </Col>
+                      <Col xs={24} md={8}>
+                        <Form.Item
+                          label={<Text strong>Discount</Text>}
+                          name='Discount'
+                          rules={[
+                            { required: true, message: 'Please enter the new price' },
+                            { type: 'number', min: 0, message: 'Price must be a positive number' }
+                          ]}
+                        >
+                          <InputNumber
+                            min={0}
+                            style={{ width: '100%' }}
+                            formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                            parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+                          />
+                        </Form.Item>
+                      </Col>
+                      <Col xs={24} md={8}>
+                        {/* Stock */}
+                        <Form.Item
+                          label={<Text strong>Stock</Text>}
+                          name='Quantity'
+                          rules={[
+                            { required: true, message: 'Please enter the stock quantity' },
+                            { type: 'number', min: 0, message: 'Stock must be a positive number' }
+                          ]}
+                        >
+                          <InputNumber min={0} style={{ width: '100%' }} />
+                        </Form.Item>
+                      </Col>
+                    </Row>
+                  </Form.Item>
+                ) : (
+                  <Row gutter={16}>
+                    <Col xs={24} md={8}>
+                      <Form.Item
+                        label={<Text strong>Base Price</Text>}
+                        name='OldPrice'
+                        rules={[
+                          { required: true, message: 'Please enter the base price' },
+                          { type: 'number', min: 0, message: 'Price must be a positive number' }
+                        ]}
+                      >
+                        <InputNumber
+                          min={0}
+                          style={{ width: '100%' }}
+                          formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                          parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+                        />
+                      </Form.Item>
+                    </Col>
+                    <Col xs={24} md={8}>
+                      {/* New Price */}
+                      <Form.Item
+                        label={<Text strong>New Price</Text>}
+                        name='Price'
+                        rules={[
+                          { required: true, message: 'Please enter the new price' },
+                          { type: 'number', min: 0, message: 'Price must be a positive number' }
+                        ]}
+                      >
+                        <InputNumber
+                          min={0}
+                          style={{ width: '100%' }}
+                          formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                          parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+                        />
+                      </Form.Item>
+                    </Col>
 
-                  <Col xs={24} md={8}>
-                    {/* Giá mới */}
-                    <Form.Item
-                      label={<Text strong>Giá mới</Text>}
-                      name='newPrice'
-                      rules={[
-                        { required: true, message: 'Vui lòng nhập giá mới' },
-                        { type: 'number', min: 0, message: 'Giá phải là số dương' }
-                      ]}
-                    >
-                      <InputNumber
-                        min={0}
-                        style={{ width: '100%' }}
-                        formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                        parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
-                      />
-                    </Form.Item>
-                  </Col>
-
-                  <Col xs={24} md={8}>
-                    {/* Số lượng */}
-                    <Form.Item
-                      label={<Text strong>Số lượng</Text>}
-                      name='stock'
-                      rules={[
-                        { required: true, message: 'Vui lòng nhập số lượng' },
-                        { type: 'number', min: 0, message: 'Số lượng phải là số dương' }
-                      ]}
-                    >
-                      <InputNumber min={0} style={{ width: '100%' }} />
-                    </Form.Item>
-                  </Col>
-                </Row>
+                    <Col xs={24} md={8}>
+                      {/* Stock */}
+                      <Form.Item
+                        label={<Text strong>Stock</Text>}
+                        name='Quantity'
+                        rules={[
+                          { required: true, message: 'Please enter the stock quantity' },
+                          { type: 'number', min: 0, message: 'Stock must be a positive number' }
+                        ]}
+                      >
+                        <InputNumber min={0} style={{ width: '100%' }} />
+                      </Form.Item>
+                    </Col>
+                  </Row>
+                )}
               </Card>
 
-              {/* Tải lên hình ảnh và video */}
-              <Card title={<Title level={4}>Tải lên hình ảnh và video</Title>} style={{ marginBottom: '24px' }}>
-                {/* Hình ảnh */}
+              {/* Upload Images */}
+              <Card title={<Title level={4}>Upload Images</Title>} style={{ marginBottom: '24px' }}>
+                {/* Images */}
                 <Form.Item
-                  label={<Text strong>Hình ảnh</Text>}
-                  name='images'
-                  valuePropName='fileList'
-                  getValueFromEvent={(e) => e.fileList}
+                  label={<Text strong>Images</Text>}
+                  name='AttachmentFiles'
                   rules={[
                     {
                       required: true,
-                      message: 'Vui lòng tải lên ít nhất một hình ảnh'
+                      message: 'Please upload at least one image'
                     },
                     () => ({
-                      validator(_, value) {
-                        if (value && value.length > 5) {
-                          return Promise.reject(new Error('Bạn có thể tải lên tối đa 5 hình ảnh'))
+                      validator() {
+                        if (fileList.length > 5) {
+                          return Promise.reject(new Error('You can upload up to 5 images'))
+                        }
+                        if (fileList.length === 0) {
+                          return Promise.reject(new Error('Please upload at least one image'))
                         }
                         return Promise.resolve()
                       }
                     })
                   ]}
                 >
-                  <ImgCrop rotate>
+                  <ImgCrop rotationSlider>
                     <Upload
                       accept='image/*'
                       listType='picture-card'
@@ -517,121 +654,108 @@ export default function AddNewProduct() {
                       {fileList.length >= 5 ? null : (
                         <div>
                           <PlusOutlined />
-                          <div style={{ marginTop: 8 }}>Tải lên</div>
+                          <div style={{ marginTop: 8 }}>Upload</div>
                         </div>
                       )}
                     </Upload>
                   </ImgCrop>
                 </Form.Item>
-
-                {/* Video */}
-                <Form.Item
-                  label={<Text strong>Video</Text>}
-                  name='video'
-                  valuePropName='fileList'
-                  getValueFromEvent={(e) => e.fileList}
-                  rules={[
-                    () => ({
-                      validator(_, value) {
-                        if (value && value.length > 0) {
-                          const file = value[0]
-                          const isMP4 = file.type === 'video/mp4'
-                          const isSizeValid = file.size / 1024 / 1024 < 30
-
-                          if (!isMP4) {
-                            return Promise.reject(new Error('Định dạng video phải là MP4'))
-                          }
-                          if (!isSizeValid) {
-                            return Promise.reject(new Error('Kích thước video phải nhỏ hơn 30MB'))
-                          }
-                        }
-                        return Promise.resolve()
-                      }
-                    })
-                  ]}
-                >
-                  <Dragger beforeUpload={() => false} maxCount={1}>
-                    <p className='ant-upload-drag-icon'>
-                      <UploadOutlined />
-                    </p>
-                    <p className='ant-upload-text'>Nhấp hoặc kéo tệp vào khu vực này để tải lên</p>
-                    <p className='ant-upload-hint'>
-                      Bạn có thể đăng sản phẩm này trong khi video đang được xử lý. Video sẽ được hiển thị khi xử lý
-                      xong.
-                    </p>
-                  </Dragger>
-                </Form.Item>
               </Card>
 
-              {/* Danh mục và thẻ */}
-              <Card title={<Title level={4}>Danh mục và thẻ</Title>} style={{ marginBottom: '24px' }}>
-                {/* Danh mục */}
-
+              {/* Category and Tags */}
+              <Card title={<Title level={4}>Category and Tags</Title>} style={{ marginBottom: '24px' }}>
+                {/* Category */}
                 <Form.Item
-                  label={<Text strong>Danh mục</Text>}
-                  name='cateId'
-                  rules={[{ required: true, message: 'Vui lòng chọn danh mục' }]}
+                  label={<Text strong>Category</Text>}
+                  name='CateId'
+                  rules={[{ required: true, message: 'Please select a category' }]}
                 >
                   {isCategoriesLoading ? (
                     <Spin size='small' />
                   ) : isCategoriesError ? (
-                    <Text type='danger'>Đã xảy ra lỗi khi tải danh mục.</Text>
+                    <Text type='danger'>An error occurred while loading categories.</Text>
                   ) : (
                     <TreeSelect
                       dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-                      placeholder='Chọn danh mục'
+                      placeholder='Select category'
                       allowClear
                       treeDefaultExpandAll
                       treeData={categoriesTreeData}
-                      // Thêm thuộc tính này để cho phép chọn cả node cha
                       treeCheckable={false}
                       showCheckedStrategy={TreeSelect.SHOW_ALL}
                     />
                   )}
                 </Form.Item>
                 <Button type='dashed' onClick={() => showCategoryModal()}>
-                  Thêm danh mục mới
+                  Add New Category
                 </Button>
 
-                {/* Thẻ */}
+                {/* Tags */}
                 <Form.Item
-                  label={<Text strong>Thẻ</Text>}
-                  name='tagId'
-                  rules={[{ required: true, message: 'Vui lòng chọn ít nhất một thẻ' }]}
+                  label={<Text strong>Tags</Text>}
+                  name='TagIds'
+                  rules={[{ required: true, message: 'Please select at least one tag' }]}
                 >
-                  <Select placeholder='Chọn thẻ' mode='multiple'>
-                    {/* Dữ liệu thẻ */}
-                    <Option value='FT00000001'>Màu sắc rực rỡ</Option>
-                    <Option value='FT00000002'>Thơm</Option>
-                    <Option value='FT00000003'>Dễ chăm sóc</Option>
+                  <Select placeholder='Select tags' mode='multiple'>
+                    {/* Tag data */}
+                    <Option value='FT00000001'>Bright Colors</Option>
+                    <Option value='FT00000002'>Fragrant</Option>
+                    <Option value='FT00000003'>Low Maintenance</Option>
                   </Select>
                 </Form.Item>
               </Card>
 
-              {/* Nút hành động */}
-              <Form.Item>
-                <Space>
-                  <Button type='default'>Lưu nháp</Button>
-                  <Button type='primary' htmlType='submit'>
-                    Thêm sản phẩm
-                  </Button>
-                </Space>
-              </Form.Item>
+              {/* Action Buttons */}
+              {isEditMode ? (
+                <Form.Item>
+                  <Space>
+                    <Button
+                      type='default'
+                      onClick={handleUpdate}
+                      loading={createOrUpdateFlowerMutation.isPending}
+                      disabled={createOrUpdateFlowerMutation.isLoading}
+                    >
+                      Update
+                    </Button>
+                  </Space>
+                </Form.Item>
+              ) : (
+                <Form.Item>
+                  <Space>
+                    <Button
+                      type='default'
+                      onClick={handleSaveDraft}
+                      loading={createOrUpdateFlowerMutation.isPending}
+                      disabled={createOrUpdateFlowerMutation.isLoading}
+                    >
+                      Save Draft
+                    </Button>
+                    <Button
+                      type='primary'
+                      onClick={handleAddProduct}
+                      loading={createOrUpdateFlowerMutation.isPending}
+                      disabled={createOrUpdateFlowerMutation.isLoading}
+                    >
+                      Add Product
+                    </Button>
+                  </Space>
+                </Form.Item>
+              )}
             </Form>
           </Col>
 
-          {/* Phần bên phải */}
+          {/* Right Side */}
           <Col xs={24} lg={8}>
             {/* Timeline */}
-            <Card title={<Title level={4}>Các bước</Title>}>
+            <Card title={<Title level={4}>Steps</Title>}>
               <Timeline items={timelineItems} />
             </Card>
           </Col>
         </Row>
 
-        {/* Modal quản lý danh mục */}
+        {/* Category Management Modal */}
         <Modal
-          title={editingCategory ? 'Chỉnh sửa danh mục' : 'Thêm danh mục mới'}
+          title={editingCategory ? 'Edit Category' : 'Add New Category'}
           open={isCategoryModalVisible}
           onCancel={() => {
             setIsCategoryModalVisible(false)
@@ -642,24 +766,24 @@ export default function AddNewProduct() {
         >
           <Form form={formCategory} layout='vertical' onFinish={handleAddCategory}>
             <Form.Item
-              label='Tên danh mục'
+              label='Category Name'
               name='fcateName'
-              rules={[{ required: true, message: 'Vui lòng nhập tên danh mục' }]}
+              rules={[{ required: true, message: 'Please enter the category name' }]}
             >
               <Input />
             </Form.Item>
 
             <Form.Item
-              label='Mô tả danh mục'
+              label='Category Description'
               name='fcateDesc'
-              rules={[{ required: true, message: 'Vui lòng nhập mô tả danh mục' }]}
+              rules={[{ required: true, message: 'Please enter the category description' }]}
             >
               <Input />
             </Form.Item>
 
-            <Form.Item label='Danh mục cha' name='fparentCateId'>
+            <Form.Item label='Parent Category' name='fparentCateId'>
               <TreeSelect
-                placeholder='Chọn danh mục cha'
+                placeholder='Select parent category'
                 allowClear
                 treeDefaultExpandAll
                 treeData={categoriesTreeData}
@@ -668,7 +792,7 @@ export default function AddNewProduct() {
 
             <Space>
               <Button type='primary' htmlType='submit'>
-                {editingCategory ? 'Cập nhật' : 'Thêm'}
+                {editingCategory ? 'Update' : 'Add'}
               </Button>
             </Space>
           </Form>

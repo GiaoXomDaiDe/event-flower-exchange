@@ -1,4 +1,4 @@
-import { FormOutlined, HomeOutlined, MoneyCollectOutlined, ShopOutlined, ShoppingCartOutlined } from '@ant-design/icons'
+import { FormOutlined, HomeOutlined, MoneyCollectOutlined, ShoppingCartOutlined } from '@ant-design/icons'
 import classNames from 'classnames'
 import React, { useContext } from 'react'
 import { Link, useLocation } from 'react-router-dom'
@@ -8,7 +8,6 @@ export default function SidebarMenuItem() {
   const menuItems = [
     { key: 'dashboard', label: 'Dashboard', icon: <HomeOutlined /> },
     { key: 'order-management', label: 'Orders', icon: <ShoppingCartOutlined /> },
-    { key: 'shop-management', label: 'Shop', icon: <ShopOutlined /> },
     { key: 'product-management', label: 'Product', icon: <MoneyCollectOutlined /> },
     { key: 'post-management', label: 'Posts', icon: <FormOutlined /> }
   ]

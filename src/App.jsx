@@ -6,7 +6,7 @@ import Dashboard from "./components/dashboard";
 import Category from "./pages/category";
 import LoginPage from "./pages/login";
 import NotFound from "./pages/not-found";
-import SearchPage from "./pages/search";
+// import SearchPage from "./pages/search";
 import Cart from "./pages/cart";
 import CheckOut from "./pages/checkout";
 import RegisterPage from "./pages/register/index1";
@@ -16,79 +16,80 @@ import { ToastContainer } from "react-toastify";
 import ProfilePage from "./pages/user-profile";
 import PaymentSuccess from "./pages/payment-status/success";
 import PaymentFail from "./pages/payment-status/fail";
+import SearchEvents from "./pages/search-events";
 
 function App() {
   const router = createBrowserRouter([
     {
-      path: "",
+      path: '',
       element: <Layout />,
       children: [
         {
-          path: "",
-          element: <Home />,
+          path: '',
+          element: <Home />
         },
         {
-          path: "/profile",
-          element: <ProfilePage />,
+          path: '/profile',
+          element: <ProfilePage />
         },
 
         {
-          path: "search",
-          element: <SearchPage />,
+          path: 'search',
+          element: <SearchEvents />
         },
 
         {
-          path: "cart",
-          element: <Cart />,
+          path: 'cart',
+          element: <Cart />
         },
 
         {
-          path: "checkout",
-          element: <CheckOut />,
+          path: 'checkout',
+          element: <CheckOut />
         },
         {
-          path: "/checkout/success",
-          element: <PaymentSuccess/>,
+          path: '/checkout/success',
+          element: <PaymentSuccess />
         },
         {
-          path: "/checkout/fail",
-          element: <PaymentFail />,
+          path: '/checkout/fail',
+          element: <PaymentFail />
         },
         {
-          path: "product/:flowerId",
-          element: <ProductDetail />,
-        },
-      ],
+          path: 'product/:flowerId',
+          element: <ProductDetail />
+        }
+      ]
     },
 
     {
-      path: "login",
-      element: <LoginPage />,
+      path: 'login',
+      element: <LoginPage />
     },
     {
-      path: "register",
-      element: <RegisterPage />,
+      path: 'register',
+      element: <RegisterPage />
     },
 
     {
-      path: "dashboard",
+      path: 'dashboard',
       element: <Dashboard />,
       children: [
         {
-          path: "category",
-          element: <Category />,
+          path: 'category',
+          element: <Category />
         },
         {
-          path: "even",
-          element: <Category />,
-        },
-      ],
+          path: 'even',
+          element: <Category />
+        }
+      ]
     },
     {
-      path: "*",
-      element: <NotFound />,
-    },
-  ]);
+      path: '*',
+      element: <NotFound />
+    }
+  ])
 
   return (
     <>

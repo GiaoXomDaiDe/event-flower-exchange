@@ -7,30 +7,35 @@ function EventCate() {
   const eventList = [
     {
       id: 1,
-      name: "Wedding",
-      img: "https://png.pngtree.com/png-clipart/20230502/original/pngtree-wedding-line-icon-png-image_9133732.png",
+      name: 'Wedding',
+      img: 'https://png.pngtree.com/png-clipart/20230502/original/pngtree-wedding-line-icon-png-image_9133732.png',
+      value: 'Bright colors'
     },
     {
       id: 2,
-      name: "Funeral",
-      img: "https://png.pngtree.com/png-clipart/20230502/original/pngtree-wedding-line-icon-png-image_9133732.png",
+      name: 'Funeral',
+      img: 'https://png.pngtree.com/png-clipart/20230502/original/pngtree-wedding-line-icon-png-image_9133732.png',
+      value: 'Fragrant'
     },
     {
       id: 3,
-      name: "Opening",
-      img: "https://png.pngtree.com/png-clipart/20230502/original/pngtree-wedding-line-icon-png-image_9133732.png",
+      name: 'Opening',
+      img: 'https://png.pngtree.com/png-clipart/20230502/original/pngtree-wedding-line-icon-png-image_9133732.png',
+      value: 'Low Maintenance'
     },
     {
       id: 4,
-      name: "Gift",
-      img: "https://png.pngtree.com/png-clipart/20230502/original/pngtree-wedding-line-icon-png-image_9133732.png",
+      name: 'Gift',
+      img: 'https://png.pngtree.com/png-clipart/20230502/original/pngtree-wedding-line-icon-png-image_9133732.png',
+      value: ''
     },
     {
       id: 5,
-      name: "Seasonal",
-      img: "https://png.pngtree.com/png-clipart/20230502/original/pngtree-wedding-line-icon-png-image_9133732.png",
-    },
-  ];
+      name: 'Seasonal',
+      img: 'https://png.pngtree.com/png-clipart/20230502/original/pngtree-wedding-line-icon-png-image_9133732.png',
+      value: ''
+    }
+  ]
   return (
     <div className="event-cate">
       <div className="heading">
@@ -42,7 +47,8 @@ function EventCate() {
           return (
             <button
               onClick={() => {
-                navigate('/search')
+                navigate(`/search`, {state: { eventValue: event.value }})
+                
               }}
               key={event.id}
               className="event-card"

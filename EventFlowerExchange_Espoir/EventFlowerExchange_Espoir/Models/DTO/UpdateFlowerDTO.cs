@@ -15,15 +15,16 @@ namespace EventFlowerExchange_Espoir.Models.DTO
 
         public string? Condition { get; set; }
 
-        [Range(0.01, double.MaxValue, ErrorMessage = "Quantity must be greater than zero.")]
+        [Range(0, double.MaxValue, ErrorMessage = "Quantity must be greater than zero.")]
         public double Quantity { get; set; } = 0;
 
-        [Range(0.01, double.MaxValue, ErrorMessage = "Price must be greater than zero.")]
+        [Range(0, double.MaxValue, ErrorMessage = "Price must be greater than zero.")]
         public double OldPrice { get; set; } = 0;
 
-        [Range(0, double.MaxValue, ErrorMessage = "Price cannot be negative.")]
+        [Range(0, double.MaxValue, ErrorMessage = "Discount cannot be negative.")]
         public double Discount { get; set; } = 0;
         public string? DateExpiration { get; set; }
+        public List<IFormFile> AttachmentFiles { get; set; }
 
     }
 }

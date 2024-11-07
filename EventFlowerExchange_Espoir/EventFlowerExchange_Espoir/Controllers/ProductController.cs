@@ -1,4 +1,5 @@
-﻿using EventFlowerExchange_Espoir.Models;
+﻿using CloudinaryDotNet.Actions;
+using EventFlowerExchange_Espoir.Models;
 using EventFlowerExchange_Espoir.Models.DTO;
 using EventFlowerExchange_Espoir.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -66,7 +67,7 @@ namespace EventFlowerExchange_Espoir.Controllers
                 return BadRequest(new { Errors = errors });
             }
 
-            if (!string.IsNullOrEmpty(accessToken))
+            if (string.IsNullOrEmpty(accessToken))
             {
                 return BadRequest("Token must be required");
             }
@@ -82,37 +83,38 @@ namespace EventFlowerExchange_Espoir.Controllers
             return Ok(new
             {
                 Message = "Update Flower Successful",
-                UpdateFlower = result.flower
+                Result = result
             });
         }
 
         [Authorize(Policy = "UserOnly")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpDelete("delete-flower")]
-        public async Task<IActionResult> DeleteFlower(string accessToken, string flowerId)
+        public async Task<IActionResult> DeleteFlower(string accessToken, [FromForm] List<string> flowerIds)
         {
             if (!ModelState.IsValid)
             {
                 var errors = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
                 return BadRequest(new { Errors = errors });
             }
-            if (!string.IsNullOrEmpty(accessToken))
+            if (string.IsNullOrEmpty(accessToken))
             {
                 return BadRequest("Token must be required");
             }
-            if (!string.IsNullOrEmpty(flowerId))
+
+            if (flowerIds == null && flowerIds.Any())
             {
                 return BadRequest("Flower Id must be required");
             }
 
-            var result = await _productService.DeleteAFlowerAsync(accessToken, flowerId);
-            if (result == null)
+            var result = await _productService.DeleteAFlowerAsync(accessToken, flowerIds);
+            if (result == false)
             {
                 return StatusCode(500, new { Message = "Failed to delete the flower." });
             }
             return Ok(new
             {
-                Message = "Delete this flower successful"
+                Message = "Delete this flower successful",
             });
         }
         // FOR INACTIVE AND ACTIVE FLOWER

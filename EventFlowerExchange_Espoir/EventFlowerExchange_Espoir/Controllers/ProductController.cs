@@ -66,7 +66,7 @@ namespace EventFlowerExchange_Espoir.Controllers
                 return BadRequest(new { Errors = errors });
             }
 
-            if (!string.IsNullOrEmpty(accessToken))
+            if (string.IsNullOrEmpty(accessToken))
             {
                 return BadRequest("Token must be required");
             }
@@ -82,7 +82,7 @@ namespace EventFlowerExchange_Espoir.Controllers
             return Ok(new
             {
                 Message = "Update Flower Successful",
-                UpdateFlower = result.flower
+                Result = result
             });
         }
 
@@ -96,7 +96,7 @@ namespace EventFlowerExchange_Espoir.Controllers
                 var errors = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
                 return BadRequest(new { Errors = errors });
             }
-            if (!string.IsNullOrEmpty(accessToken))
+            if (string.IsNullOrEmpty(accessToken))
             {
                 return BadRequest("Token must be required");
             }

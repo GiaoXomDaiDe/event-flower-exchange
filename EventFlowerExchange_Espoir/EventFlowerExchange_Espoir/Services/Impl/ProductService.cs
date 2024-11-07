@@ -3,6 +3,7 @@ using EventFlowerExchange_Espoir.Models.DTO;
 using EventFlowerExchange_Espoir.Repositories;
 using EventFlowerExchange_Espoir.Repositories.Impl;
 using EventFlowerExchange_Espoir.Services.Common;
+using System.Net.Mail;
 
 namespace EventFlowerExchange_Espoir.Services.Impl
 {
@@ -118,31 +119,31 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                 }
 
                 // Validation all field of update flower and update flower
-                if (!string.IsNullOrEmpty(updateFlower.FlowerName))
+                if (string.IsNullOrEmpty(updateFlower.FlowerName))
                 {
                     updateFlower.FlowerName = flower.FlowerName;
                 }
                 flower.FlowerName = updateFlower.FlowerName;
 
-                if (!string.IsNullOrEmpty(updateFlower.CateId))
+                if (string.IsNullOrEmpty(updateFlower.CateId))
                 {
                     updateFlower.CateId = flower.CateId;
                 }
                 flower.CateId = updateFlower.CateId;
 
-                if (!string.IsNullOrEmpty(updateFlower.Description))
+                if (string.IsNullOrEmpty(updateFlower.Description))
                 {
                     updateFlower.Description = flower.Description;
                 }
                 flower.Description = updateFlower.Description;
 
-                if (!string.IsNullOrEmpty(updateFlower.Size))
+                if (string.IsNullOrEmpty(updateFlower.Size))
                 {
                     updateFlower.Size = flower.Size;
                 }
                 flower.Size = updateFlower.Size;
 
-                if (!string.IsNullOrEmpty(updateFlower.Condition))
+                if (string.IsNullOrEmpty(updateFlower.Condition))
                 {
                     updateFlower.Condition = flower.Condition;
                 }
@@ -163,19 +164,34 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                     updateFlower.OldPrice = flower.OldPrice;
                 }
                 flower.Price = updateFlower.OldPrice * (1 - updateFlower.Discount / 100);
+
+                var attachmentUris = new List<string>();
+                //Upload each attachment file
+                if (updateFlower.AttachmentFiles == null && updateFlower.AttachmentFiles.Any())
+                {
+                    attachmentUris.Add(flower.Attachment);
+                }
+                foreach (var file in updateFlower.AttachmentFiles)
+                {
+                    var attachment = await _imageService.UploadImageAsync(file);
+                    attachmentUris.Add(attachment.SecureUri.AbsoluteUri);
+                }
+                flower.Attachment = string.Join(",", attachmentUris);
+
                 if (string.IsNullOrEmpty(updateFlower.DateExpiration))
                 {
                     updateFlower.DateExpiration = flower.DateExpiration;
                 }
                 flower.DateExpiration = updateFlower.DateExpiration;
-                if (!string.IsNullOrEmpty(updateFlower.DateExpiration))
-                {
-                    updateFlower.DateExpiration = flower.DateExpiration;
-                }
+
                 flower.UpdateBy = accOwner.AccountId;
                 flower.UpdateAt = DateTime.Now;
-                int result = await _productRepository.UpdateFlowerAsync(flower);
-                return result;
+                var result = await _productRepository.UpdateFlowerAsync(flower);
+                return new
+                {
+                    result,
+                    flower
+                };
             }
             catch (Exception ex)
             {

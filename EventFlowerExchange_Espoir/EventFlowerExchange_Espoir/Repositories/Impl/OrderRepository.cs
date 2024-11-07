@@ -1,5 +1,6 @@
 ﻿using EventFlowerExchange_Espoir.DatabaseConnection;
 using EventFlowerExchange_Espoir.Models;
+using EventFlowerExchange_Espoir.Models.DTO;
 using Microsoft.EntityFrameworkCore;
 
 namespace EventFlowerExchange_Espoir.Repositories.Impl
@@ -91,8 +92,8 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
                 newOrderId = $"O{newnumericpart:d9}";
             }
             return newOrderId;
-        }       
-        
+        }
+
         // for cart
         public async Task<List<Order>> GetListOrderNotPaymentByAccountIdAsync(string accountId)
         {
@@ -154,8 +155,7 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
         {
             var orders = await _context.Orders
                 .Where(item => item.SellerId.Equals(accountId) &&
-                                item.Status >= 4)
-                .ToListAsync();
+                                item.Status >= 4).ToListAsync();
             var totalEarnings = (double)0;
             foreach (var order in orders)
             {

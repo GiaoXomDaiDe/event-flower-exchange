@@ -337,6 +337,7 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                 ShopName = shop.ShopName,
                 DateExpiration = flower.DateExpiration,
                 Attachment = flower.Attachment,
+                TagIds = flower.TagIds
             };
             return flowerInfo;
         }

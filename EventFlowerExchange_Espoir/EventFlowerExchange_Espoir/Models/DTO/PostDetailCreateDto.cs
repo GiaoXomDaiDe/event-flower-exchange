@@ -2,5 +2,7 @@
 {
     public class PostDetailCreateDto
     {
+        public string FlowerId { get; set; }
+
     }
 }

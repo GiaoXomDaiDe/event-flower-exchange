@@ -419,7 +419,7 @@ public partial class EspoirDbContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("PostId");
 
-            entity.HasOne(d => d.Post).WithMany(p => p.Pdetail)
+            entity.HasOne(d => d.Post).WithMany(p => p.PostDetails)
                 .HasForeignKey(d => d.PostId)
                 .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_PostDetail_SellerPost");

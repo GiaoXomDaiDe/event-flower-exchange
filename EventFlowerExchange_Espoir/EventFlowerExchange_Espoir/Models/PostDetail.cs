@@ -12,4 +12,5 @@ public partial class PostDetail
     public virtual Flower Flower { get; set; } = null!;
     public string PostId { get; set; } = null!;
     public virtual SellerPost Post { get; set; } = null!;
+
 }

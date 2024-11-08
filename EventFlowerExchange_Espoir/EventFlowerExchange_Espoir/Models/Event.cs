@@ -27,6 +27,7 @@ public partial class Event
 
     public string UpdateBy { get; set; } = null!;
     public ICollection<Flower> Flowers { get; set; } = null!;
+    public ICollection<SellerPost> Posts { get; set; } = null!;
 
     public virtual EventCate Ecate { get; set; } = null!;
 

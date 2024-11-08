@@ -170,6 +170,17 @@ namespace EventFlowerExchange_Espoir.Services.Impl
         public async Task<List<Order>> GetAllOrders() => await _orderRepository.GetAllOrders();
         public async Task<int> GetNumberOfOrders() => await _orderRepository.GetNumberOfOrders();
         public async Task<int> GetNumberOfOrderBasedOnStatus(int status) => await _orderRepository.GetNumberOfOrderBasedOnStatus(status);
+        public async Task<dynamic> GetNumberOrderOfSeller(string accessToken)
+        {
+            var accountEmail = TokenDecoder.GetEmailFromToken(accessToken);
+            var acc = await _accountRepository.GetAccountByEmailAsync(accountEmail);
+            if (acc == null)
+            {
+                return "Cannot find your account";
+            }
+            return await _orderRepository.GetNumberOrderOfSeller(acc.AccountId);
+        }
+
         public async Task<double> GetTotalEarnings(string accountEmail)
         {
             var account = await _accountRepository.GetAccountByEmailAsync(accountEmail);

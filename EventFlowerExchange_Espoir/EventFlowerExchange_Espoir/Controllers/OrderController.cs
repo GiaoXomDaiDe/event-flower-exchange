@@ -112,6 +112,25 @@ namespace EventFlowerExchange_Espoir.Controllers
 
         [Authorize(Policy = "UserOnly")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpGet("get-number-orders-of-seller")]
+        public async Task<IActionResult> GetNumberOrdersOfSeller()
+        {
+            var accessToken = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+
+            if (string.IsNullOrEmpty(accessToken))
+            {
+                return BadRequest("Access token is missing or invalid");
+            }
+            var numberOfOrders = await _orderService.GetNumberOrderOfSeller(accessToken);
+            return Ok(new ApiResponse()
+            {
+                StatusCode = 200,
+                Data = numberOfOrders
+            });
+        }
+
+        [Authorize(Policy = "UserOnly")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet("get-total-earnings")]
         public async Task<IActionResult> GetTotalEarnings()
         {

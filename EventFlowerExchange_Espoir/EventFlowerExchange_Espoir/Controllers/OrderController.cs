@@ -109,7 +109,20 @@ namespace EventFlowerExchange_Espoir.Controllers
                 Data = numberOfOrders
             });
         }
-
+        [Authorize(Policy = "UserOnly")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpGet("get-number-orders-of-seller-by-status")]
+        public async Task<IActionResult> GetNumberOrdersOfSellerByStatus(int status)
+        {
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            var userEmail = identity.Claims.FirstOrDefault().Value;
+            var numberOfOrders = await _orderService.GetNumberOrderOfSellerByStatus(userEmail, status);
+            return Ok(new ApiResponse()
+            {
+                StatusCode = 200,
+                Data = numberOfOrders
+            });
+        }
         [Authorize(Policy = "UserOnly")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet("get-number-orders-of-seller")]

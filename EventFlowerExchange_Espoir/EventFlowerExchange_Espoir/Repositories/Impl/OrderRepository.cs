@@ -150,7 +150,10 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
         {
             return await _context.Orders.CountAsync(item => item.Status == status);
         }
-
+        public async Task<dynamic> GetNumberOrderOfSellerByStatus(string sellerId, int status)
+        {
+            return await _context.Orders.CountAsync(item => item.SellerId == sellerId && item.Status == status);
+        }
         public async Task<dynamic> GetNumberOrderOfSeller(string sellerId)
         {
             return await _context.Orders.CountAsync(item => item.SellerId == sellerId);

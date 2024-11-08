@@ -20,6 +20,8 @@ namespace EventFlowerExchange_Espoir.Repositories
         public Task<List<Order>> GetAllOrders();
         public Task<int> GetNumberOfOrders();
         public Task<int> GetNumberOfOrderBasedOnStatus(int status);
+        public Task<dynamic> GetNumberOrderOfSellerByStatus(string accountId, int status);
+
         public Task<dynamic> GetNumberOrderOfSeller(string accessToken);
 
 

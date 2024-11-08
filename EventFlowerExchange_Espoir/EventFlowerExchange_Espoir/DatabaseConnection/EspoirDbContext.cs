@@ -410,6 +410,20 @@ public partial class EspoirDbContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("FlowerID");
 
+            entity.Property(e => e.FlowerId)
+                .HasMaxLength(255)
+                .IsUnicode(false)
+                .HasColumnName("FlowerID");
+            entity.Property(e => e.PostId)
+                .HasMaxLength(255)
+                .IsUnicode(false)
+                .HasColumnName("PostId");
+
+            entity.HasOne(d => d.Post).WithMany(p => p.Pdetail)
+                .HasForeignKey(d => d.PostId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("FK_PostDetail_SellerPost");
+
             entity.HasOne(d => d.Flower).WithMany(p => p.PostDetails)
                 .HasForeignKey(d => d.FlowerId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -464,16 +478,12 @@ public partial class EspoirDbContext : DbContext
                 .IsUnicode(false);
             entity.Property(e => e.Content).HasMaxLength(255);
             entity.Property(e => e.HadEvent).HasColumnName("hadEvent");
-            entity.Property(e => e.PdetailId)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("PDetailID");
             entity.Property(e => e.Title).HasMaxLength(255);
 
-            entity.HasOne(d => d.Pdetail).WithMany(p => p.SellerPosts)
-                .HasForeignKey(d => d.PdetailId)
+            entity.HasOne(d => d.Event).WithMany(p => p.Posts)
+                .HasForeignKey(d => d.EventId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_SellerPost_PostDetail");
+                .HasConstraintName("FK_SellerPost_Event");
         });
 
         modelBuilder.Entity<SellerWallet>(entity =>

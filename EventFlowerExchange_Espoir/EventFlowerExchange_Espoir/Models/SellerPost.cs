@@ -20,6 +20,7 @@ public partial class SellerPost
     public DateOnly CreateAt { get; set; }
 
     public int HadEvent { get; set; }
-
+    public string EventId { get; set; } = null!;
+    public virtual Event Event { get; set; } = null!;
     public virtual PostDetail Pdetail { get; set; } = null!;
 }

@@ -6,7 +6,7 @@ import { LayoutContext } from '../../../contexts/layout.context.jsx'
 
 export default function SidebarMenuItem() {
   const menuItems = [
-    { key: 'dashboard', label: 'Dashboard', icon: <HomeOutlined /> },
+    { key: 'seller-dashboard', label: 'Dashboard', icon: <HomeOutlined /> },
     { key: 'order-management', label: 'Orders', icon: <ShoppingCartOutlined /> },
     { key: 'product-management', label: 'Product', icon: <MoneyCollectOutlined /> },
     { key: 'post-management', label: 'Posts', icon: <FormOutlined /> }

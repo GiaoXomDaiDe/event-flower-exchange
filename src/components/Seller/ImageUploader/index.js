@@ -1,3 +1,3 @@
-import ImageUploader from './ImageUploader'
+import ImageUploader from './ImageUploader.jsx'
 
 export default ImageUploader

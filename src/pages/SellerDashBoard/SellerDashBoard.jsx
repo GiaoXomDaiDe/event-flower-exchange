@@ -14,11 +14,11 @@ import {
   PieChartSeries
 } from '../../components/Seller/DBChart/ChartConfig.jsx'
 import DBChart from '../../components/Seller/DBChart/DBChart.jsx'
-import Widget from '../../components/Seller/Widget'
+import Widget from '../../components/Seller/Widget/index.js'
 
 const { Content } = Layout
 
-export default function DashBoard() {
+export default function SellerDashBoard() {
   return (
     <Content>
       <Row gutter={[20]}>

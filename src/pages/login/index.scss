@@ -1,0 +1,74 @@
+.login {
+  width: 100vw;
+  height: 100vh;
+  background-color: #f9fafb;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &_form {
+    width: 500px;
+    background: #fefefe;
+    border-radius: 30px;
+    box-shadow: 0px 0px 15px 5px rgba(52, 52, 52, 0.25);
+    padding: 80px 100px;
+
+    h1 {
+      font-size: 64px;
+      text-align: center;
+      font-family: 'Beausite Classic Trial';
+      font-weight: 900;
+      color: #fd6882;
+      margin-bottom: 38px;
+    }
+
+    .ant-input-outlined {
+      border-color: #636363 !important;
+      border-width: 2px;
+      border-radius: 12px !important;
+    }
+
+    .ant-input {
+      padding: 10px 16px;
+
+      &::placeholder {
+        color: rgba($color: #000000, $alpha: 0.5);
+      }
+    }
+  }
+
+  &_login_option {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &_button {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+
+    button {
+      width: 50%;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      padding: 10px 20px;
+      border: none;
+
+      background-color: #fd6882;
+      border-radius: 15px;
+      color: #fffbfb;
+      font-family: 'Beausite Classic Trial';
+      font-size: 16px;
+      font-weight: 700;
+
+      &.guguru {
+        background-color: #fff;
+        box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.25);
+        color: #000;
+      }
+    }
+  }
+}

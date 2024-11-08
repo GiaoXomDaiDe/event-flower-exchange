@@ -1,3 +1,3 @@
-import PostManagement from './PostManagement'
+import PostManagement from './PostManagement.jsx'
 
 export default PostManagement

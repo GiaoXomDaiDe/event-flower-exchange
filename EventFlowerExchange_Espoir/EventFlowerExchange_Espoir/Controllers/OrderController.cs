@@ -113,7 +113,6 @@ namespace EventFlowerExchange_Espoir.Controllers
         [Authorize(Policy = "UserOnly")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet("get-total-earnings")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> GetTotalEarnings()
         {
             var identity = HttpContext.User.Identity as ClaimsIdentity;
@@ -123,6 +122,21 @@ namespace EventFlowerExchange_Espoir.Controllers
             {
                 StatusCode = 200,
                 Data = totalEarnings
+            });
+        }
+
+        [HttpGet("orders-of-seller")]
+        public async Task<IActionResult> GetOrderDetailsOfSeller(string sellerId)
+        {
+            if (string.IsNullOrWhiteSpace(sellerId))
+            {
+                return BadRequest("Seller must not be null");
+            }
+            var result = await _orderService.GetOrderDetailsOfSeller(sellerId);
+            return Ok(new ApiResponse()
+            {
+                StatusCode = 200,
+                Data = result
             });
         }
     }

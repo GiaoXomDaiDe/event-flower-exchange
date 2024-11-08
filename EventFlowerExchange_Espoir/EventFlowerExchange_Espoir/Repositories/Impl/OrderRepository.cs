@@ -163,5 +163,33 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
             }
             return totalEarnings;
         }
+        public async Task<dynamic> GetOrderDetailsOfSeller(string sellerId)
+        {
+            return await _context.Orders.Include(o => o.OrderDetails).Where(o => o.SellerId == sellerId).Select(o => new OrderListDTO
+            {
+                OrderId = o.OrderId,
+                Detail = o.Detail,
+                Date = o.Date,
+                AccountId = o.AccountId,
+                SellerId = sellerId,
+                Status = o.Status,
+                TotalMoney = o.TotalMoney,
+                PaymentStatus = o.PaymentStatus,
+                FullName = o.FullName,
+                Address = o.Address,
+                PhoneNumber = o.PhoneNumber,
+                OrderDetails = o.OrderDetails
+                .Where(od => od.OrderId == o.OrderId) // Filter by OrderId of the current order
+                .Select(od => new OrderDetailDTO
+                {
+                    OrderDetailId = od.OrderDetailId,
+                    FlowerId = od.FlowerId,
+                    Quantity = od.Quantity,
+                    PaidPrice = od.PaidPrice,
+                    // Map other OrderDetail properties here if needed
+                })
+                .ToList()
+            }).ToListAsync();
+        }
     }
 }

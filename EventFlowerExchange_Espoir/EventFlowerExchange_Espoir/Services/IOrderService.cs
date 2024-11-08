@@ -13,6 +13,6 @@ namespace EventFlowerExchange_Espoir.Services
         public Task<int> GetNumberOfOrders();
         public Task<int> GetNumberOfOrderBasedOnStatus(int status);
         public Task<double> GetTotalEarnings(string accountEmail);
-
+        public Task<dynamic> GetOrderDetailsOfSeller(string sellerId);
     }
 }

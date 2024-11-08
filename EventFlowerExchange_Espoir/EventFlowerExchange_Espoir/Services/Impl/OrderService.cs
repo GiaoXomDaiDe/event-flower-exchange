@@ -72,6 +72,7 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                     return "Flower cannot be found";
                 }
                 flower.Quantity = flower.Quantity - item.Quantity;
+                var sellerId = flower.AccountId;
             }
             if (cartItems.Count == 0)
             {
@@ -174,6 +175,9 @@ namespace EventFlowerExchange_Espoir.Services.Impl
             var account = await _accountRepository.GetAccountByEmailAsync(accountEmail);
             return await _orderRepository.GetEarningOnAllOrders(account.AccountId);
         }
-
+        public async Task<dynamic> GetOrderDetailsOfSeller(string sellerId)
+        {
+            return await _orderRepository.GetOrderDetailsOfSeller(sellerId);
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using EventFlowerExchange_Espoir.DatabaseConnection;
 using EventFlowerExchange_Espoir.Models;
+using EventFlowerExchange_Espoir.Models.DTO;
 using Microsoft.EntityFrameworkCore;
 
 namespace EventFlowerExchange_Espoir.Repositories.Impl
@@ -91,8 +92,8 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
                 newOrderId = $"O{newnumericpart:d9}";
             }
             return newOrderId;
-        }       
-        
+        }
+
         // for cart
         public async Task<List<Order>> GetListOrderNotPaymentByAccountIdAsync(string accountId)
         {
@@ -149,19 +150,53 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
         {
             return await _context.Orders.CountAsync(item => item.Status == status);
         }
-
+        public async Task<dynamic> GetNumberOrderOfSellerByStatus(string sellerId, int status)
+        {
+            return await _context.Orders.CountAsync(item => item.SellerId == sellerId && item.Status == status);
+        }
+        public async Task<dynamic> GetNumberOrderOfSeller(string sellerId)
+        {
+            return await _context.Orders.CountAsync(item => item.SellerId == sellerId);
+        }
         public async Task<double> GetEarningOnAllOrders(string accountId)
         {
             var orders = await _context.Orders
                 .Where(item => item.SellerId.Equals(accountId) &&
-                                item.Status >= 4)
-                .ToListAsync();
+                                item.Status >= 4).ToListAsync();
             var totalEarnings = (double)0;
             foreach (var order in orders)
             {
                 totalEarnings += order.TotalMoney;
             }
             return totalEarnings;
+        }
+        public async Task<dynamic> GetOrderDetailsOfSeller(string sellerId)
+        {
+            return await _context.Orders.Include(o => o.OrderDetails).Where(o => o.SellerId == sellerId).Select(o => new OrderListDTO
+            {
+                OrderId = o.OrderId,
+                Detail = o.Detail,
+                Date = o.Date,
+                AccountId = o.AccountId,
+                SellerId = sellerId,
+                Status = o.Status,
+                TotalMoney = o.TotalMoney,
+                PaymentStatus = o.PaymentStatus,
+                FullName = o.FullName,
+                Address = o.Address,
+                PhoneNumber = o.PhoneNumber,
+                OrderDetails = o.OrderDetails
+                .Where(od => od.OrderId == o.OrderId) // Filter by OrderId of the current order
+                .Select(od => new OrderDetailDTO
+                {
+                    OrderDetailId = od.OrderDetailId,
+                    FlowerId = od.FlowerId,
+                    Quantity = od.Quantity,
+                    PaidPrice = od.PaidPrice,
+                    // Map other OrderDetail properties here if needed
+                })
+                .ToList()
+            }).ToListAsync();
         }
     }
 }

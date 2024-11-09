@@ -625,10 +625,19 @@ namespace EventFlowerExchange_Espoir.Migrations
                         .HasColumnType("varchar(255)")
                         .HasColumnName("FlowerID");
 
+                    b.Property<string>("PostId")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("PostId");
+
                     b.HasKey("PdetailId")
                         .HasName("PK__PostDeta__61D4FFEBFE50ED0F");
 
                     b.HasIndex("FlowerId");
+
+                    b.HasIndex("PostId");
 
                     b.ToTable("PostDetail", (string)null);
                 });
@@ -709,26 +718,26 @@ namespace EventFlowerExchange_Espoir.Migrations
                     b.Property<DateOnly>("CreateAt")
                         .HasColumnType("date");
 
+                    b.Property<string>("EventId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
                     b.Property<int>("HadEvent")
                         .HasColumnType("int")
                         .HasColumnName("hadEvent");
-
-                    b.Property<string>("PdetailId")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(255)")
-                        .HasColumnName("PDetailID");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
+                    b.Property<DateOnly>("UpdatedAt")
+                        .HasColumnType("date");
+
                     b.HasKey("PostId")
                         .HasName("PK__SellerPo__AA1260382B5E0A50");
 
-                    b.HasIndex("PdetailId");
+                    b.HasIndex("EventId");
 
                     b.ToTable("SellerPost", (string)null);
                 });
@@ -993,7 +1002,16 @@ namespace EventFlowerExchange_Espoir.Migrations
                         .IsRequired()
                         .HasConstraintName("FK_PostDetail_Flower");
 
+                    b.HasOne("EventFlowerExchange_Espoir.Models.SellerPost", "Post")
+                        .WithMany("PostDetails")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_PostDetail_SellerPost");
+
                     b.Navigation("Flower");
+
+                    b.Navigation("Post");
                 });
 
             modelBuilder.Entity("EventFlowerExchange_Espoir.Models.Report", b =>
@@ -1009,13 +1027,13 @@ namespace EventFlowerExchange_Espoir.Migrations
 
             modelBuilder.Entity("EventFlowerExchange_Espoir.Models.SellerPost", b =>
                 {
-                    b.HasOne("EventFlowerExchange_Espoir.Models.PostDetail", "Pdetail")
-                        .WithMany("SellerPosts")
-                        .HasForeignKey("PdetailId")
+                    b.HasOne("EventFlowerExchange_Espoir.Models.Event", "Event")
+                        .WithMany("Posts")
+                        .HasForeignKey("EventId")
                         .IsRequired()
-                        .HasConstraintName("FK_SellerPost_PostDetail");
+                        .HasConstraintName("FK_SellerPost_Event");
 
-                    b.Navigation("Pdetail");
+                    b.Navigation("Event");
                 });
 
             modelBuilder.Entity("EventFlowerExchange_Espoir.Models.SellerWallet", b =>
@@ -1098,6 +1116,8 @@ namespace EventFlowerExchange_Espoir.Migrations
             modelBuilder.Entity("EventFlowerExchange_Espoir.Models.Event", b =>
                 {
                     b.Navigation("Flowers");
+
+                    b.Navigation("Posts");
                 });
 
             modelBuilder.Entity("EventFlowerExchange_Espoir.Models.EventCate", b =>
@@ -1133,9 +1153,9 @@ namespace EventFlowerExchange_Espoir.Migrations
                     b.Navigation("Transactions");
                 });
 
-            modelBuilder.Entity("EventFlowerExchange_Espoir.Models.PostDetail", b =>
+            modelBuilder.Entity("EventFlowerExchange_Espoir.Models.SellerPost", b =>
                 {
-                    b.Navigation("SellerPosts");
+                    b.Navigation("PostDetails");
                 });
 
             modelBuilder.Entity("EventFlowerExchange_Espoir.Models.User", b =>

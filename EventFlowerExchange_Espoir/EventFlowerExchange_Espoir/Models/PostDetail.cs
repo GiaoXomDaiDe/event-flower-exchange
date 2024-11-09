@@ -10,6 +10,7 @@ public partial class PostDetail
     public string FlowerId { get; set; } = null!;
 
     public virtual Flower Flower { get; set; } = null!;
+    public string PostId { get; set; } = null!;
+    public virtual SellerPost Post { get; set; } = null!;
 
-    public virtual ICollection<SellerPost> SellerPosts { get; set; } = new List<SellerPost>();
 }

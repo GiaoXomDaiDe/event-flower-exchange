@@ -1,8 +1,13 @@
 ﻿using EventFlowerExchange_Espoir.Models;
 using EventFlowerExchange_Espoir.Models.DTO;
 using EventFlowerExchange_Espoir.Repositories;
+
+using EventFlowerExchange_Espoir.Models;
+using EventFlowerExchange_Espoir.Models.DTO;
+using EventFlowerExchange_Espoir.Repositories;
 using EventFlowerExchange_Espoir.Repositories.Impl;
 using EventFlowerExchange_Espoir.Services.Common;
+using FirebaseAdmin.Messaging;
 
 namespace EventFlowerExchange_Espoir.Services.Impl
 {
@@ -49,7 +54,11 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                     EndTime = newEvent.EndTime,
                     CreateBy = seller.AccountId,
                     CreateAt = DateOnly.FromDateTime(DateTime.Now),
-                    Status = 0 // Default status for a new event
+                    EcateId = newEvent.EcateId,
+                    UpdateAt = DateOnly.FromDateTime(DateTime.Now),
+                    UpdateBy = seller.AccountId,
+                    Status = 0 // Default status for a new event,
+
                 };
 
                 int result = await _eventRepository.CreateEventAsync(eventEntity);
@@ -130,6 +139,9 @@ namespace EventFlowerExchange_Espoir.Services.Impl
         {
             return await _eventRepository.GetListEventsOfSellerAsync(pageIndex, pageSize, sellerId, sortBy, sortDesc, search);
         }
-
+        public async Task<int> GetTotalPostOfEvent(string eventId)
+        {
+            return await _eventRepository.GetNumberOfPostOfEvent(eventId);
+        }
     }
 }

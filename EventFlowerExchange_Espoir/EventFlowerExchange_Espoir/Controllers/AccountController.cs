@@ -75,7 +75,7 @@ namespace EventFlowerExchange_Espoir.Controllers
             //{
             //    return Ok(new { message = "Your account has been previously deleted. Please contact the administrator to resolve your issue." });
             //}
-            var token = _accountService.GenerateJwtToken(loginDTO.Email, acc.Role, 60);
+            var token = _accountService.GenerateJwtToken(loginDTO.Email, acc.Role, 43200);
             return Ok(new
             {
                 //Token = token,

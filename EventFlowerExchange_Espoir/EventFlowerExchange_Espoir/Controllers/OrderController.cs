@@ -109,11 +109,42 @@ namespace EventFlowerExchange_Espoir.Controllers
                 Data = numberOfOrders
             });
         }
+        [Authorize(Policy = "UserOnly")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpGet("get-number-orders-of-seller-by-status")]
+        public async Task<IActionResult> GetNumberOrdersOfSellerByStatus(int status)
+        {
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            var userEmail = identity.Claims.FirstOrDefault().Value;
+            var numberOfOrders = await _orderService.GetNumberOrderOfSellerByStatus(userEmail, status);
+            return Ok(new ApiResponse()
+            {
+                StatusCode = 200,
+                Data = numberOfOrders
+            });
+        }
+        [Authorize(Policy = "UserOnly")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpGet("get-number-orders-of-seller")]
+        public async Task<IActionResult> GetNumberOrdersOfSeller()
+        {
+            var accessToken = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+
+            if (string.IsNullOrEmpty(accessToken))
+            {
+                return BadRequest("Access token is missing or invalid");
+            }
+            var numberOfOrders = await _orderService.GetNumberOrderOfSeller(accessToken);
+            return Ok(new ApiResponse()
+            {
+                StatusCode = 200,
+                Data = numberOfOrders
+            });
+        }
 
         [Authorize(Policy = "UserOnly")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet("get-total-earnings")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> GetTotalEarnings()
         {
             var identity = HttpContext.User.Identity as ClaimsIdentity;
@@ -123,6 +154,21 @@ namespace EventFlowerExchange_Espoir.Controllers
             {
                 StatusCode = 200,
                 Data = totalEarnings
+            });
+        }
+
+        [HttpGet("orders-of-seller")]
+        public async Task<IActionResult> GetOrderDetailsOfSeller(string sellerId)
+        {
+            if (string.IsNullOrWhiteSpace(sellerId))
+            {
+                return BadRequest("Seller must not be null");
+            }
+            var result = await _orderService.GetOrderDetailsOfSeller(sellerId);
+            return Ok(new ApiResponse()
+            {
+                StatusCode = 200,
+                Data = result
             });
         }
     }

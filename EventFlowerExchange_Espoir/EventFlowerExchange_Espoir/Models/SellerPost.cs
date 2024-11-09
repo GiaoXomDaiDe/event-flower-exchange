@@ -15,6 +15,7 @@ public partial class SellerPost
     public string Attachment { get; set; } = null!;
 
     public DateOnly CreateAt { get; set; }
+    public DateOnly UpdatedAt { get; set; }
     public string EventId { get; set; } = null!;
     public virtual Event Event { get; set; } = null!;
 

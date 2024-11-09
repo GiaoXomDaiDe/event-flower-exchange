@@ -61,6 +61,38 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
             return sellerPost;
         }
 
+        public async Task DeletePost(SellerPost post)
+        {
+            _context.Remove(post);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteRangePostDetail(List<PostDetail> postDetails)
+        {
+            _context.RemoveRange(postDetails);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteRangeSellerPosts(List<SellerPost> posts)
+        {
+            _context.RemoveRange(posts);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<List<PostDetail>> GetAllPostDetailsOfPost(string postId)
+        {
+            return await _context.PostDetails
+                .Where(item => item.PostId.Equals(postId))
+                .ToListAsync();
+        }
+
+        public async Task<List<SellerPost>> GetAllSellerPostOfEvent(string eventId)
+        {
+            return await _context.SellerPosts
+                .Where(item => item.EventId.Equals(eventId))
+                .ToListAsync();
+        }
+
         public async Task<string> GetLatestPostDetailIdAsync()
         {
             try
@@ -128,6 +160,15 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
         {
             _context.Attach(sellerPost).State = EntityState.Modified;
             await _context.SaveChangesAsync();
+        }
+
+        public async Task UpdateRangePostDetail(List<PostDetail> postDetails)
+        {
+            foreach (var postDetail in postDetails)
+            {
+                _context.Attach(postDetail).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
+            }
         }
     }
 }

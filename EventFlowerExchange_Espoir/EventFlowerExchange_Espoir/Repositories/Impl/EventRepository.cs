@@ -147,5 +147,10 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
                 throw new Exception($"Error at DeleteEventAsync() in Repository: {ex.Message}");
             }
         }
+        public async Task<int> GetNumberOfPostOfEvent(string eventId)
+        {
+            return await _context.SellerPosts
+                .CountAsync(item => item.EventId.Equals(eventId));
+        }
     }
 }

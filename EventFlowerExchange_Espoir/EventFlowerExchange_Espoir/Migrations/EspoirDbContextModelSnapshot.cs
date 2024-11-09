@@ -731,6 +731,9 @@ namespace EventFlowerExchange_Espoir.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
+                    b.Property<DateOnly>("UpdatedAt")
+                        .HasColumnType("date");
+
                     b.HasKey("PostId")
                         .HasName("PK__SellerPo__AA1260382B5E0A50");
 

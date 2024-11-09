@@ -139,6 +139,9 @@ namespace EventFlowerExchange_Espoir.Services.Impl
         {
             return await _eventRepository.GetListEventsOfSellerAsync(pageIndex, pageSize, sellerId, sortBy, sortDesc, search);
         }
-
+        public async Task<int> GetTotalPostOfEvent(string eventId)
+        {
+            return await _eventRepository.GetNumberOfPostOfEvent(eventId);
+        }
     }
 }

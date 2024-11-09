@@ -21,5 +21,6 @@ namespace EventFlowerExchange_Espoir.Services
 
         // Get a list of Events created by a specific seller
         Task<(List<Event> events, int totalCount)> GetListEventsOfSellerAsync(int pageIndex, int pageSize, string sellerId, string sortBy, bool sortDesc, string search);
+        public Task<int> GetTotalPostOfEvent(string eventId);
     }
 }

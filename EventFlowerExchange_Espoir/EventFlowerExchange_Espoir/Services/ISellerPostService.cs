@@ -5,9 +5,11 @@ namespace EventFlowerExchange_Espoir.Services
 {
     public interface ISellerPostService
     {
-        public Task<List<SellerPost>> GetListSellerPosts();
-        public Task<SellerPost> GetSellerPostById(string postId);
-        public Task<dynamic> CreatePost(CreatePostDto createPost);
-        public Task UpdatePost(SellerPost sellerPost);
+        public Task<dynamic> CreatePost(CreatePostDTO createPost);
+        public Task DeletePost(string postId);
+        public Task<List<ViewPostDto>> GetListSellerPosts();
+        public Task UpdatePost(UpdatePostDto post);
+        public Task<ViewPostDto> GetSellerPostById(string postId);
+
     }
 }

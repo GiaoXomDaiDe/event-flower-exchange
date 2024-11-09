@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace EventFlowerExchange_Espoir.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialDB : Migration
+    public partial class InitialDBSetUp : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -340,6 +340,30 @@ namespace EventFlowerExchange_Espoir.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "SellerPost",
+                columns: table => new
+                {
+                    PostID = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
+                    AccountID = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    Attachment = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
+                    CreateAt = table.Column<DateOnly>(type: "date", nullable: false),
+                    UpdatedAt = table.Column<DateOnly>(type: "date", nullable: false),
+                    EventId = table.Column<string>(type: "varchar(255)", nullable: false),
+                    hadEvent = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK__SellerPo__AA1260382B5E0A50", x => x.PostID);
+                    table.ForeignKey(
+                        name: "FK_SellerPost_Event",
+                        column: x => x.EventId,
+                        principalTable: "Event",
+                        principalColumn: "EventID");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Feedback",
                 columns: table => new
                 {
@@ -357,23 +381,6 @@ namespace EventFlowerExchange_Espoir.Migrations
                     table.PrimaryKey("PK__Feedback__6A4BEDF6C7713F3E", x => x.FeedbackID);
                     table.ForeignKey(
                         name: "FK_Feedback_Flower",
-                        column: x => x.FlowerID,
-                        principalTable: "Flowers",
-                        principalColumn: "FlowerID");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "PostDetail",
-                columns: table => new
-                {
-                    PDetailID = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
-                    FlowerID = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK__PostDeta__61D4FFEBFE50ED0F", x => x.PDetailID);
-                    table.ForeignKey(
-                        name: "FK_PostDetail_Flower",
                         column: x => x.FlowerID,
                         principalTable: "Flowers",
                         principalColumn: "FlowerID");
@@ -420,26 +427,27 @@ namespace EventFlowerExchange_Espoir.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SellerPost",
+                name: "PostDetail",
                 columns: table => new
                 {
-                    PostID = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
-                    AccountID = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
                     PDetailID = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    Content = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    Attachment = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
-                    CreateAt = table.Column<DateOnly>(type: "date", nullable: false),
-                    hadEvent = table.Column<int>(type: "int", nullable: false)
+                    FlowerID = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
+                    PostId = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK__SellerPo__AA1260382B5E0A50", x => x.PostID);
+                    table.PrimaryKey("PK__PostDeta__61D4FFEBFE50ED0F", x => x.PDetailID);
                     table.ForeignKey(
-                        name: "FK_SellerPost_PostDetail",
-                        column: x => x.PDetailID,
-                        principalTable: "PostDetail",
-                        principalColumn: "PDetailID");
+                        name: "FK_PostDetail_Flower",
+                        column: x => x.FlowerID,
+                        principalTable: "Flowers",
+                        principalColumn: "FlowerID");
+                    table.ForeignKey(
+                        name: "FK_PostDetail_SellerPost",
+                        column: x => x.PostId,
+                        principalTable: "SellerPost",
+                        principalColumn: "PostID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -498,14 +506,19 @@ namespace EventFlowerExchange_Espoir.Migrations
                 column: "FlowerID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_PostDetail_PostId",
+                table: "PostDetail",
+                column: "PostId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Report_FlowerID",
                 table: "Report",
                 column: "FlowerID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SellerPost_PDetailID",
+                name: "IX_SellerPost_EventId",
                 table: "SellerPost",
-                column: "PDetailID");
+                column: "EventId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SellerWallet_AccountID",
@@ -557,10 +570,10 @@ namespace EventFlowerExchange_Espoir.Migrations
                 name: "PayoutHistory");
 
             migrationBuilder.DropTable(
-                name: "Report");
+                name: "PostDetail");
 
             migrationBuilder.DropTable(
-                name: "SellerPost");
+                name: "Report");
 
             migrationBuilder.DropTable(
                 name: "SellerWallet");
@@ -578,16 +591,16 @@ namespace EventFlowerExchange_Espoir.Migrations
                 name: "Users");
 
             migrationBuilder.DropTable(
-                name: "PostDetail");
+                name: "SellerPost");
 
             migrationBuilder.DropTable(
                 name: "Orders");
 
             migrationBuilder.DropTable(
-                name: "CardProviders");
+                name: "Flowers");
 
             migrationBuilder.DropTable(
-                name: "Flowers");
+                name: "CardProviders");
 
             migrationBuilder.DropTable(
                 name: "Account");

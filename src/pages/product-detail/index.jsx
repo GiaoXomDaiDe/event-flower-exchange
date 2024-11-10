@@ -7,19 +7,21 @@ import TabsProduct from '../../components/product-description/index.jsx'
 import { useCart } from '../../contexts/CartContext.jsx'
 import { addCart } from '../../services/cartService'
 import { getProductDetail } from '../../services/productService'
+import { getAccessTokenFromLS } from '../../utils/utils.js'
 import './index.css'
 
 const ProductDetail = () => {
   const { flowerId } = useParams()
   const { getCart } = useCart()
 
-  const token = JSON.parse(localStorage.getItem('token'))
+  const token = getAccessTokenFromLS()
 
   const [flower, setFlower] = useState({})
   const [quantity, setQuantity] = useState(1)
 
   const fetchFlower = async () => {
     const response = await getProductDetail(flowerId)
+    console.log(response)
     setFlower(response)
   }
 
@@ -30,7 +32,8 @@ const ProductDetail = () => {
 
   useLayoutEffect(() => {
     fetchFlower()
-  }, [fetchFlower])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const shopInfo = [
     {
@@ -59,7 +62,7 @@ const ProductDetail = () => {
   }
 
   const handleAddCart = () => {}
-
+  console.log(flower)
   return (
     <div className='product-detail'>
       <div className='detail'>

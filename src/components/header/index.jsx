@@ -1,8 +1,10 @@
 import { Badge, Button, Dropdown, Input } from 'antd'
 import 'bootstrap-icons/font/bootstrap-icons.css'
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useCart } from '../../contexts/CartContext.jsx'
+import { SellerContext } from '../../contexts/seller.context.jsx'
+import RegisterToSeller from '../Seller/RegisterToSeller/RegisterToSeller.jsx'
 import logo from './../../assets/Espoir.png'
 import './index.scss'
 
@@ -11,6 +13,7 @@ const { Search } = Input
 function Header() {
   const navigate = useNavigate()
   const { cartItems, getCart } = useCart()
+  const { isAuthenticated } = useContext(SellerContext)
 
   const cartLength = cartItems?.flatMap((item) => {
     return item.orderDetails
@@ -44,7 +47,7 @@ function Header() {
     getCart()
   }, [])
 
-  const token = JSON.parse(localStorage.getItem('token'))
+  // const token = JSON.parse(localStorage.getItem('access_token'))
 
   const onSearch = (value) => {
     navigate('/search', { state: { search: value } })
@@ -96,14 +99,15 @@ function Header() {
           <i className='bi bi-search'></i>
         </HeadlessTippy> */}
 
-        <button className='cart_button' disabled={!token} onClick={() => navigate('/cart')}>
+        <button className='cart_button' disabled={!isAuthenticated} onClick={() => navigate('/cart')}>
           <Badge count={cartLength?.length}>
             <i className='bi bi-cart3'></i>
           </Badge>
         </button>
 
-        {token ? (
+        {isAuthenticated ? (
           <>
+            <RegisterToSeller />
             <Dropdown menu={{ items: dropdownItems }} placement='bottomRight' arrow>
               <Button>Welcome back!</Button>
             </Dropdown>

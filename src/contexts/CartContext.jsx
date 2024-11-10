@@ -1,14 +1,14 @@
 import axios from 'axios'
 import React, { createContext, useContext, useState } from 'react'
+import buyerApi from '../apis/buyer.api'
 import { getCartList } from '../services/cartService'
+import { getAccessTokenFromLS } from '../utils/utils'
 
 const CartContext = createContext()
 
 // eslint-disable-next-line react/prop-types
 export const CartProvider = ({ children }) => {
-  const token = JSON.parse(localStorage.getItem('token'))
-  // console.log(token, "context");
-
+  const token = getAccessTokenFromLS()
   const [cartItems, setCartItems] = useState([])
 
   const fetchAddCart = async (quantity) => {
@@ -17,11 +17,8 @@ export const CartProvider = ({ children }) => {
     addCartForm.append('FlowerID', flowerId)
     addCartForm.append('Quantity', quantity)
 
-    const response = await axios.post('https://localhost:7026/api/account/add-to-cart', addCartForm, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    })
+    const response = await buyerApi.addToCart(addCartForm)
+    console.log(response)
 
     if (response.data.statusCode === 201) {
       getCart()
@@ -37,7 +34,7 @@ export const CartProvider = ({ children }) => {
   }
 
   const getCart = async () => {
-    const response = await getCartList(JSON.parse(localStorage.getItem('token')))
+    const response = await getCartList(token)
 
     console.log(response, 'cart')
 

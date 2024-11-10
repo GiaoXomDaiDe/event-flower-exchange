@@ -1,5 +1,9 @@
 const URL = {
+  URL_REGISTER_ACCOUNT: 'account/register',
+  URL_LOGIN: 'account/login',
+  URL_GET_PROFILE: 'account/view-profile',
   URL_REGISTER_TO_SELLER: 'account/register-to-seller',
+  URL_ADD_TO_CART: 'account/add-to-cart',
   URL_GET_SELLER_PROFILE: 'account/seller-profile',
   URL_GET_CREDIT_CARD_INFO: 'account/payment-info-of-seller',
   URL_GET_CARD_PROVIDER_LIST: 'account/list-of-bank',
@@ -15,7 +19,8 @@ const URL = {
   URL_CREATE_FLOWER: 'flower/create-flower',
   URL_UPDATE_FLOWER: 'flower/update-flower',
   URL_DELETE_FLOWER: 'flower/delete-flower',
-  URL_GET_FLOWER_DETAIL: 'flower/flower-detail'
+  URL_GET_FLOWER_DETAIL: 'flower/flower-detail',
+  URL_GET_FLOWERS: 'flower/list-flowers'
 }
 
 export default URL

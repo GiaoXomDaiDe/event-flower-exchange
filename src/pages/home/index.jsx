@@ -1,5 +1,5 @@
-import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import buyerApi from '../../apis/buyer.api.js'
 import Benefits from '../../components/benefits/index.jsx'
 import EventCate from '../../components/event-cate/index.jsx'
 import SectionTitle from '../../components/section-title/index.jsx'
@@ -9,14 +9,12 @@ function Home() {
   const [searchResult, setSearchResult] = useState([])
 
   const fetchFlower = async () => {
-    const response = await axios.get('https://localhost:7026/api/flower/list-flowers', {
-      params: {
-        pageIndex: 1,
-        pageSize: 4,
-        sortBy: 'FlowerName',
-        sortDesc: true,
-        search: 'a'
-      }
+    const response = await buyerApi.getListFlower({
+      pageIndex: 1,
+      pageSize: 4,
+      sortBy: 'FlowerName',
+      sortDesc: true,
+      search: 'Espoir1'
     })
     setSearchResult(response.data.data)
   }

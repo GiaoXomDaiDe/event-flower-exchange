@@ -1,10 +1,12 @@
 import { getAuth, GoogleAuthProvider, signInWithPopup } from '@firebase/auth'
 import { Checkbox, Form, Input } from 'antd'
 import axios from 'axios'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
+import authApi from '../../apis/auth.api'
 import { googleProvider } from '../../configs/firebase'
+import { SellerContext } from '../../contexts/seller.context.jsx'
 import { login } from '../../redux/features/userSlice'
 import './index.scss'
 
@@ -14,34 +16,18 @@ function LoginPage() {
   // const [credentials, setCredentials] = useState({email:"", password:""});
   const dispatch = useDispatch()
   const navigate = useNavigate()
-
+  const { setIsAuthenticated } = useContext(SellerContext)
   const [error, setError] = useState(null)
 
   const handleLogin = async () => {
     const formLogin = new FormData()
     formLogin.append('Email', email)
     formLogin.append('Password', password)
-
-    console.log(email, 'email')
-    console.log(password, 'password')
-
     try {
-      const response = await axios.post('https://localhost:7026/api/account/login', formLogin, {
-        headers: {
-          'Content-Type': ' multipart/form-data'
-        }
-      })
-
-      const { token } = response.data
-
-      const profile = await axios.get(`https://localhost:7026/api/account/view-profile?accessToken=${token}`, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      })
-      dispatch(login(profile.data.profile))
-      console.log(profile.data.profile)
-      localStorage.setItem('token', JSON.stringify(token))
+      await authApi.loginAccount(formLogin)
+      const response = await authApi.getProfile()
+      dispatch(login(response.data.profile))
+      setIsAuthenticated(true)
       navigate('/')
     } catch (error) {
       if (error.response) {
@@ -60,7 +46,8 @@ function LoginPage() {
       }
     }
   }
-
+  // const { setIsAuthenticated } = useContext(SellerContext)
+  // setIsAuthenticated(true)
   const handleLoginGoogle = () => {
     const auth = getAuth()
     signInWithPopup(auth, googleProvider)

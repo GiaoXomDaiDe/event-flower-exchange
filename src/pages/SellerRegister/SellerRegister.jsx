@@ -5,7 +5,6 @@ import { useCallback, useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import sellerApi from '../../apis/seller.api'
-import utilsApi from '../../apis/utils.api'
 import { SellerContext } from '../../contexts/seller.context.jsx'
 import { getAccessTokenFromLS } from '../../utils/utils'
 
@@ -14,10 +13,8 @@ const { Title } = Typography
 export default function SellerRegister() {
   const [form] = Form.useForm()
   const [fileList, setFileList] = useState([])
-  const [uploadedImageUrl, setUploadedImageUrl] = useState('')
   const navigate = useNavigate()
-  const { isAuthenticated, isSellerMode, sellerProfile, setIsAuthenticated, setIsSellerMode, setSellerProfile } =
-    useContext(SellerContext)
+  const { setIsAuthenticated, setIsSellerMode, setSellerProfile } = useContext(SellerContext)
 
   const validateMessages = {
     required: '${label} is required!',
@@ -26,56 +23,34 @@ export default function SellerRegister() {
     }
   }
 
-  const uploadImageMutation = useMutation({
-    mutationFn: (imageFile) => {
-      const formData = new FormData()
-      formData.append('file', imageFile)
-      return utilsApi.uploadImage(formData)
-    },
-    onSuccess: (data) => {
-      const uploadedUrl = data.data.data.link
-      setUploadedImageUrl(uploadedUrl)
-      toast.success('Image uploaded successfully')
-    },
-    onError: (error) => {
-      toast.error('Failed to upload image')
-      console.error(error)
-    }
-  })
+  // const uploadImageMutation = useMutation({
+  //   mutationFn: (imageFile) => {
+  //     const formData = new FormData()
+  //     formData.append('file', imageFile)
+  //     return utilsApi.uploadImage(formData)
+  //   },
+  //   onSuccess: (data) => {
+  //     const uploadedUrl = data.data.data.link
+  //     setUploadedImageUrl(uploadedUrl)
+  //     toast.success('Image uploaded successfully')
+  //   },
+  //   onError: (error) => {
+  //     toast.error('Failed to upload image')
+  //     console.error(error)
+  //   }
+  // })
+  const handleUploadChange = (info) => {
+    let newFileList = [...info.fileList]
 
-  const handleUploadChange = ({ fileList }) => {
-    const file = fileList[0]?.originFileObj
-    if (file) {
-      const isImage = file.type.startsWith('image/')
-      const isLt2M = file.size / 1024 / 1024 < 2
-      if (!isImage) {
-        toast.error('You can only upload image files!')
-        return
-      }
-      if (!isLt2M) {
-        toast.error('Image must be smaller than 2MB!')
-        return
-      }
-      setFileList(fileList)
-      uploadImageMutation.mutate(file)
-    } else {
-      setFileList([])
-      setUploadedImageUrl('')
-    }
+    setFileList(newFileList)
+    form.setFieldsValue({ AttachmentFiles: newFileList })
   }
 
   const registerToSellerMutation = useMutation({
     mutationFn: () => {
       const formValues = form.getFieldsValue()
       const accessToken = getAccessTokenFromLS()
-
-      if (!uploadedImageUrl) {
-        toast.error('Please upload an avatar image before registering.')
-        return Promise.reject('No avatar image uploaded')
-      }
-
       const formData = new FormData()
-
       formData.append('AccessToken', accessToken)
       formData.append('CardName', formValues.CardName)
       formData.append('CardNumber', formValues.CardNumber)
@@ -83,21 +58,12 @@ export default function SellerRegister() {
       formData.append('TaxNumber', formValues.TaxNumber)
       formData.append('ShopName', formValues.ShopName)
       formData.append('SellerAddress', formValues.SellerAddress)
-      formData.append('SellerAvatar', uploadedImageUrl)
+      formData.append('AttachmentFiles', fileList[0].originFileObj)
 
       return sellerApi.registerToSeller(formData)
     },
     onSuccess: (response) => {
       const { message: successMessage } = response.data
-      // queryClient.setQueryData(['sellerProfile'], shop)
-      // const sellerData = {
-      //   userId: shop.userId,
-      //   accountId: shop.accountId,
-      //   shopName: shop.shopName,
-      //   sellerAvatar: shop.sellerAvatar,
-      //   sellerAddress: shop.sellerAddress
-      // }
-      // sessionStorage.setItem('sellerInfo', JSON.stringify(sellerData))
       setIsAuthenticated(true)
       setIsSellerMode(true)
       setSellerProfile(response.data.shop)
@@ -109,7 +75,7 @@ export default function SellerRegister() {
       if (error.response && error.response.status === 409) {
         // Nếu lỗi 409, thông báo cho người dùng và chuyển hướng đến dashboard
         toast.error('You are already a seller.')
-        navigate('/seller/dashboard')
+        navigate('/seller/seller-dashboard')
       } else {
         const errorMsg = error.response?.data?.title || error.message
         toast.error(errorMsg)
@@ -136,7 +102,6 @@ export default function SellerRegister() {
     select: selectCardProvider,
     keepPreviousData: true
   })
-  console.log(cardProviderNames)
   return (
     <Layout className='h-screen w-full bg-gray-200 flex items-center justify-center p-8 '>
       <Form
@@ -270,17 +235,21 @@ export default function SellerRegister() {
                   className='hover:shadow-md transition-all duration-300'
                 />
               </Form.Item>
-              <Form.Item label='Seller Avatar' rules={[{ required: true, message: 'Please upload an avatar image!' }]}>
+              <Form.Item
+                name='AttachmentFiles'
+                label='Attachment Files'
+                rules={[{ required: true, message: 'Please upload an avatar image!' }]}
+              >
                 <ImgCrop rotationSlider>
                   <Upload
                     accept='image/*'
                     listType='picture-card'
                     beforeUpload={() => false}
-                    onChange={handleUploadChange}
                     fileList={fileList}
+                    onChange={handleUploadChange}
                     maxCount={1}
                   >
-                    {fileList.length < 1 && '+ Upload Avatar'}
+                    {fileList.length >= 1 ? null : '+ Upload Avatar'}
                   </Upload>
                 </ImgCrop>
               </Form.Item>

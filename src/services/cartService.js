@@ -11,6 +11,7 @@ export const getCartList = async (token, cart = []) => {
         Authorization: `Bearer ${token}`
       }
     })
+    console.log(response)
     for (let item of response) {
       if (item.orderDetails.length !== 0) {
         cart.push(item)

@@ -26,17 +26,17 @@ import ProfilePage from './pages/user-profile/index.jsx'
 
 function BuyerProtectedRoute() {
   const { isAuthenticated, isSellerMode } = useContext(SellerContext)
-  return isAuthenticated && !isSellerMode ? <Outlet /> : <Navigate to='/' replace />
+  return isAuthenticated && !isSellerMode ? <Outlet /> : <Navigate to='/login' replace />
 }
 
 function BuyerRejectedRoute() {
   const { isAuthenticated, isSellerMode } = useContext(SellerContext)
-  return !isAuthenticated && !isSellerMode ? <Outlet /> : <Navigate to='/login' replace />
+  return !isAuthenticated && !isSellerMode ? <Outlet /> : <Navigate to='/' replace />
 }
 
 function SellerProtectedRoute() {
   const { isAuthenticated, isSellerMode } = useContext(SellerContext)
-  return isAuthenticated && isSellerMode ? <Outlet /> : <Navigate to='/seller' replace />
+  return isAuthenticated && isSellerMode ? <Outlet /> : <Navigate to='/seller/register' replace />
 }
 
 function SellerRejectedRoute() {
@@ -45,7 +45,28 @@ function SellerRejectedRoute() {
 }
 
 export default function useRouteElements() {
+  const { isAuthenticated = false, isSellerMode } = useContext(SellerContext)
+  console.log(isAuthenticated, isSellerMode)
   const routeElements = useRoutes([
+    {
+      path: '/',
+      element: <Layout />,
+      children: [
+        {
+          index: true,
+          element: <Home />
+        },
+        {
+          path: 'product/:flowerId',
+          element: <ProductDetail />
+        },
+        {
+          path: 'search',
+          element: <SearchEvents />
+        }
+        // Các route công khai khác...
+      ]
+    },
     {
       element: <BuyerRejectedRoute />,
       children: [
@@ -67,24 +88,13 @@ export default function useRouteElements() {
           element: <Layout />,
           children: [
             {
-              index: true,
-              element: <Home />
-            },
-            {
               path: 'profile',
               element: <ProfilePage />
             },
-
-            {
-              path: 'search',
-              element: <SearchEvents />
-            },
-
             {
               path: 'cart',
               element: <Cart />
             },
-
             {
               path: 'checkout',
               element: <CheckOut />
@@ -96,66 +106,67 @@ export default function useRouteElements() {
             {
               path: 'checkout/fail',
               element: <PaymentFail />
-            },
-            {
-              path: 'product/:flowerId',
-              element: <ProductDetail />
             }
+            // Các route cần bảo vệ khác...
           ]
         }
       ]
     },
     {
       path: 'seller',
-      element: <SellerProtectedRoute />,
       children: [
         {
-          element: <SellerLayout />,
+          element: <SellerRejectedRoute />,
           children: [
             {
-              path: 'seller-dashboard',
-              element: <SellerDashBoard />
-            },
+              path: 'register',
+              element: <SellerRegister />
+            }
+          ]
+        },
+        {
+          element: <SellerProtectedRoute />,
+          children: [
             {
-              path: 'product-management',
+              element: <SellerLayout />,
               children: [
-                { index: true, element: <ProductManagement /> },
                 {
-                  path: 'add-new-product',
-                  element: <AddNewProduct />
+                  path: 'seller-dashboard',
+                  element: <SellerDashBoard />
                 },
                 {
-                  path: 'update-product/:productId',
-                  element: <AddNewProduct />
+                  path: 'product-management',
+                  children: [
+                    { index: true, element: <ProductManagement /> },
+                    {
+                      path: 'add-new-product',
+                      element: <AddNewProduct />
+                    },
+                    {
+                      path: 'update-product/:productId',
+                      element: <AddNewProduct />
+                    }
+                  ]
+                },
+                {
+                  path: 'post-management',
+                  element: <PostManagement />
+                },
+                {
+                  path: 'order-management',
+                  element: <OrderManagement />
+                },
+                {
+                  path: '',
+                  element: <Navigate to='seller-dashboard' replace />
                 }
               ]
-            },
-            {
-              path: 'post-management',
-              element: <PostManagement />
-            },
-            {
-              path: 'order-management',
-              element: <OrderManagement />
-            },
-            {
-              path: '',
-              element: <Navigate to='seller-dashboard' replace />
             }
           ]
         }
       ]
     },
-    {
-      path: '/seller/register',
-      element: <SellerRejectedRoute />,
-      children: [
-        {
-          path: '',
-          element: <SellerRegister />
-        }
-      ]
-    },
+
     {
       path: 'dashboard',
       element: <Dashboard />,

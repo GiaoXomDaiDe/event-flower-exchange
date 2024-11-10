@@ -19,7 +19,7 @@
         public double OldPrice { get; set; }
         public double Discount { get; set; }
         public string ShopName { get; set; }
-
+        public string ShopAvatar { get; set; }
         public string DateExpiration { get; set; }
         public string Attachment { get; set; }
         public string TagIds { get; set; }

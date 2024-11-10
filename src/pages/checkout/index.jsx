@@ -7,13 +7,14 @@ import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import CheckoutItem from '../../components/checkout-item/index.jsx'
 import { checkoutOrder, paymentPayOS } from '../../services/paymentService'
+import { getAccessTokenFromLS } from '../../utils/utils.js'
 
 const cx = classNames.bind(styles)
 
 function CheckOut() {
   const location = useLocation()
   const order = location.state.order
-  const token = JSON.parse(localStorage.getItem('token'))
+  const token = getAccessTokenFromLS()
   const navigate = useNavigate()
   const [paymentRadio, setPaymentRadio] = useState('payOS')
 
@@ -136,11 +137,9 @@ function CheckOut() {
     console.log(checkout)
 
     if (checkout.statusCode === 200) {
-      console.log('assa')
-
       if (paymentMethod === 'payOS') {
-        console.log('sdfsdf')
         const payOS = await fetchPayOS()
+        console.log(payOS)
         window.location.replace(payOS.checkoutUrl)
       } else {
         navigate('/')

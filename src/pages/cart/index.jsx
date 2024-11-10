@@ -9,9 +9,10 @@ import './index.scss'
 
 import CartShopItem from '../../components/cart-shop-item/index.jsx'
 import { useCart } from '../../contexts/CartContext.jsx'
+import { getAccessTokenFromLS } from '../../utils/utils.js'
 
 function Cart() {
-  const token = JSON.parse(localStorage.getItem('token'))
+  const token = getAccessTokenFromLS()
   const navigate = useNavigate()
   const { getCart, cartItems } = useCart()
 

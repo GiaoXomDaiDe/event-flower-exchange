@@ -14,7 +14,7 @@ function Home() {
       pageSize: 4,
       sortBy: 'FlowerName',
       sortDesc: true,
-      search: 'Espoir1'
+      search: 'a'
     })
     setSearchResult(response.data.data)
   }

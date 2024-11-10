@@ -25,13 +25,13 @@ import SearchEvents from './pages/search-events/index.jsx'
 import ProfilePage from './pages/user-profile/index.jsx'
 
 function BuyerProtectedRoute() {
-  const { isAuthenticated, isSellerMode } = useContext(SellerContext)
-  return isAuthenticated && !isSellerMode ? <Outlet /> : <Navigate to='/login' replace />
+  const { isAuthenticated } = useContext(SellerContext)
+  return isAuthenticated ? <Outlet /> : <Navigate to='/login' replace />
 }
 
 function BuyerRejectedRoute() {
-  const { isAuthenticated, isSellerMode } = useContext(SellerContext)
-  return !isAuthenticated && !isSellerMode ? <Outlet /> : <Navigate to='/' replace />
+  const { isAuthenticated } = useContext(SellerContext)
+  return !isAuthenticated ? <Outlet /> : <Navigate to='/' replace />
 }
 
 function SellerProtectedRoute() {

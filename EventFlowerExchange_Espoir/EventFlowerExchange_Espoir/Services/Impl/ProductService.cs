@@ -368,6 +368,7 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                 OldPrice = flower.OldPrice,
                 Discount = flower.Price / flower.OldPrice,
                 ShopName = shop.ShopName,
+                ShopAvatar = shop.SellerAvatar,
                 DateExpiration = flower.DateExpiration,
                 Attachment = flower.Attachment,
                 TagIds = flower.TagIds

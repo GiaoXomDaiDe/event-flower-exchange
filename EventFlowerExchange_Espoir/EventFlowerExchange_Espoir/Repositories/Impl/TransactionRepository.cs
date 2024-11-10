@@ -19,12 +19,12 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
             string latestTransactionId = await GetLatestTransactionAsync();
             if (string.IsNullOrEmpty(latestTransactionId))
             {
-                newTransactionId = "TR00000051";
+                newTransactionId = "TR00000053";
             }
             else
             {
                 int numericpart = int.Parse(latestTransactionId.Substring(2));
-                int newnumericpart = numericpart + 1;
+                int newnumericpart = numericpart + 10;
                 newTransactionId = $"TR{newnumericpart:d8}";
             }
             return newTransactionId;

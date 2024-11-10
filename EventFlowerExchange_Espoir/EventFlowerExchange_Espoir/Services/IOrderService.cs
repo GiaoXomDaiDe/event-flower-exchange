@@ -16,6 +16,6 @@ namespace EventFlowerExchange_Espoir.Services
 
         public Task<dynamic> GetNumberOrderOfSeller(string accessToken);
         public Task<double> GetTotalEarnings(string accountEmail);
-        public Task<dynamic> GetOrderDetailsOfSeller(string sellerId);
+        public Task<dynamic> GetOrderDetailsOfSeller(string userEmail);
     }
 }

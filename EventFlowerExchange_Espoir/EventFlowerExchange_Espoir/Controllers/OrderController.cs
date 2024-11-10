@@ -171,5 +171,20 @@ namespace EventFlowerExchange_Espoir.Controllers
                 Data = result
             });
         }
+        [Authorize(Policy = "UserOnly")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpGet("orders-of-buyer")]
+        public async Task<IActionResult> GetOrderDetailsOfBuyer()
+        {
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            var userEmail = identity.Claims.FirstOrDefault().Value;
+
+            var result = await _orderService.GetOrderDetailsOfSeller(userEmail);
+            return Ok(new ApiResponse()
+            {
+                StatusCode = 200,
+                Data = result
+            });
+        }
     }
 }

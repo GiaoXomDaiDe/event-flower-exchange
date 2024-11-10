@@ -74,8 +74,11 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
                           OrderDetailId = od.OrderDetailId,
                           OrderId = od.OrderId,
                           FlowerId = od.FlowerId,
+                          FlowerName = f.FlowerName,
                           Quantity = od.Quantity,
+                          Price = f.Price,
                           PaidPrice = od.PaidPrice,
+                          FlowerImage = f.Attachment,
                           OrderNumber = od.OrderNumber,
                           AccountId = od.AccountId
                       })

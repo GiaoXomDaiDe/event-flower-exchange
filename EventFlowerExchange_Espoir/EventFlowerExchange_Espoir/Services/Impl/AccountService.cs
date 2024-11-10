@@ -436,9 +436,7 @@ namespace EventFlowerExchange_Espoir.Services.Impl
             var user = await _accountReposiotry.GetSellerProfileByAccountIdAsync(acc.AccountId);
             return new
             {
-                ShopName = user.ShopName,
-                Address = user.SellerAddress,
-                Avatar = user.SellerAvatar,
+                user
             };
         }
 

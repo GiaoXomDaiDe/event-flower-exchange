@@ -47,13 +47,7 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
         }
         public async Task<User> GetSellerProfileByAccountIdAsync(string accountId)
         {
-            return await _context.Users.Where(u => u.AccountId == accountId)
-                                  .Select(u => new User
-                                  {
-                                      ShopName = u.ShopName,
-                                      SellerAvatar = u.SellerAvatar,
-                                      SellerAddress = u.SellerAddress
-                                  }).FirstOrDefaultAsync();
+            return await _context.Users.Include(u => u.Account).FirstOrDefaultAsync(u => u.AccountId == accountId);
         }
         public async Task<string> GetLatestAccountIdAsync()
         {

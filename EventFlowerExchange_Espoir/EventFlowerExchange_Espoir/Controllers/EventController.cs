@@ -57,7 +57,7 @@ namespace EventFlowerExchange_Espoir.Controllers
         // Update an existing event
         [Authorize(Policy = "UserOnly")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        [HttpPost("update-event")]
+        [HttpPut("update-event")]
         public async Task<IActionResult> UpdateEventAsync(string accessToken, [FromForm] UpdateEventDTO updateEvent)
         {
             if (!ModelState.IsValid)
@@ -87,7 +87,7 @@ namespace EventFlowerExchange_Espoir.Controllers
         // Delete an event
         [Authorize(Policy = "UserOnly")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        [HttpPost("delete-event")]
+        [HttpDelete("delete-event")]
         public async Task<IActionResult> DeleteEventAsync(string accessToken, string eventId)
         {
             if (!ModelState.IsValid)
@@ -141,7 +141,7 @@ namespace EventFlowerExchange_Espoir.Controllers
         // Update an existing event category
         [Authorize(Policy = "AdminOnly")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        [HttpPost("update-event-category")]
+        [HttpPut("update-event-category")]
         public async Task<IActionResult> UpdateEventCategoryAsync([FromForm] UpdateEventCateDTO updateCategory)
         {
             if (!ModelState.IsValid)
@@ -166,7 +166,7 @@ namespace EventFlowerExchange_Espoir.Controllers
         // Delete an event category
         [Authorize(Policy = "AdminOnly")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        [HttpPost("delete-event-category")]
+        [HttpDelete("delete-event-category")]
         public async Task<IActionResult> DeleteEventCategoryAsync(string categoryId)
         {
             if (!ModelState.IsValid)

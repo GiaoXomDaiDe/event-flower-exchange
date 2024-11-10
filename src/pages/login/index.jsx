@@ -126,8 +126,8 @@ function LoginPage() {
           </Form.Item>
 
           <div className='login_option'>
-            <Checkbox>Remember me</Checkbox>
-            <a href=''>Forget passowrd</a>
+            {/* <Checkbox>Remember me</Checkbox>
+            <a href=''>Forget passowrd</a> */}
             <p>
               New to us? <Link to={'/register'}>Click here</Link>
             </p>
@@ -141,7 +141,7 @@ function LoginPage() {
                 alt=''
                 width={25}
               />
-              Guguru
+              Google
             </button>
           </div>
 

@@ -91,9 +91,9 @@ const ProductDetail = () => {
         </div>
         <div className="info-detail">
           <div className="title">{flower.flowerName}</div>
-          <div className="rating">
+          {/* <div className="rating">
             4.0 <Rating size={20} readonly initialValue={4} /> | 100 reviews
-          </div>
+          </div> */}
           <div>Expire date: {flower.dateExpiration}</div>
 
           <div className="prices">
@@ -152,15 +152,15 @@ const ProductDetail = () => {
                   />
                 </div>
                 <div className="avatar_name">
-                  <h2>Frank Ocean</h2>
-                  <div>
+                  <h2>{flower.shopName}</h2>
+                  {/* <div>
                     4.0 <Rating size={18} readonly initialValue={4} />
-                  </div>
+                  </div> */}
                 </div>
               </div>
-              <button className="chat">
+              {/* <button className="chat">
                 Chat <i className="bi bi-chat-left-text-fill"></i>
-              </button>
+              </button> */}
             </div>
             <div className="shop_info">
               {shopInfo.map((i, index) => {

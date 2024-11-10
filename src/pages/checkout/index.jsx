@@ -120,7 +120,7 @@ function CheckOut() {
   };
 
   const handleWard = (value, label) => {
-    setWard((prev) => ({
+    setWard((prev) => ({ 
       ...prev,
       id: value,
       name: label.label,
@@ -144,10 +144,7 @@ function CheckOut() {
     console.log(checkout);
 
     if (checkout.statusCode === 200) {
-      console.log("assa");
-
       if (paymentMethod === "payOS") {
-        console.log("sdfsdf"); 
         const payOS = await fetchPayOS();
         window.location.replace(payOS.checkoutUrl);
       } else {

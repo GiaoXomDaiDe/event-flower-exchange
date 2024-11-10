@@ -128,19 +128,37 @@ function RegisterPage() {
       <div className="register_form">
         <h1>Sign up</h1>
         {error && <div className="error-message">{error}</div>}
-        <Form onFinish={handleRegister}>
+         <Form
+          onFinish={handleRegister} 
+        >
           <Row gutter={12}>
             <Col span={12}>
-              <Form.Item name="FullName">
+              <Form.Item
+                name="FullName"
+                rules={[
+                  {
+                    required: true,
+                    message: "Full Name is required!",
+                  },
+                ]}
+              >
                 <Input
                   placeholder="Full Name"
-                  value={fullName}
-                  onChange={(e) => setFullName(e.target.value)}
+                  value={fullName} 
+                  onChange={(e) => setFullName(e.target.value)} 
                 />
               </Form.Item>
             </Col>
             <Col span={12}>
-              <Form.Item name="Username">
+              <Form.Item
+                name="Username"
+                rules={[
+                  {
+                    required: true,
+                    message: "Username is required!",
+                  },
+                ]}
+              >
                 <Input
                   placeholder="Username"
                   value={username}
@@ -150,15 +168,35 @@ function RegisterPage() {
             </Col>
           </Row>
 
-          <Form.Item name="Email">
+          <Form.Item
+            name="Email"
+            rules={[
+              {
+                required: true,
+                message: "Email is required!",
+              },
+              {
+                type: 'email',
+                message: "Please enter a valid email address!"
+              }
+            ]}
+          >
             <Input
-              placeholder="Email"
+              placeholder="Email" 
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
           </Form.Item>
 
-          <Form.Item name="Password">
+          <Form.Item
+            name="Password"
+            rules={[
+              {
+                required: true,
+                message: "Password is required!",
+              },
+            ]}
+          >
             <Password
               placeholder="Password"
               value={password}
@@ -166,7 +204,15 @@ function RegisterPage() {
             />
           </Form.Item>
 
-          <Form.Item name="ConfirmPassword">
+          <Form.Item
+            name="ConfirmPassword"
+            rules={[
+              {
+                required: true,
+                message: "Please confirm your password!",
+              },
+            ]}
+          >
             <Password
               placeholder="Confirm Password"
               value={confirmPassword}
@@ -174,7 +220,16 @@ function RegisterPage() {
             />
           </Form.Item>
 
-          <Form.Item name="Phone">
+          <Form.Item   
+
+            name="Phone"
+            rules={[
+              {
+                required: true,
+                message: "Phone number is required!",
+              },
+            ]}
+          >
             <Input
               placeholder="Phone Number"
               value={phone}
@@ -182,16 +237,32 @@ function RegisterPage() {
             />
           </Form.Item>
 
-          <Form.Item name="Birthday">
+          <Form.Item
+            name="Birthday"
+            rules={[
+              {
+                required: true,
+                message: "Birthday is required!",
+              },
+            ]}
+          >
             <DatePicker
               placeholder="Birthday"
+              format="YYYY-MM-DD"
               value={birthday}
               onChange={(date) => setBirthday(date)}
-              format="YYYY-MM-DD"
             />
           </Form.Item>
 
-          <Form.Item name="Gender">
+          <Form.Item
+            name="Gender"
+            rules={[
+              {
+                required: true,
+                message: "Gender is required!",
+              },
+            ]}
+          >
             <Select
               placeholder="Gender"
               value={gender}
@@ -199,19 +270,28 @@ function RegisterPage() {
             >
               <Select.Option value="Male">Male</Select.Option>
               <Select.Option value="Female">Female</Select.Option>
-              <Select.Option value="Other">Other</Select.Option>
+              <Select.Option   
+ value="Other">Other</Select.Option>
             </Select>
           </Form.Item>
 
-          <Form.Item name="Address">
+          <Form.Item   
+
+            name="Address"
+            rules={[
+              {
+                required: true,
+                message: "Address is required!",
+              },
+            ]}
+          >
             <Input
               placeholder="Address"
               value={address}
-              onChange={(e) => setAddress(e.target.value)}
+              onChange={(e) => setAddress(e.target.value)}   
+
             />
           </Form.Item>
-
-          <Checkbox>I agree with Term and Privacy Policy</Checkbox>
 
           <div className="register_button">
             <button type="submit">Create an account</button>
@@ -222,7 +302,7 @@ function RegisterPage() {
                 alt=""
                 width={25}
               />
-              Guguru
+              Google 
             </button>
           </div>
         </Form>

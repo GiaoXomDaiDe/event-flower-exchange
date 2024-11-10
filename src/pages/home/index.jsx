@@ -20,7 +20,7 @@ function Home() {
           pageSize: 4,
           sortBy: "FlowerName",
           sortDesc: true,
-          search: "a",
+          search: "",
         },
       }
     );

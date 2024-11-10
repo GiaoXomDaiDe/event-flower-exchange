@@ -1,41 +1,47 @@
-import * as httpRequest from '../utils/httpRequest'
+import * as httpRequest from "../utils/httpRequest";
 
-export const getProductList = async (currentPage, pageSize, searchValue, sort = false, sortBy = 'FlowerName') => {
+export const getProductList = async (
+  currentPage,
+  pageSize,
+  searchValue,
+  sort = false,
+  sortBy = "FlowerName"
+) => {
   try {
-    const response = await httpRequest.get('flower/list-flowers', {
+    const response = await httpRequest.get("flower/list-flowers", {
       params: {
         pageIndex: currentPage,
         pageSize,
         sortBy,
         sortDesc: sort,
-        search: searchValue
-      }
-    })
-    return response
+        search: searchValue,
+      },
+    });
+    return response;
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
-}
+};
 export const getProductListByEvent = async (
   currentPage,
   pageSize,
   searchValue,
   sort = false,
-  sortBy = 'FlowerName',
-  event = '',
+  sortBy = "FlowerName",
+  event = "",
   filteredResult = []
 ) => {
   try {
-    const response = await httpRequest.get('flower/list-flowers', {
+    const response = await httpRequest.get("flower/list-flowers", {
       params: {
         pageIndex: currentPage,
         pageSize,
         sortBy,
         sortDesc: sort,
-        search: searchValue
-      }
+        search: searchValue,
+      },
     });
-    if (event !== '') {
+    if (event !== "") {
       filteredResult = response.data.filter((item) => item.tagNames === event);
       return filteredResult;
     }
@@ -44,17 +50,17 @@ export const getProductListByEvent = async (
   } catch (error) {
     console.log(error);
   }
-}
+};
 
 export const getProductDetail = async (flowerId) => {
   try {
-    const response = await httpRequest.get('flower/flower-detail', {
+    const response = await httpRequest.get("flower/flower-detail", {
       params: {
-        flowerId
-      }
-    })
-    return response
+        flowerId,
+      },
+    });
+    return response;
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
-}
+};

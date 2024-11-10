@@ -25,8 +25,7 @@ function ProductCard({ flower }) {
     [flower.flowerId]
   );
 
-  const tags = [];
-    // flower.tagNames.split(",") || "";
+  const tags = flower.tagNames.split(",") || "";
 
   return (
     <div className="product-cards">
@@ -39,11 +38,11 @@ function ProductCard({ flower }) {
             src={`${flower.attachment}`}
             alt={`Image of ${flower.flowerName}`}
           />
-          <Avatar
+          {/* <Avatar
             size={50}
             className="avatar"
             src="https://i.redd.it/sxb95sif7ys81.png"
-          />
+          /> */}
         </div>
 
         <div className="tags">
@@ -56,9 +55,9 @@ function ProductCard({ flower }) {
 
         <div className="info">
           <span className="info_name">{flower.flowerName}</span>
-          <div>
+          {/* <div>
             <Rating size={15} readonly initialValue={4} /> (100)
-          </div>
+          </div> */}
 
           <div className="price">
             <h4>${flower.price}</h4>

@@ -8,7 +8,7 @@ const CheckoutItem = ({ item }) => {
     <div className="checkout-item">
       <div className="checkout-item_img">
         <img
-          src="https://colesclassroom.com/wp-content/uploads/2020/04/yellow-sunflower-macro-photographyt-46216.jpg"
+          src={item.flower.attachment}
           alt=""
         />
       </div>

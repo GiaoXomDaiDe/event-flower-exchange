@@ -75,16 +75,15 @@ export const deleteCartItem = async (token, cartItemId) => {
   }
 };
 
-export const updateCartItem = async (token, cartItemId, quantity) => {
+export const updateCartItem = async (token, orderDetailId, quantity) => {
   try {
-    console.log(cartItemId, "cartItemId");
 
     const response = await httpRequest.post(
       `account/update-cart-item`,
       {},
       {
         params: {
-          cartItemId,
+          orderDetailId,
           quantity,
         },
         headers: {

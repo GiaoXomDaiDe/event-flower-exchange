@@ -43,8 +43,8 @@ function Cart() {
     fetchCart(token);
   };
 
-  const fetchUpdateCart = async (cartItemId, quantity) => {
-    await updateCartItem(token, cartItemId, quantity);
+  const fetchUpdateCart = async (orderDetailId, quantity) => {
+    await updateCartItem(token, orderDetailId, quantity);
     fetchCart(token);
   };
 
@@ -52,20 +52,25 @@ function Cart() {
     fetchCart();
   }, []);
 
-  const handleUpdateCart = (cartItemId, quantity) => {
-    fetchUpdateCart(cartItemId, quantity);
+  let totalPrice = 
+   radioOption?.orderDetails?.reduce((accumulator, item) => {
+    return accumulator + item.paidPrice;
+  }, 0) || 0;
+  const handleUpdateCart = (orderDetailId, quantity) => {
+    fetchUpdateCart(orderDetailId, quantity);
+    totalPrice =
+      radioOption?.orderDetails?.reduce((accumulator, item) => {
+        return accumulator + item.paidPrice;
+      }, 0) || 0;
+    console.log(totalPrice, "totalPtice update");
+    
   };
 
   const handleDeleteCart = (cartItemId) => {
     fetchDeleteCartItem(cartItemId);
   };
 
-  console.log(radioOption, "radioOption");
 
-  const totalPrice = 
-   radioOption?.orderDetails?.reduce((accumulator, item) => {
-    return accumulator + item.paidPrice;
-  }, 0) || 0;
 
   const handleRadioOption = (item) => {
     setRadioOption(item);
@@ -155,25 +160,25 @@ const CartItem = ({
   // console.log(item.orderDetails[0].orderDetailId);
 
   return (
-    <div className="cart-item" style={{ width: "900px" }}>
-      <div className="cart-item_heading">
-        <div className="shop-info">
+    <div className='cart-item' style={{ width: '900px' }}>
+      <div className='cart-item_heading'>
+        <div className='shop-info'>
           <input
-            className="radio-option"
-            type="radio"
+            className='radio-option'
+            type='radio'
             // value={item.orderDetails[0].orderDetailId}
-            name="radio-option"
+            name='radio-option'
             onChange={() => {
-              handleRadioOption(item);
+              handleRadioOption(item)
             }}
           />
-          <Avatar size={60} src="https://i.redd.it/sxb95sif7ys81.png" />
+          <Avatar size={60} src={item.seller.sellerAvatar} />
           <div style={{ width: 100 }}>
             <h3>{item.seller.shopName}</h3>
           </div>
         </div>
       </div>
-      <div className="cart-item_products">
+      <div className='cart-item_products'>
         {item.orderDetails.map((i, index) => {
           return (
             <CartShopItem
@@ -182,12 +187,12 @@ const CartItem = ({
               handleUpdateCart={handleUpdateCart}
               handleDeleteCart={handleDeleteCart}
             />
-          );
+          )
         })}
       </div>
       {/* </Radio> */}
     </div>
-  );
+  )
 };
 
 export default Cart;

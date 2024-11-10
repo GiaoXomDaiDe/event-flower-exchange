@@ -65,11 +65,6 @@ export const CartProvider = ({ children }) => {
     );
     // setCartItems()
   };
-
-  // useEffect(() => {
-  //   getCart();
-  // }, []);
-
   return (
     <CartContext.Provider
       value={{ cartItems, setCartItems, getCart, fetchAddCart, removeFromCart }}

@@ -19,13 +19,13 @@ const CartShopItem = ({ info, handleUpdateCart, handleDeleteCart }) => {
 
     let value = inputValue - info.quantity;
     console.log(value, "value");
-    handleUpdateCart(info.flowerId, value);
+    handleUpdateCart(info.orderDetailId, value);
   };
 
   return (
     <div className="item">
       <img
-        src="https://plantsvszombies.wiki.gg/images/3/3e/Sunflower-Almanac.png?20200522063110"
+        src={flower.attachment}
         alt=""
       />
       <h3 className="cart-item_name">{flower.flowerName}</h3>
@@ -38,7 +38,7 @@ const CartShopItem = ({ info, handleUpdateCart, handleDeleteCart }) => {
         <button
           disabled={quantity === 1}
           onClick={() => {
-            handleUpdateCart(info.flowerId, -1);
+            handleUpdateCart(info.orderDetailId, -1);
             setQuantity(quantity - 1);
           }}
         >
@@ -55,7 +55,7 @@ const CartShopItem = ({ info, handleUpdateCart, handleDeleteCart }) => {
         />
         <button
           onClick={() => {
-            handleUpdateCart(info.flowerId, 1);
+            handleUpdateCart(info.orderDetailId, 1);
             setQuantity(quantity + 1);
           }}
         >

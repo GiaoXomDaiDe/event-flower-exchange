@@ -189,7 +189,7 @@ namespace EventFlowerExchange_Espoir.Controllers
 
         // Get list of events
         [HttpGet("list-events")]
-        public async Task<IActionResult> GetListOfEvents([FromQuery] int pageIndex, [FromQuery] int pageSize, [FromQuery] string sortBy, [FromQuery] bool sortDesc, [FromQuery] string search)
+        public async Task<IActionResult> GetListOfEvents([FromQuery] int pageIndex, [FromQuery] int pageSize, [FromQuery] string sortBy, [FromQuery] bool sortDesc, [FromQuery] string search = null)
         {
             try
             {
@@ -211,7 +211,7 @@ namespace EventFlowerExchange_Espoir.Controllers
 
         // Get list of events for a specific seller
         [HttpGet("list-events-of-seller")]
-        public async Task<IActionResult> GetListOfEventsForSeller([FromQuery] int pageIndex, [FromQuery] int pageSize, [FromQuery] string sellerId, [FromQuery] string sortBy, [FromQuery] bool sortDesc, [FromQuery] string search)
+        public async Task<IActionResult> GetListOfEventsForSeller([FromQuery] int pageIndex, [FromQuery] int pageSize, [FromQuery] string sellerId, [FromQuery] string sortBy, [FromQuery] bool sortDesc, [FromQuery] string search = null)
         {
             try
             {

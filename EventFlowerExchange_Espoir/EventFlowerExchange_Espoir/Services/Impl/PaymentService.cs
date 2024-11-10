@@ -34,9 +34,9 @@ namespace EventFlowerExchange_Espoir.Services.Impl
             var transaction = await _transactionRepository.CreateTransaction(orderId, userId);
             var listItem = new List<ItemData>()
                 {
-                    new ItemData("Thanh toán đơn hàng", 1, 20000)
+                    new ItemData("Thanh toán đơn hàng", 1, (int)totalMoney * 1000)
                 };
-            PaymentData paymentData = new PaymentData(Int32.Parse(transaction.TransactionId.Substring(2)), 20000,
+            PaymentData paymentData = new PaymentData(Int32.Parse(transaction.TransactionId.Substring(2)), (int)totalMoney*1000,
                 "Nền tảng bán hoa", listItem,
                 "http://localhost:7027/checkout/fail?transactionId=" + transaction.TransactionId,
                 "http://localhost:7027/checkout/success?transactionId=" + transaction.TransactionId);

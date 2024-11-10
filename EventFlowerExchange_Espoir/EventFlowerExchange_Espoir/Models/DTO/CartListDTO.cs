@@ -10,5 +10,7 @@
         public string OrderId { get; set; }
         public string OrderNumber { get; set; }
         public string AccountId { get; set; }
+        public string FlowerImage { get; set; }
+        public double Price { get; set; }
     }
 }

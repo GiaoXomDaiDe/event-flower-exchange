@@ -196,5 +196,14 @@ namespace EventFlowerExchange_Espoir.Services.Impl
         {
             return await _orderRepository.GetOrderDetailsOfSeller(sellerId);
         }
+        public async Task<dynamic> GetOrderDetailsOfBuyer(string userEmail)
+        {
+            var acc = await _accountRepository.GetAccountByEmailAsync(userEmail);
+            if (acc == null)
+            {
+                return "Cannot find your account";
+            }
+            return await _orderRepository.GetOrderDetailsOfBuyer(acc.AccountId);
+        }
     }
 }

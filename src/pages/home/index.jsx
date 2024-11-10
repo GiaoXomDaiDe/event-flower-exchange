@@ -11,10 +11,10 @@ function Home() {
   const fetchFlower = async () => {
     const response = await buyerApi.getListFlower({
       pageIndex: 1,
-      pageSize: 4,
+      pageSize: 5,
       sortBy: 'FlowerName',
       sortDesc: true,
-      search: 'a'
+      search: ''
     })
     setSearchResult(response.data.data)
   }

@@ -5,7 +5,9 @@ import Dashboard from './components/dashboard/index.jsx'
 import Layout from './components/layout/index.jsx'
 import { SellerContext } from './contexts/seller.context.jsx'
 import SellerLayout from './layouts/SellerLayout/SellerLayout.jsx'
+import AddNewEvent from './pages/AddNewEvent/AddNewEvent.jsx'
 import AddNewProduct from './pages/AddNewProduct/AddNewProduct.jsx'
+import EventManagement from './pages/EventManagement/EventManagement.jsx'
 import OrderManagement from './pages/OrderManagement/OrderManagement.jsx'
 import PostManagement from './pages/PostManagement'
 import ProductManagement from './pages/ProductManagement/index.js'
@@ -145,6 +147,20 @@ export default function useRouteElements() {
                     {
                       path: 'update-product/:productId',
                       element: <AddNewProduct />
+                    }
+                  ]
+                },
+                {
+                  path: 'event-management',
+                  children: [
+                    { index: true, element: <EventManagement /> },
+                    {
+                      path: 'add-new-event',
+                      element: <AddNewEvent />
+                    },
+                    {
+                      path: 'update-event/:eventId',
+                      element: <AddNewEvent />
                     }
                   ]
                 },

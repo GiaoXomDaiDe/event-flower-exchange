@@ -8,6 +8,9 @@ const buyerApi = {
   },
   addToCart(formData) {
     return http.post(url.URL_ADD_TO_CART, formData)
+  },
+  listCartItems(token) {
+    return http.get(url.URL_GET_CART_ITEMS, { params: { accessToken: token } })
   }
 }
 

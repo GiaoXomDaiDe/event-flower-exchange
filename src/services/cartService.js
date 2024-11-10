@@ -1,18 +1,12 @@
 import { toast } from 'react-toastify'
+import buyerApi from '../apis/buyer.api'
 import * as httpRequest from '../utils/httpRequest'
 
 export const getCartList = async (token, cart = []) => {
   try {
-    const response = await httpRequest.get('account/list-cart-items', {
-      params: {
-        accessToken: token
-      },
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    })
+    const response = await buyerApi.listCartItems(token)
     console.log(response)
-    for (let item of response) {
+    for (let item of response.data) {
       if (item.orderDetails.length !== 0) {
         cart.push(item)
       }
@@ -33,11 +27,7 @@ export const addCart = async (token, quantity, flowerId) => {
     addCartForm.append('FlowerID', flowerId)
     addCartForm.append('Quantity', quantity)
 
-    const response = await httpRequest.post('account/add-to-cart', addCartForm, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    })
+    const response = await buyerApi.addToCart(addCartForm)
 
     if (response.statusCode === 201) {
       toast.success('Your flower is added !', {

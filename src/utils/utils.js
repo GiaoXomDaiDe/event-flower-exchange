@@ -17,15 +17,17 @@ export const getSellerProfileFromLS = () => {
 
 export const getIsSellerModeFromLS = () => {
   const seller_profile = localStorage.getItem('seller_profile')
+  console.log(JSON.parse(seller_profile))
   if (!seller_profile) {
     return false
   }
-  const { account } = JSON.parse(seller_profile)
-  return Boolean(account.isSeller)
+  const { user } = JSON.parse(seller_profile)
+  console.log(user.account.isSeller)
+  return Boolean(user.account.isSeller)
 }
 export const LocalStorageEventTarget = new EventTarget()
 export const clearLS = () => {
-  // localStorage.removeItem('access_token')
+  localStorage.removeItem('access_token')
   localStorage.removeItem('seller_profile')
   const clearLSEvent = new Event('clearLS')
   LocalStorageEventTarget.dispatchEvent(clearLSEvent)

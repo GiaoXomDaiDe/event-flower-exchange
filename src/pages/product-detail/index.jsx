@@ -15,6 +15,7 @@ const ProductDetail = () => {
   const { getCart } = useCart()
 
   const token = getAccessTokenFromLS()
+  console.log(token)
 
   const [flower, setFlower] = useState({})
   const [quantity, setQuantity] = useState(1)
@@ -26,6 +27,7 @@ const ProductDetail = () => {
   }
 
   const fetchAddCart = async (quantity) => {
+    console.log(token)
     await addCart(token, quantity, flowerId)
     getCart()
   }

@@ -4,6 +4,7 @@ import React, { useContext, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useCart } from '../../contexts/CartContext.jsx'
 import { SellerContext } from '../../contexts/seller.context.jsx'
+import { clearLS } from '../../utils/utils.js'
 import RegisterToSeller from '../Seller/RegisterToSeller/RegisterToSeller.jsx'
 import logo from './../../assets/Espoir.png'
 import './index.scss'
@@ -113,7 +114,7 @@ function Header() {
             </Dropdown>
             <button
               onClick={() => {
-                localStorage.removeItem('token')
+                clearLS()
                 window.location.reload()
               }}
               className='login_button'

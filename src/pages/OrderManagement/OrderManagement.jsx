@@ -2,24 +2,23 @@ import {
   CalendarFilled,
   CheckCircleOutlined,
   ClockCircleOutlined,
-  CloseCircleOutlined,
   DeleteOutlined,
-  DownOutlined,
   ExclamationCircleOutlined,
   FileExcelOutlined,
   SyncOutlined
 } from '@ant-design/icons'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import {
   Button,
   Card,
   Col,
   DatePicker,
-  Dropdown,
   Image,
   Input,
   Modal,
   Row,
   Space,
+  Spin,
   Statistic,
   Table,
   Tag,
@@ -29,8 +28,11 @@ import { cloneDeep, countBy } from 'lodash'
 import moment from 'moment'
 import { useEffect, useMemo, useState } from 'react'
 import CountUp from 'react-countup'
+import { toast } from 'react-toastify'
 import * as XLSX from 'xlsx'
-import { orderData, statusColors, statusOptions } from '../../mock/orderData'
+import sellerApi from '../../apis/seller.api'
+import utilsApi from '../../apis/utils.api'
+import { getSellerProfileFromLS } from '../../utils/utils'
 
 const { Title, Text } = Typography
 const { Search } = Input
@@ -38,14 +40,61 @@ const { RangePicker } = DatePicker
 const { confirm } = Modal
 
 export default function OrderManagement() {
-  const [orders, setOrders] = useState(orderData)
-  const [isLoading, setIsLoading] = useState(false)
+  const queryClient = useQueryClient() // For invalidating queries
+  const sellerId = getSellerProfileFromLS().user.account.accountId
+  console.log(sellerId)
 
+  // Fetch orders data
+  const { data: ordersData, isLoading } = useQuery({
+    queryKey: ['orders'],
+    queryFn: () => sellerApi.getOrdersOfSeller(sellerId)
+  })
+
+  const [orders, setOrders] = useState([])
   const [cusNameFilter, setCusNameFilter] = useState('')
   const [productNameFilter, setProductNameFilter] = useState('')
   const [selectedDates, setSelectedDates] = useState(null)
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
   const [expandedRowKeys, setExpandedRowKeys] = useState([])
+
+  const orderStatusMapping = useMemo(
+    () => ({
+      1: 'Pending',
+      4: 'Deliver',
+      5: 'Done'
+    }),
+    []
+  )
+
+  const statusColors = {
+    Pending: 'blue',
+    Deliver: 'orange',
+    Done: 'green'
+  }
+
+  useEffect(() => {
+    if (ordersData && ordersData.data) {
+      console.log(ordersData.data)
+      const mappedOrders = ordersData.data.data.map((order) => ({
+        key: order.orderId,
+        orderID: order.orderId,
+        createdDate: order.date,
+        customerName: order.fullName || 'Unknown',
+        phoneNumber: order.phoneNumber || 'Unknown',
+        total: order.totalMoney,
+        status: orderStatusMapping[order.status] || 'Unknown',
+        products: order.orderDetails.map((detail) => ({
+          productID: detail.flowerId,
+          productName: detail.flowerName,
+          price: detail.price,
+          quantity: detail.quantity,
+          total: detail.price * detail.quantity,
+          productImage: detail.flowerImage
+        }))
+      }))
+      setOrders(mappedOrders)
+    }
+  }, [ordersData, orderStatusMapping])
 
   const { filteredData, expandedKeys } = useMemo(() => {
     let filtered = cloneDeep(orders)
@@ -57,6 +106,7 @@ export default function OrderManagement() {
 
     if (productNameFilter) {
       filtered = filtered.filter((order) => {
+        console.log(order)
         const hasMatchingProduct = order.products.some((product) =>
           product.productName.toLowerCase().includes(productNameFilter.toLowerCase())
         )
@@ -83,8 +133,20 @@ export default function OrderManagement() {
     setExpandedRowKeys(expandedKeys)
   }, [expandedKeys])
 
-  const handleStatusChange = (key, value) => {
-    setOrders((prevOrders) => prevOrders.map((item) => (item.key === key ? { ...item, status: value } : item)))
+  // Mutation to finish delivering stage
+  const finishDeliveringStageMutation = useMutation({
+    mutationFn: (orderId) => utilsApi.finishDeliveringStage(orderId),
+    onSuccess: () => {
+      toast.success('Order status updated to Done')
+      queryClient.invalidateQueries(['orders']) // Refetch orders data
+    },
+    onError: () => {
+      toast.error('Failed to update order status')
+    }
+  })
+
+  const handleFinishDelivery = (orderId) => {
+    finishDeliveringStageMutation.mutate(orderId)
   }
 
   const handleSearchChange = (event) => {
@@ -104,9 +166,8 @@ export default function OrderManagement() {
     const counts = countBy(orders, 'status')
     return {
       Pending: counts.Pending || 0,
-      Confirmed: counts.Confirmed || 0,
-      Cancelled: counts.Cancelled || 0,
-      Completed: counts.Completed || 0
+      Deliver: counts.Deliver || 0,
+      Done: counts.Done || 0
     }
   }
 
@@ -142,9 +203,9 @@ export default function OrderManagement() {
     {
       title: 'Order ID',
       dataIndex: 'orderID',
-      key: 'orderId',
+      key: 'orderID',
       render: (text) => <Text strong>{text}</Text>,
-      sorter: (a, b) => a.orderID - b.orderID
+      sorter: (a, b) => a.orderID.localeCompare(b.orderID)
     },
     {
       title: 'Created At',
@@ -163,7 +224,14 @@ export default function OrderManagement() {
       dataIndex: 'customerName',
       key: 'customerName',
       render: (text) => <Text>{text}</Text>,
-      sorter: (a, b) => a.customerName.length - b.customerName.length
+      sorter: (a, b) => a.customerName.localeCompare(b.customerName)
+    },
+    {
+      title: 'Phone Number',
+      dataIndex: 'phoneNumber',
+      key: 'phoneNumber',
+      render: (text) => <Text>{text}</Text>,
+      sorter: (a, b) => a.phoneNumber.localeCompare(b.phoneNumber)
     },
     {
       title: 'Total',
@@ -173,47 +241,32 @@ export default function OrderManagement() {
       sorter: (a, b) => a.total - b.total
     },
     {
-      title: 'Profit',
-      dataIndex: 'profit',
-      key: 'profit',
-      render: (value) => (
-        <Text>
-          ${value} <Tag color='green'>+{value}%</Tag>
-        </Text>
-      ),
-      sorter: (a, b) => a.profit - b.profit
-    },
-    {
       title: 'Status',
       dataIndex: 'status',
       key: 'status',
-      filters: statusOptions.map((option) => ({
-        text: option.label,
-        value: option.value
-      })),
+      filters: [
+        { text: 'Pending', value: 'Pending' },
+        { text: 'Deliver', value: 'Deliver' },
+        { text: 'Done', value: 'Done' }
+      ],
       onFilter: (value, record) => record.status === value,
       render: (status, record) => {
-        const menuItems = statusOptions.map((option) => ({
-          key: option.value,
-          label: (
-            <span>
-              <Tag color={statusColors[option.value]}>{option.label}</Tag>
-            </span>
-          )
-        }))
-
         return (
-          <Dropdown
-            menu={{
-              items: menuItems,
-              onClick: ({ key }) => handleStatusChange(record.key, key)
-            }}
-            trigger={['click']}
-          >
-            <Tag color={statusColors[status]} style={{ cursor: 'pointer' }}>
-              {status} <DownOutlined />
-            </Tag>
-          </Dropdown>
+          <div>
+            <Tag color={statusColors[status]}>{status}</Tag>
+            {status === 'Deliver' && (
+              <Button
+                type='primary'
+                onClick={() => handleFinishDelivery(record.orderID)}
+                loading={
+                  finishDeliveringStageMutation.isLoading && finishDeliveringStageMutation.variables === record.orderID
+                }
+                style={{ marginTop: '8px' }}
+              >
+                Mark as Done
+              </Button>
+            )}
+          </div>
         )
       }
     }
@@ -269,6 +322,14 @@ export default function OrderManagement() {
     onChange: setSelectedRowKeys
   }
 
+  if (isLoading) {
+    return (
+      <div style={{ textAlign: 'center', padding: '50px' }}>
+        <Spin fullscreen size='large' />
+      </div>
+    )
+  }
+
   return (
     <Row gutter={[20, 20]} className='p-3'>
       <Col
@@ -318,7 +379,6 @@ export default function OrderManagement() {
             expandedRowKeys: expandedRowKeys,
             onExpandedRowsChange: (expandedKeys) => setExpandedRowKeys(expandedKeys)
           }}
-          loading={isLoading}
           rowSelection={rowSelection}
         />
       </Col>
@@ -342,8 +402,8 @@ export default function OrderManagement() {
               <SyncOutlined style={{ fontSize: '32px', color: '#faad14' }} />
               <div className='ml-4'>
                 <Statistic
-                  title={<span className='font-beausite'>Confirmed Orders</span>}
-                  value={orderCounts.Confirmed}
+                  title={<span className='font-beausite'>Deliver Orders</span>}
+                  value={orderCounts.Deliver}
                   valueStyle={{ fontWeight: 'bold', fontSize: '24px' }}
                   formatter={(value) => <CountUp end={value} duration={1.5} />}
                 />
@@ -355,21 +415,8 @@ export default function OrderManagement() {
               <CheckCircleOutlined style={{ fontSize: '32px', color: '#52c41a' }} />
               <div className='ml-4'>
                 <Statistic
-                  title={<span className='font-beausite'>Completed Orders</span>}
-                  value={orderCounts.Completed}
-                  valueStyle={{ fontWeight: 'bold', fontSize: '24px' }}
-                  formatter={(value) => <CountUp end={value} duration={1.5} />}
-                />
-              </div>
-            </div>
-          </Card>
-          <Card className='shadow-md' style={{ borderRadius: '10px' }}>
-            <div className='flex items-center'>
-              <CloseCircleOutlined style={{ fontSize: '32px', color: '#ff4d4f' }} />
-              <div className='ml-4'>
-                <Statistic
-                  title={<span className='font-beausite'>Cancelled Orders</span>}
-                  value={orderCounts.Cancelled}
+                  title={<span className='font-beausite'>Done Orders</span>}
+                  value={orderCounts.Done}
                   valueStyle={{ fontWeight: 'bold', fontSize: '24px' }}
                   formatter={(value) => <CountUp end={value} duration={1.5} />}
                 />

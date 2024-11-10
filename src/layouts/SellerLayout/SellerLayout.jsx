@@ -11,7 +11,7 @@ import {
 import { useQuery } from '@tanstack/react-query'
 import { Avatar, Badge, Breadcrumb, Col, Divider, Image, Layout, Popover, Row, Tooltip, Typography } from 'antd'
 import { Content, Header } from 'antd/es/layout/layout'
-import { useContext, useEffect } from 'react'
+import { useContext } from 'react'
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
 
 import sellerApi from '../../apis/seller.api.js'
@@ -42,11 +42,9 @@ export default function SellerLayout() {
   const title = breadcrumbItems.length > 0 ? breadcrumbItems[breadcrumbItems.length - 1].name : 'Dashboard'
 
   const { sellerProfile } = useContext(SellerContext)
-  useEffect(() => {
-    console.log(sellerProfile)
-  })
 
   const handleLogout = () => {
+    localStorage.removeItem('seller_profile')
     navigate('/')
   }
 
@@ -141,7 +139,7 @@ export default function SellerLayout() {
 
   const userContent = (
     <div className='p-3 font-beausite space-y-3'>
-      <div className='font-bold'>👋 Hello, {sellerProfile?.account.username}</div>
+      <div className='font-bold'>👋 Hello, {sellerProfile?.user.account.username}</div>
       <Divider style={{ margin: '8px 0' }} />
       <div>Profile setting</div>
       <BankAccountModal />
@@ -202,7 +200,7 @@ export default function SellerLayout() {
                   placement='bottomRight'
                   overlayClassName='animate-fadeInDown'
                 >
-                  <Avatar size={40} src={sellerProfile?.sellerAvatar} />
+                  <Avatar size={40} src={sellerProfile?.user.sellerAvatar} />
                 </Popover>
               </div>
             </div>

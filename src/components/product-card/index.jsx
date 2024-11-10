@@ -77,7 +77,7 @@ function ProductCard({ flower }) {
 export default ProductCard
 ProductCard.propTypes = {
   flower: PropTypes.shape({
-    flowerId: PropTypes.number.isRequired,
+    flowerId: PropTypes.string.isRequired,
     attachment: PropTypes.string.isRequired,
     flowerName: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,

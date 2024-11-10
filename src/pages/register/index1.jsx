@@ -2,6 +2,7 @@ import { Checkbox, Col, DatePicker, Form, Input, message, Row, Select } from 'an
 import Password from 'antd/es/input/Password'
 import axios from 'axios'
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import './index.scss'
 
 function RegisterPage() {
@@ -15,7 +16,7 @@ function RegisterPage() {
   const [gender, setGender] = useState('')
   const [address, setAddress] = useState('')
   const [error, setError] = useState('')
-
+  const navigate = useNavigate()
   const handleSignUpGoogle = () => {
     const auth = getAuth()
     signInWithPopup(auth, googleProvider)
@@ -44,6 +45,7 @@ function RegisterPage() {
               console.error('Error creating user account:', error)
             })
         }
+        navigate('/')
       })
       .catch((error) => {
         // Handle Errors here.
@@ -88,6 +90,7 @@ function RegisterPage() {
         }
       })
       console.log(response.errors, 'qwet')
+      navigate('/')
       message.success('Registation completed')
     } catch (error) {
       if (error.response) {

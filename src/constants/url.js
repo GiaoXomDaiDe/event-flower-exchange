@@ -20,7 +20,18 @@ const URL = {
   URL_UPDATE_FLOWER: 'flower/update-flower',
   URL_DELETE_FLOWER: 'flower/delete-flower',
   URL_GET_FLOWER_DETAIL: 'flower/flower-detail',
-  URL_GET_FLOWERS: 'flower/list-flowers'
+  URL_GET_FLOWERS: 'flower/list-flowers',
+  URL_GET_ALL_ORDERS: 'account/get-all',
+  URL_GET_ORDERS_OF_SELLER: 'account/orders-of-seller',
+  URL_GET_CART_ITEMS: 'account/list-cart-items',
+  URL_GET_LIST_EVENTS_OF_SELLER: 'event/list-events-of-seller',
+  URL_CREATE_EVENT_CATEGORY: 'event/create-event-category',
+  URL_CREATE_EVENT: 'event/create-event',
+  URL_UPDATE_EVENT: 'event/update-event',
+  URL_DELETE_EVENT: 'event/delete-event',
+  URL_UPDATE_EVENT_CATEGORY: 'event/update-event-category',
+  URL_DELETE_EVENT_CATEGORY: 'event/delete-event-category',
+  URL_FINISH_DELIVERY_STAGE: 'account/finish-delivering-stage'
 }
 
 export default URL

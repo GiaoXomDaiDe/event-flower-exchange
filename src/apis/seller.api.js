@@ -6,8 +6,13 @@ const sellerApi = {
   registerToSeller(formData) {
     return http.post(url.URL_REGISTER_TO_SELLER, formData)
   },
-  getSellerProfile() {
-    return http.get(url.URL_GET_SELLER_PROFILE)
+  async getSellerProfile() {
+    try {
+      return await http.get(url.URL_GET_SELLER_PROFILE)
+    } catch (error) {
+      // Kiểm tra và xử lý lỗi nếu cần
+      throw error
+    }
   },
   getCreditCardInfo() {
     return http.get(url.URL_GET_CREDIT_CARD_INFO)
@@ -21,12 +26,6 @@ const sellerApi = {
   getSellerProductList(params) {
     return http.get(url.URL_GET_SELLER_FLOWERS, { params })
   },
-  // param sẽ có
-  // pageIndex
-  // pageSize
-  // sortBy
-  // sortDirection
-  // search,
   changeStatusFlower(flowerId) {
     const accessToken = getAccessTokenFromLS()
     console.log('Calling API with accessToken:', accessToken)
@@ -34,6 +33,9 @@ const sellerApi = {
   },
   getSellerFlowerCategories() {
     return http.get(url.URL_GET_FLOWER_CATEGORIES)
+  },
+  getOrdersOfSeller(sellerId) {
+    return http.get(url.URL_GET_ORDERS_OF_SELLER, { params: { sellerId } })
   }
 }
 

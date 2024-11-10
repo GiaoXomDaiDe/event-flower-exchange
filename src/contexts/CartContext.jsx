@@ -9,6 +9,7 @@ const CartContext = createContext()
 // eslint-disable-next-line react/prop-types
 export const CartProvider = ({ children }) => {
   const token = getAccessTokenFromLS()
+  console.log(token)
   const [cartItems, setCartItems] = useState([])
 
   const fetchAddCart = async (quantity) => {

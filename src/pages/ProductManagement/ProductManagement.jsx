@@ -31,6 +31,7 @@ import { toast } from 'react-toastify'
 import * as XLSX from 'xlsx'
 import productApi from '../../apis/product.api'
 import sellerApi from '../../apis/seller.api'
+import { getSellerProfileFromLS } from '../../utils/utils'
 
 const { Text, Paragraph } = Typography
 const { confirm } = Modal
@@ -42,14 +43,16 @@ const ProductManagement = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
   const [searchText, setSearchText] = useState('')
   const [viewMode, setViewMode] = useState('table')
-  const defaultPageSize = 10 // or any default value you prefer
-  const gridPageSize = 1000 // set to a large number to fetch all products
+  const defaultPageSize = 10
+  const gridPageSize = 1000
 
   const pageSize = viewMode === 'grid' ? gridPageSize : defaultPageSize
   const [pageIndex, setPageIndex] = useState(1)
   const [sortBy, setSortBy] = useState('flowerId')
   const [sortDesc, setSortDesc] = useState(false)
-  const [searchTerm, setSearchTerm] = useState('Espoir1')
+  const { shopName } = getSellerProfileFromLS().user
+  console.log(shopName)
+  const [searchTerm, setSearchTerm] = useState(shopName)
 
   const { data: queryData, isLoading } = useQuery({
     queryKey: ['sellerProducts', { pageIndex, pageSize, sortBy, sortDesc, search: searchTerm }],
@@ -94,7 +97,7 @@ const ProductManagement = () => {
       queryClient.invalidateQueries(['sellerProducts'])
       console.log('Mutation success:', response)
       toast.success(message || 'Xóa thành công')
-      setSelectedRowKeys([]) // Xóa các lựa chọn sau khi xóa thành công
+      setSelectedRowKeys([])
     },
     onError: (error) => {
       console.log('Mutation error:', error)

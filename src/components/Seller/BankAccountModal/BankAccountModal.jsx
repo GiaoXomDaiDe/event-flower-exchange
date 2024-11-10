@@ -44,21 +44,21 @@ export default function BankAccountModal() {
           <div className='bg-gradient-to-r from-primary-100 to-primary-500 p-4 rounded-lg text-white'>
             <div className='flex justify-between items-center mb-4'>
               <BankOutlined className='text-4xl' />
-              <Text className='text-lg'>{sellerProfile?.cardProviderName || 'Bank Name'}</Text>
+              <Text className='text-lg'>{sellerProfile?.user.cardProviderName || 'Bank Name'}</Text>
             </div>
             <div className='mt-2'>
               <Text className='text-sm'>Account Holder</Text>
-              <Text className='block text-xl font-semibold'>{sellerProfile?.cardName || 'N/A'}</Text>
+              <Text className='block text-xl font-semibold'>{sellerProfile?.user.cardName || 'N/A'}</Text>
             </div>
             <div className='mt-4'>
               <Text className='text-sm'>Card Number</Text>
               <Text className='block text-2xl font-semibold tracking-wider'>
-                {sellerProfile?.cardNumber || '**** **** **** ****'}
+                {sellerProfile?.user.cardNumber || '**** **** **** ****'}
               </Text>
             </div>
             <div className='mt-4'>
               <Text className='text-sm'>Tax Number</Text>
-              <Text className='block text-lg'>{sellerProfile?.taxNumber || 'N/A'}</Text>
+              <Text className='block text-lg'>{sellerProfile?.user.taxNumber || 'N/A'}</Text>
             </div>
           </div>
         </div>

@@ -6,7 +6,7 @@ import { eventData } from '../../mock/eventData'
 const { Title, Text } = Typography
 const { RangePicker } = DatePicker
 
-export default function EventManagement() {
+export default function PostManagement() {
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [selectedEvent, setSelectedEvent] = useState(null)
   const [cusNameFilter, setCusNameFilter] = useState('')

@@ -187,14 +187,22 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
                 PhoneNumber = o.PhoneNumber,
                 OrderDetails = o.OrderDetails
                 .Where(od => od.OrderId == o.OrderId) // Filter by OrderId of the current order
-                .Select(od => new OrderDetailDTO
-                {
-                    OrderDetailId = od.OrderDetailId,
-                    FlowerId = od.FlowerId,
-                    Quantity = od.Quantity,
-                    PaidPrice = od.PaidPrice,
-                    // Map other OrderDetail properties here if needed
-                })
+              .Join(_context.Flowers,
+                      od => od.FlowerId,
+                      f => f.FlowerId,
+                      (od, f) => new OrderDetailDTO
+                      {
+                          OrderDetailId = od.OrderDetailId,
+                          OrderId = od.OrderId,
+                          FlowerId = od.FlowerId,
+                          FlowerName = f.FlowerName,
+                          Quantity = od.Quantity,
+                          Price = f.Price,
+                          PaidPrice = od.PaidPrice,
+                          FlowerImage = f.Attachment,
+                          OrderNumber = od.OrderNumber,
+                          AccountId = od.AccountId
+                      })
                 .ToList()
             }).ToListAsync();
         }

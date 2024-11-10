@@ -148,7 +148,7 @@ const ProductDetail = () => {
                 <div className="avatar_outline">
                   <Avatar
                     size={50}
-                    src="https://i.pinimg.com/236x/e4/92/f8/e492f831968281160a27deae08830e70.jpg"
+                    src={flower.shopAvatar}
                   />
                 </div>
                 <div className="avatar_name">

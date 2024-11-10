@@ -52,6 +52,9 @@ namespace EventFlowerExchange_Espoir.Services.Impl
             var transaction = await _transactionRepository.GetTransactionById(transactionId);
             transaction.Status = 1;
             transaction.Date = DateOnly.FromDateTime(DateTime.Now);
+            var order = await _orderRepository.GetOrderById(transaction.OrderId);
+            order.PaymentStatus = 2;
+            await _orderRepository.UpdateOrder(order);
             await _transactionRepository.UpdateTransaction(transaction);
         }
 
@@ -63,6 +66,7 @@ namespace EventFlowerExchange_Espoir.Services.Impl
             await _transactionRepository.UpdateTransaction(transaction);
             var order = await _orderRepository.GetOrderById(transaction.OrderId);
             order.Status = 4;
+            order.PaymentStatus = 1;
             await _orderRepository.UpdateOrder(order);
         }
     }

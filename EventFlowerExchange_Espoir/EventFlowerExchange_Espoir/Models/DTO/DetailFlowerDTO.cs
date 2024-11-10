@@ -16,8 +16,8 @@
         public double Quantity { get; set; }
 
         public double Price { get; set; }
-
-        public string Discount { get; set; }
+        public double OldPrice { get; set; }
+        public double Discount { get; set; }
         public string ShopName { get; set; }
 
         public string DateExpiration { get; set; }

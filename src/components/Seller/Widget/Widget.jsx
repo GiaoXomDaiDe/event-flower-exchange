@@ -28,7 +28,7 @@ export default function Widget({ icon, title, subtitle }) {
         </Col>
 
         <Col sm={6} className='text-center'>
-          {false ? (
+          {true ? (
             <RiseOutlined className=' text-3xl text-green-400' />
           ) : (
             <FallOutlined className=' text-3xl text-red-400' />

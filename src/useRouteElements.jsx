@@ -47,8 +47,7 @@ function SellerRejectedRoute() {
 }
 
 export default function useRouteElements() {
-  const { isAuthenticated = false, isSellerMode } = useContext(SellerContext)
-  console.log(isAuthenticated, isSellerMode)
+  const { isAuthenticated, isSellerMode } = useContext(SellerContext)
   const routeElements = useRoutes([
     {
       path: '/',

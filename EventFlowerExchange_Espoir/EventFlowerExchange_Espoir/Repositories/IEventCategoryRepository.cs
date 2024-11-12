@@ -6,18 +6,19 @@ namespace EventFlowerExchange_Espoir.Repositories
     public interface IEventCategoryRepository
     {
         // Retrieve an EventCategory by its category ID
-        Task<EventCate> GetEventCateByCateIdAsync(string cateId);
+        public Task<EventCate> GetEventCateByCateIdAsync(string cateId);
 
         // Retrieve the latest EventCategory ID
-        Task<string> GetLatestEventCateIdAsync();
+        public Task<string> GetLatestEventCateIdAsync();
 
         // Create a new EventCategory
-        Task<dynamic> CreateEventCateAsync(EventCate category);
+        public Task<dynamic> CreateEventCateAsync(EventCate category);
 
         // Update an existing EventCategory
-        Task<dynamic> UpdateEventCategoryAsync(EventCate category);
+        public Task<dynamic> UpdateEventCategoryAsync(EventCate category);
 
         // Optional: Add a method to delete an EventCategory (soft delete)
-        Task<bool> DeleteEventCateAsync(string cateId);
+        public Task<bool> DeleteEventCateAsync(string cateId);
+        public Task<dynamic> GetListEventCategory();
     }
 }

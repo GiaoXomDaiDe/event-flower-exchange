@@ -1,13 +1,7 @@
 ﻿using EventFlowerExchange_Espoir.Models;
 using EventFlowerExchange_Espoir.Models.DTO;
 using EventFlowerExchange_Espoir.Repositories;
-
-using EventFlowerExchange_Espoir.Models;
-using EventFlowerExchange_Espoir.Models.DTO;
-using EventFlowerExchange_Espoir.Repositories;
-using EventFlowerExchange_Espoir.Repositories.Impl;
 using EventFlowerExchange_Espoir.Services.Common;
-using FirebaseAdmin.Messaging;
 
 namespace EventFlowerExchange_Espoir.Services.Impl
 {
@@ -61,7 +55,7 @@ namespace EventFlowerExchange_Espoir.Services.Impl
 
                 };
 
-                int result = await _eventRepository.CreateEventAsync(eventEntity);
+                var result = await _eventRepository.CreateEventAsync(eventEntity);
                 return result;
             }
             catch (Exception ex)
@@ -100,7 +94,7 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                 eventEntity.UpdateBy = accountOwner.AccountId;
                 eventEntity.UpdateAt = DateOnly.FromDateTime(DateTime.Now);
 
-                int result = await _eventRepository.UpdateEventAsync(eventEntity);
+                var result = await _eventRepository.UpdateEventAsync(eventEntity);
                 return result;
             }
             catch (Exception ex)
@@ -126,7 +120,7 @@ namespace EventFlowerExchange_Espoir.Services.Impl
             }
 
             eventEntity.Status = 1; // Mark as inactive (or implement soft delete)
-            int result = await _eventRepository.UpdateEventAsync(eventEntity);
+            var result = await _eventRepository.UpdateEventAsync(eventEntity);
             return result;
         }
 

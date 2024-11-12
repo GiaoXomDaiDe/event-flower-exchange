@@ -118,5 +118,10 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
                 throw new Exception($"Error at DeleteEventCategoryAsync: {ex.Message}");
             }
         }
+
+        public async Task<dynamic> GetListEventCategory()
+        {
+            return await _context.EventCates.Where(ec => ec.Status == "active").ToListAsync();
+        }
     }
 }

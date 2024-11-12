@@ -80,7 +80,7 @@ namespace EventFlowerExchange_Espoir.Controllers
             return Ok(new
             {
                 message = "Event updated successfully.",
-                UpdatedEvent = result
+                result
             });
         }
 
@@ -114,7 +114,7 @@ namespace EventFlowerExchange_Espoir.Controllers
         }
 
         // Create a new event category
-        [Authorize(Policy = "AdminOnly")]
+        [Authorize(Policy = "UserOnly")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPost("create-event-category")]
         public async Task<IActionResult> CreateEventCategoryAsync([FromForm] NewEventCateDTO newCate)
@@ -139,7 +139,7 @@ namespace EventFlowerExchange_Espoir.Controllers
         }
 
         // Update an existing event category
-        [Authorize(Policy = "AdminOnly")]
+        [Authorize(Policy = "UserOnly")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPut("update-event-category")]
         public async Task<IActionResult> UpdateEventCategoryAsync([FromForm] UpdateEventCateDTO updateCategory)
@@ -164,10 +164,10 @@ namespace EventFlowerExchange_Espoir.Controllers
         }
 
         // Delete an event category
-        [Authorize(Policy = "AdminOnly")]
+        [Authorize(Policy = "UserOnly")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpDelete("delete-event-category")]
-        public async Task<IActionResult> DeleteEventCategoryAsync(string categoryId)
+        public async Task<IActionResult> DeleteEventCategoryAsync(string eventCateId)
         {
             if (!ModelState.IsValid)
             {
@@ -175,12 +175,12 @@ namespace EventFlowerExchange_Espoir.Controllers
                 return BadRequest(new { Errors = errors });
             }
 
-            if (string.IsNullOrEmpty(categoryId))
+            if (string.IsNullOrEmpty(eventCateId))
             {
                 return BadRequest("Event Category ID is required.");
             }
 
-            var result = await _categoryService.DeleteEventCateAsync(categoryId);
+            var result = await _categoryService.DeleteEventCateAsync(eventCateId);
             return Ok(new
             {
                 message = "Event category deleted successfully."
@@ -222,6 +222,18 @@ namespace EventFlowerExchange_Espoir.Controllers
             {
                 return StatusCode(500, $"An error occurred while processing your request: {ex.Message}");
             }
+        }
+
+        [HttpGet("list-event-categories")]
+        public async Task<IActionResult> GetListEventCategoriesAsync()
+        {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
+                return BadRequest(new { Errors = errors });
+            }
+            var result = await _categoryService.GetListEventCategory();
+            return Ok(result);
         }
     }
 }

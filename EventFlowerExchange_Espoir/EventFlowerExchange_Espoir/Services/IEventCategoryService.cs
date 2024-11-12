@@ -1,4 +1,5 @@
-﻿using EventFlowerExchange_Espoir.Models.DTO;
+﻿using EventFlowerExchange_Espoir.Models;
+using EventFlowerExchange_Espoir.Models.DTO;
 using System.Threading.Tasks;
 
 namespace EventFlowerExchange_Espoir.Services
@@ -14,6 +15,6 @@ namespace EventFlowerExchange_Espoir.Services
         // Delete an Event Category
         public Task<dynamic> DeleteEventCateAsync(string eventCateId);
 
-       
+        public Task<dynamic> GetListEventCategory();
     }
 }

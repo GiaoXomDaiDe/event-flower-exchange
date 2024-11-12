@@ -10,6 +10,6 @@ namespace EventFlowerExchange_Espoir.Models.DTO
         public string? Ename { get; set; } // Name of the event category (optional)
         public string? Edesc { get; set; } // Description of the event category (optional)
 
-        public string? Status { get; set; } // Optional status update
+
     }
 }

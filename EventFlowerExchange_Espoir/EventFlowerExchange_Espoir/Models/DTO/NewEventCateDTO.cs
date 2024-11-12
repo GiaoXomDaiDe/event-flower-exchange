@@ -4,8 +4,6 @@ namespace EventFlowerExchange_Espoir.Models.DTO
 {
     public class NewEventCateDTO
     {
-        [Required(ErrorMessage = "Category ID is required")]
-        public string EcateId { get; set; } = null!; // Unique identifier for the event category
 
         [Required(ErrorMessage = "Name is required")]
         public string Ename { get; set; } = null!; // Name of the event category

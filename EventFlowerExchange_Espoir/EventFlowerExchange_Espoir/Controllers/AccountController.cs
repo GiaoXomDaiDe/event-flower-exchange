@@ -116,7 +116,7 @@ namespace EventFlowerExchange_Espoir.Controllers
         [HttpPost("register-by-google")]
         public async Task<IActionResult> SignUpGoogleAsStudent([FromForm] RegisterByGoogleDTO request)
         {
-            try
+           try
             {
                 if (!ModelState.IsValid)
                 {

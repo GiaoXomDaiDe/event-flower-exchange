@@ -67,7 +67,6 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                     cate.Edesc = updateCate.Edesc;
                 }
 
-                cate.Status = updateCate.Status ?? cate.Status; // Update status if provided
                 cate.Events = cate.Events; // Retain current events; might implement logic if needed
 
                 var result = await _eventCategoryRepository.UpdateEventCategoryAsync(cate);
@@ -99,6 +98,11 @@ namespace EventFlowerExchange_Espoir.Services.Impl
             {
                 throw new Exception($"Error at DeleteEventCateAsync() in service: {ex.Message}");
             }
+        }
+
+        public async Task<dynamic> GetListEventCategory()
+        {
+            return await _eventCategoryRepository.GetListEventCategory();
         }
     }   
 }

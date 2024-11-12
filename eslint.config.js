@@ -7,7 +7,7 @@ import globals from 'globals'
 
 export default [
   {
-    ignores: ['dist', 'vite.config.ts', 'node_modules', 'src/assets']
+    ignores: ['dist', 'vite.config.ts', 'src/assets', 'node_modules']
   },
   {
     files: ['**/*.{js,jsx,mjs,cjs,ts,tsx}'],

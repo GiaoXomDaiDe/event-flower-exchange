@@ -1,0 +1,29 @@
+.payment-status {
+  display: flex;
+  min-height: 80vh;
+  min-width: 50px;
+  justify-content: center;
+  margin-top: 80px;
+  align-items: center;
+
+  &_item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    padding-bottom: 50px;
+    height: 600px;
+    width: 800px;
+    border-radius: 25px;
+  }
+  &_image {
+    height: 500px;
+    width: 500px;
+  }
+  &_img {
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+  }
+}

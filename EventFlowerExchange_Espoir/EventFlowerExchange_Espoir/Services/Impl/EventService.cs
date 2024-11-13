@@ -51,7 +51,7 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                     EcateId = newEvent.EcateId,
                     UpdateAt = DateOnly.FromDateTime(DateTime.Now),
                     UpdateBy = seller.AccountId,
-                    Status = 0 // Default status for a new event,
+                    Status = 1 // Default status for a new event,
 
                 };
 
@@ -93,7 +93,7 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                 eventEntity.EndTime = updateEvent.EndTime; // Assuming EndTime can be updated
                 eventEntity.UpdateBy = accountOwner.AccountId;
                 eventEntity.UpdateAt = DateOnly.FromDateTime(DateTime.Now);
-
+                eventEntity.Status = updateEvent.Status;
                 var result = await _eventRepository.UpdateEventAsync(eventEntity);
                 return result;
             }
@@ -119,11 +119,72 @@ namespace EventFlowerExchange_Espoir.Services.Impl
                 return "You have no permission to delete this event";
             }
 
-            eventEntity.Status = 1; // Mark as inactive (or implement soft delete)
+            eventEntity.Status = 3; // Mark as inactive (or implement soft delete)
             var result = await _eventRepository.UpdateEventAsync(eventEntity);
             return result;
         }
 
+        public async Task<dynamic> InactiveAndActiveEventAsync(string userEmail,string eventId)
+        {
+            try
+            {
+                var accountOwner = await _accountRepository.GetAccountByEmailAsync(userEmail);
+                var eventEntity = await _eventRepository.GetEventByEventIdAsync(eventId);
+
+                if (accountOwner == null)
+                {
+                    return "Account is not found or invalid token";
+                }
+
+                if (eventEntity == null)
+                {
+                    return "Event is not found";
+                }
+
+                if (accountOwner.AccountId != eventEntity.CreateBy)
+                {
+                    return "You have no permission to update this event";
+                }
+
+                if (eventEntity.Status == 1)
+                {
+                    eventEntity.Status = 0;
+                } else if (eventEntity.Status == 0)
+                {
+                    eventEntity.Status = 1;
+                }
+                eventEntity.UpdateBy = accountOwner.AccountId;
+                eventEntity.UpdateAt = DateOnly.FromDateTime(DateTime.Now);
+
+                var result = await _eventRepository.UpdateEventAsync(eventEntity);
+                if (eventEntity.Status == 0)
+                {
+                    return new
+                    {
+                        result,
+                        Message = "Inactive Successfull",
+                        eventEntity.Status
+                    };
+                }
+                else if (eventEntity.Status == 1)
+                {
+                    return new
+                    {
+                        result,
+                        Message = "Active Successfull",
+                        eventEntity.Status
+                    };
+                }
+                return new
+                {
+                    message = "Failure"
+                };
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error at UpdateEventAsync() in Service: {ex.Message}");
+            }
+        }
         // For viewing events
         public async Task<(List<Event> events, int totalCount)> GetListEventsAsync(int pageIndex, int pageSize, string sortBy, bool sortDesc, string search)
         {
@@ -132,6 +193,10 @@ namespace EventFlowerExchange_Espoir.Services.Impl
         public async Task<(List<Event> events, int totalCount)> GetListEventsOfSellerAsync(int pageIndex, int pageSize, string sellerId, string sortBy, bool sortDesc, string search)
         {
             return await _eventRepository.GetListEventsOfSellerAsync(pageIndex, pageSize, sellerId, sortBy, sortDesc, search);
+        }
+        public async Task<(List<Event> events, int totalCount)> GetListAllEventsOfSellerAsync(int pageIndex, int pageSize, string sellerId, string sortBy, bool sortDesc, string search)
+        {
+            return await _eventRepository.GetListAllEventsOfSellerAsync(pageIndex, pageSize, sellerId, sortBy, sortDesc, search);
         }
         public async Task<int> GetTotalPostOfEvent(string eventId)
         {

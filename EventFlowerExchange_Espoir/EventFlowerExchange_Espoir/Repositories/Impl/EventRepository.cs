@@ -75,7 +75,7 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
         // Get a list of Events with search, sort, and pagination
         public async Task<(List<Event> events, int totalCount)> GetListEventAsync(int pageIndex, int pageSize, string sortBy, bool sortDesc, string search)
         {
-            var query = _context.Events.AsQueryable().Where(e => e.Status == 0);
+            var query = _context.Events.AsQueryable().Where(e => e.Status == 1);
 
             // Search
             if (!string.IsNullOrEmpty(search))
@@ -102,7 +102,7 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
         // Get a list of Events for a specific seller with search, sort, and pagination
         public async Task<(List<Event> events, int totalCount)> GetListEventsOfSellerAsync(int pageIndex, int pageSize, string sellerId, string sortBy, bool sortDesc, string search)
         {
-            var query = _context.Events.AsQueryable().Where(e => e.CreateBy == sellerId && e.Status == 0);
+            var query = _context.Events.AsQueryable().Where(e => e.CreateBy == sellerId && e.Status == 1);
 
             // Search
             if (!string.IsNullOrEmpty(search))
@@ -126,6 +126,31 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
             return (events, totalCount);
         }
 
+        public async Task<(List<Event> events, int totalCount)> GetListAllEventsOfSellerAsync(int pageIndex, int pageSize, string sellerId, string sortBy, bool sortDesc, string search)
+        {
+            var query = _context.Events.AsQueryable().Where(e => e.CreateBy == sellerId);
+
+            // Search
+            if (!string.IsNullOrEmpty(search))
+            {
+                query = query.Where(e => e.EventName.Contains(search));
+            }
+
+            // Sorting
+            if (!string.IsNullOrEmpty(sortBy))
+            {
+                var sortDirection = sortDesc ? "descending" : "ascending";
+                var sortExpression = $"{sortBy} {sortDirection}";
+                query = query.OrderBy(sortExpression);
+            }
+
+            // Total count before paging
+            var totalCount = await query.CountAsync();
+
+            // Paging
+            var events = await query.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
+            return (events, totalCount);
+        }
         // Soft delete an Event
         public async Task<bool> DeleteEventAsync(string eventId)
         {

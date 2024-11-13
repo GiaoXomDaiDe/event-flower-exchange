@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
 
 namespace EventFlowerExchange_Espoir.Controllers
 {
@@ -186,7 +187,29 @@ namespace EventFlowerExchange_Espoir.Controllers
                 message = "Event category deleted successfully."
             });
         }
+        [Authorize(Policy = "UserOnly")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpPut("inactive-active-event")]
+        public async Task<IActionResult> InactiveAndActiveEventAsync(string eventId)
+        {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
+                return BadRequest(new { Errors = errors });
+            }
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            var userEmail = identity.Claims.FirstOrDefault().Value;
+            if (string.IsNullOrEmpty(eventId))
+            {
+                return BadRequest("Event ID is required.");
+            }
 
+            var result = await _eventService.InactiveAndActiveEventAsync(userEmail, eventId);
+            return Ok(new
+            {
+                result
+            });
+        }
         // Get list of events
         [HttpGet("list-events")]
         public async Task<IActionResult> GetListOfEvents([FromQuery] int pageIndex, [FromQuery] int pageSize, [FromQuery] string sortBy, [FromQuery] bool sortDesc, [FromQuery] string search = null)
@@ -224,6 +247,19 @@ namespace EventFlowerExchange_Espoir.Controllers
             }
         }
 
+        [HttpGet("list-all-events-of-seller")]
+        public async Task<IActionResult> GetListAllEventsForSeller([FromQuery] int pageIndex, [FromQuery] int pageSize, [FromQuery] string sellerId, [FromQuery] string sortBy, [FromQuery] bool sortDesc, [FromQuery] string search = null)
+        {
+            try
+            {
+                var (events, totalCount) = await _eventService.GetListAllEventsOfSellerAsync(pageIndex, pageSize, sellerId, sortBy, sortDesc, search);
+                return Ok(new { events, totalCount });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred while processing your request: {ex.Message}");
+            }
+        }
         [HttpGet("list-event-categories")]
         public async Task<IActionResult> GetListEventCategoriesAsync()
         {

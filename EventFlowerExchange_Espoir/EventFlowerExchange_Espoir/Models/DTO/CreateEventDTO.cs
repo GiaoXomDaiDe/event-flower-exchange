@@ -21,7 +21,6 @@ namespace EventFlowerExchange_Espoir.Models.DTO
         public DateTime EndTime { get; set; }
 
         [Required(ErrorMessage = "Creator ID is required.")]
-        public string CreateBy { get; set; }
         public string EcateId { get; set; }
         // Optional property; you may want to have a default value or not
         public int Status { get; set; } = 1; // Assuming 1 means active, adjust as necessary

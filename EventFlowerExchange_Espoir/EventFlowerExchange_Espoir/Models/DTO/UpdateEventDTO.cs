@@ -24,7 +24,6 @@ namespace EventFlowerExchange_Espoir.Models.DTO
         public DateTime EndTime { get; set; } // End time of the event
 
         [Required(ErrorMessage = "Creator ID is required.")]
-        public string CreateBy { get; set; } = null!; // ID of the creator (Seller)
 
         // Optional: You could also include a property for status if you want to allow it to be updated
         public int Status { get; set; } // Status of the event (e.g., 0 for active, 1 for inactive)

@@ -271,5 +271,21 @@ namespace EventFlowerExchange_Espoir.Controllers
             var result = await _categoryService.GetListEventCategory();
             return Ok(result);
         }
+
+        [HttpGet("view-event-detail")]
+        public async Task<IActionResult> ViewEventDetailAsync([FromForm]string eventId)
+        {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
+                return BadRequest(new { Errors = errors });
+            }
+            if (eventId == null)
+            {
+                return BadRequest("EventId must be required");
+            }
+            var result = await _eventService.GetEventDetailByEventIdAsync(eventId);
+            return Ok(result);
+        }
     }
 }

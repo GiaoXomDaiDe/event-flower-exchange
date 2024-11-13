@@ -119,12 +119,12 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
             // Total count before paging
             var totalCount = await query.CountAsync();
             var totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
-            var feedbacks = await query.Skip((pageIndex - 1) * pageSize).Take(pageSize).Select(fb => new FeedbacksDTO
+            var feedbacks = await query.Skip((pageIndex - 1) * pageSize).Take(pageSize).Join(await =Select(fb => new FeedbacksDTO
             {
                 FeedbackId = fb.FeedbackId,
                 Detail = fb.Detail,
                 AccountId = fb.AccountId,
-                AccountName = fb.AccountId.ToString(),
+                AccountName = ,
                 Rating = fb.Rating,
                 CreateDate = fb.CreateDate,
                 IsGoodReview = fb.IsGoodReview,

@@ -202,5 +202,11 @@ namespace EventFlowerExchange_Espoir.Services.Impl
         {
             return await _eventRepository.GetNumberOfPostOfEvent(eventId);
         }
+
+        public async Task<dynamic> GetEventDetailByEventIdAsync(string eventId)
+        {
+            return await _eventRepository.GetEventDetailByEventIdAsync(eventId);
+        } 
+
     }
 }

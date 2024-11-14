@@ -55,7 +55,6 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
 
         public async Task<SellerPost> CreatePost(SellerPost sellerPost)
         {
-            sellerPost.PostId = await AutoGenerateSellerPostId();
             await _context.SellerPosts.AddAsync(sellerPost);
             await _context.SaveChangesAsync();
             return sellerPost;

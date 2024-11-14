@@ -85,6 +85,7 @@ namespace EventFlowerExchange_Espoir.Controllers
                 {
                     StatusCode = 201,
                     Message = "Create new post successful!",
+                    Data = createPost
                 });
             }
             catch (Exception ex)

@@ -273,7 +273,7 @@ namespace EventFlowerExchange_Espoir.Controllers
         }
 
         [HttpGet("view-event-detail")]
-        public async Task<IActionResult> ViewEventDetailAsync([FromForm]string eventId)
+        public async Task<IActionResult> ViewEventDetailAsync(string eventId)
         {
             if (!ModelState.IsValid)
             {

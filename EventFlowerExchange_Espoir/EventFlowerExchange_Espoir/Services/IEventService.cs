@@ -24,5 +24,7 @@ namespace EventFlowerExchange_Espoir.Services
         Task<(List<Event> events, int totalCount)> GetListEventsOfSellerAsync(int pageIndex, int pageSize, string sellerId, string sortBy, bool sortDesc, string search);
         public Task<(List<Event> events, int totalCount)> GetListAllEventsOfSellerAsync(int pageIndex, int pageSize, string sellerId, string sortBy, bool sortDesc, string search);
         public Task<int> GetTotalPostOfEvent(string eventId);
+
+        public Task<dynamic> GetEventDetailByEventIdAsync(string eventId);
     }
 }

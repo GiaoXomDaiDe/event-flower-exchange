@@ -8,7 +8,7 @@ namespace EventFlowerExchange_Espoir.Repositories
     {
         // Retrieve an event by its ID
         Task<Event> GetEventByEventIdAsync(string eventId);
-
+        public Task<Event> GetEventDetailByEventIdAsync(string eventId);
         // Retrieve the latest event ID
         Task<string> GetLatestEventIdAsync();
 

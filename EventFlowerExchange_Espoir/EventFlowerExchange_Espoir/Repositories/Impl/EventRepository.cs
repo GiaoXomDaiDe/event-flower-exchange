@@ -20,6 +20,10 @@ namespace EventFlowerExchange_Espoir.Repositories.Impl
             return await _context.Events.FirstOrDefaultAsync(e => e.EventId == eventId );
         }
 
+        public async Task<Event> GetEventDetailByEventIdAsync(string eventId)
+        {
+            return await _context.Events.Include(e => e.Flowers).Include(e => e.Ecate).Include(e => e.Posts).ThenInclude(p => p.PostDetails).FirstOrDefaultAsync(e => e.EventId == eventId);
+        }
         // Get the latest event ID
         public async Task<string> GetLatestEventIdAsync()
         {
